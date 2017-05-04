@@ -95,38 +95,26 @@
 
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a href="">
-                            Account
-                        </a>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            Dropdown
-                            <b class="caret"></b>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
-                        </ul>
-                    </li>
-                    <li>
                         <?php
-                            if(isset($this->session->name)){
-                                echo "<a href='#'>{$this->session->name}</a>";
-                            } else {
-                                echo anchor("#","登入",['data-toggle'=>'modal','data-target'=>'#loginModal']);
-                            }
+                            if($this->session->has_userdata('name')):
+                                echo "<li class='dropdown'>
+                                    <a href='#' class='dropdown-toggle' data-toggle='dropdown'>
+                                        {$this->session->name}
+                                        <b class='caret'></b>
+                                    </a>
+                                    <ul class='dropdown-menu'>
+                                        <li><a href='Auth/logout'>登出</a></li>
+                                     <!--   <li class='divider'></li>
+                                        <li><a href='#'>Separated link</a></li>-->
+                                    </ul>
+                                </li>";
+                            else:
+                                echo "<li>".anchor("#","登入",['data-toggle'=>'modal','data-target'=>'#loginModal'])."</li>";
+                            endif;
                         ?>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
-
-
 

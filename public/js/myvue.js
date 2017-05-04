@@ -4,12 +4,15 @@ new Vue({
     data : {
         pwd : '',
         repwd : '',
-        isEqual : true,
         text : '登入'
     },
+    computed: {
+        isEqual : function(){
+            return this.pwd === this.repwd;
+        }
+    },
     watch : {
-        repwd : function() {
-            this.isEqual = this.pwd === this.repwd;
+        isEqual : function() {
             this.text = this.isEqual ?'登入':'密碼不相符';
         }
     }

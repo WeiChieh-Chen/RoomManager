@@ -8,11 +8,14 @@ Class Manager extends CI_Model
     }
 
     public function validate($account,$password){
-        $query = $this->db->where("account",$account)->get("manager");
-        if($query){
-            foreach ($query->result() as $row){
-                $this->session->name = $row->name;
-            }
+        $query = $this->db->where([ "account" => $account,"password" => $password])->get("manager");
+        $row = $query->result()[0];
+        if($row){
+            echo $row;
+            $this->session->name = $row->name;
+            $this->session->set_flashdata("LoginState","SUCCESS");
+        }else {
+            $this->session->set_flashdata("LoginState","NOPE");
         }
     }
 }

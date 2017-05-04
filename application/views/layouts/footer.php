@@ -35,7 +35,7 @@
 <div class="modal fade" tabindex="-1" role="dialog" id="loginModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form action="Home/login" method="post" accept-charset="utf-8">
+            <form action="Auth/login" method="post" accept-charset="utf-8">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">管理者登入</h4>
@@ -100,5 +100,24 @@
 //        });
     });
 
+    // Login Response
+    var login_state = "<?= $this->session->flashdata("LoginState")?>";
+    if(login_state === "SUCCESS"){
+        $.notify({
+            icon: 'pe-7s-user',
+            message: "歡迎 <b><?=$this->session->name?></b> 登入教室租借系統！"
+        }, {
+            type: 'success',
+            timer: 1000
+        });
+    }else if(login_state === "NOPE"){
+        $.notify({
+            icon: 'pe-7s-shield',
+            message: "登入失敗：帳密錯誤！"
+        }, {
+            type: 'danger',
+            timer: 1000
+        });
+    }
 </script>
 </html>

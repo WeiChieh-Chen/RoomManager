@@ -18,10 +18,4 @@ class Home extends CI_Controller {
         $this->load->view('layouts/footer');
     }
 
-    public function login(){
-        $this->load->model("manager");
-        $this->manager->validate($this->input->post('account'),$this->input->post('password'));
-        // TODO: Because my environment is run in the virtual machine, so it would translate for uri to 192.168.10.10 and let path of file of parse become invalid.
-        header("Location: /Home");
-    }
 }
