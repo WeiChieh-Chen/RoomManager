@@ -20,5 +20,22 @@ class Admin extends CI_Controller {
         $this->load->view('pages/home');
         $this->load->view('layouts/footer');
     }
+	
+	public function course() {
+        $this->load->model("ClassRoom");
+    
+		$data= [
+			'title' => "教室租用系統 - 編輯教室時間",
+			'color' => "blue",
+			'list' => $this->ClassRoom->getRoom()
+		];
+		
+		
+		
+		$this->load->view('layouts/header',$data);
+		$this->load->view('layouts/navbar');
+		$this->load->view('pages/course');
+		$this->load->view('layouts/footer');
+	}
 
 }
