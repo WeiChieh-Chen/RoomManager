@@ -81,23 +81,21 @@
 <!-- vue.js -->
 <script src="<?= base_url('public/js/vue.js')?>"></script>
 <script src="<?= base_url('public/js/myvue.js')?>"></script>
+<!-- Other JS-->
+<script src="<?= base_url('public/js/semantic.min.js')?>"></script>
+<script src="<?= base_url('public/js/dataTables.min.js')?>"></script>
+<script src="<?= base_url('public/js/dataTables.semanticui.min.js')?>"></script>
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 
 <script type="text/javascript">
 
     $(document).ready(function () {
+        // Very very important, it could resolve conflict of modal of bootstrap and semantic.
+        $.fn.bsModal = $.fn.modal.noConflict();
         $('#loginModal').modal({
             show: false,
             backdrop: false
         });
-
-//        $.notify({
-//            icon: 'pe-7s-gift',
-//            message: "Welcome to <b>Light Bootstrap Dashboard</b> - a beautiful freebie for every web developer."
-//
-//        }, {
-//            type: 'info',
-//            timer: 4000
-//        });
     });
 
     // Login Response
@@ -119,5 +117,27 @@
             timer: 1000
         });
     }
+
+    // room_status.php
+    $('#showRoom').DataTable({
+        "sPaginationType": "full_numbers",
+        "oLanguage": {
+            "sLengthMenu": "每頁 _MENU_ 筆資料",
+            "sZeroRecords": "抱歉， 没有找到",
+            "sInfo": "從 _START_ 到 _END_ /共 _TOTAL_ 筆資料",
+            "sInfoEmpty": "沒有資料",
+            "sInfoFiltered": "(從 _MAX_ 筆資料中搜尋)",
+            "sZeroRecords": "沒有找到",
+            "sSearch": "搜尋:",
+            "oPaginate": {
+                "sFirst": "首頁",
+                "sPrevious": "上一頁",
+                "sNext": "下一页",
+                "sLast": "尾頁"
+            }
+        }
+    });
+    $("#showRoom .select_col").hide();
+    // end of room_status.php
 </script>
 </html>

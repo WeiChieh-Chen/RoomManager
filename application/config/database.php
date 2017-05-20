@@ -97,10 +97,10 @@ $db['default'] = array(
 
 $db['room_borrow'] = array(
     'dsn'	=> '',
-    'hostname' => 'localhost',
-    'username' => 'homestead',
-    'password' => 'secret',
-    'database' => 'room_borrow',
+    'hostname' => '140.130.35.62:8082',
+    'username' => '40343228',
+    'password' => '40343228',
+    'database' => '40343228',
     'dbdriver' => 'mysqli',
     'dbprefix' => '',
     'pconnect' => FALSE,

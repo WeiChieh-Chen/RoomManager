@@ -11,7 +11,6 @@ Class Manager extends CI_Model
         $query = $this->db->where([ "account" => $account,"password" => $password])->get("manager");
         $row = $query->result()[0];
         if($row){
-            echo $row;
             $this->session->name = $row->name;
             $this->session->set_flashdata("LoginState","SUCCESS");
         }else {
