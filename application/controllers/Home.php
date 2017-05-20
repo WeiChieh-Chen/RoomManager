@@ -10,7 +10,10 @@ class Home extends CI_Controller {
     }
 
     public function index(){
-        $data['title'] = "教室租用系統";
+        $data= [
+            'title' => "教室租用系統",
+            'color' => "gray"
+        ];
 
         $this->load->view('layouts/header',$data);
         $this->load->view('layouts/navbar');

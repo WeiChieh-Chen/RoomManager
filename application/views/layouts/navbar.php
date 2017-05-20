@@ -1,4 +1,4 @@
-<div class="sidebar" data-color="gray" data-image="assets/img/sidebar-5.jpg">
+<div class="sidebar" data-color="<?= $color ?>" data-image="assets/img/sidebar-5.jpg">
     <!--
         Tip 1: you can change the color of the sidebar using: data-color="blue | azure | green | orange | red | purple"
         Tip 2: you can also add an image using data-image tag
