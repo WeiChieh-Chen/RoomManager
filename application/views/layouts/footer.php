@@ -66,21 +66,21 @@
 </div> <!--wrapper -->
 </body>
 <!--   Core JS Files   -->
-<script src="public/js/jquery-3.1.1.min.js" type="text/javascript"></script>
-<script src="public/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="<?= base_url('public/js/jquery-3.1.1.min.js')?>" type="text/javascript"></script>
+<script src="<?= base_url('public/js/bootstrap.min.js')?>" type="text/javascript"></script>
 
 <!--  Checkbox, Radio & Switch Plugins -->
-<script src="public/js/bootstrap-checkbox-radio-switch.js" type="text/javascript"></script>
+<script src="<?= base_url('public/js/bootstrap-checkbox-radio-switch.js')?>" type="text/javascript"></script>
 
 <!--  Notifications Plugin    -->
-<script src="public/js/bootstrap-notify.js"></script>
+<script src="<?= base_url('public/js/bootstrap-notify.js')?>"></script>
 
 <!-- Light Bootstrap Table Core javascript and methods for Demo purpose -->
-<script src="public/js/light-bootstrap-dashboard.js"></script>
+<script src="<?= base_url('public/js/light-bootstrap-dashboard.js')?>"></script>
 
 <!-- vue.js -->
-<script src="public/js/vue.js"></script>
-<script src="public/js/myvue.js"></script>
+<script src="<?= base_url('public/js/vue.js')?>"></script>
+<script src="<?= base_url('public/js/myvue.js')?>"></script>
 
 <script type="text/javascript">
 
