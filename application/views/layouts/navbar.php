@@ -6,7 +6,7 @@
 
     <div class="sidebar-wrapper">
         <div class="logo">
-            <?=anchor("/Home","教室登入系統",['class'=>'simple-text'])?>
+            <?=anchor("/Home","教室借用系統",['class'=>'simple-text'])?>
 <!--            <a href="http://www.creative-tim.com" class="simple-text">-->
 <!--                Creative Tim-->
 <!--            </a>-->

@@ -2,3 +2,14 @@
 {
     name :
 }
+
+// Delete or Update or Insert of data to use by room_status
+{
+    room_id:{
+        status: "DELETE"|"UPDATE"|"INSERT"|"NORMAL",
+        info: {
+            room_name:
+            active:
+        }
+    }
+}

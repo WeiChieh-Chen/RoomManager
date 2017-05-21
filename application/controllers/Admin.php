@@ -22,9 +22,18 @@ class Admin extends CI_Controller {
 
     public function RoomStatus(){
         $this->load->model('classroom');
-
+        $rooms = [];
+        foreach ($this->classroom->getRoom() as $room){
+            $rooms[$room->room_id] = [
+                "status" => "NORMAL",
+                "info" =>[
+                    "room_name" => $room->room_name,
+                    "active" => $room->active
+                ]
+            ];
+        }
         $data = [
-            "classroom" => $this->classroom->getRoom()
+            "classroom" =>  $rooms
         ];
 
         $this->load->view('layouts/header',$this->data);
@@ -33,4 +42,24 @@ class Admin extends CI_Controller {
         $this->load->view('layouts/footer');
     }
 
+    public function uploadData(){
+        $this->load->model('classroom');
+        $get_data = $this->input->post();
+
+        foreach ($get_data as $room_id => $room){
+            switch($room['status']){
+                case "INSERT":
+                    $this->classroom->create($room_id,$room['info']);
+                    break;
+                case "UPDATE":
+                    $this->classroom->update($room_id,$room['info']);
+                    break;
+                case "DELETE":
+                    $this->classroom->delete($room_id);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 }

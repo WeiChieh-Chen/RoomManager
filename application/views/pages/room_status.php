@@ -10,7 +10,10 @@
 <div class="content">
     <div class="container-fluid">
         <div class="row">
-            <button id ='fnBtn' class='btn btn-lg btn-info' onclick="showExcolum()">編輯</button>
+            <button id='editBtn' class='btn btn-lg btn-info' onclick="showExcolum()">編輯</button>
+            <button class='fnBtn btn btn-lg btn-info' onclick="submit()" hidden>變更</button>
+            <button class='fnBtn btn btn-lg btn-success' data-toggle='modal' data-target='#addRoom' hidden>新增</button>
+            <button class='fnBtn btn btn-lg btn-warning' onclick="recover()" hidden>取消</button>
         </div>
         <br/>
         <div class="row">
@@ -18,261 +21,142 @@
                 <table id="showRoom" class="display" cellspacing="0" width="100%">
                     <thead>
                     <tr>
-                        <th class="select_col">選取</th>
+                        <th class="select_col">移除教室</th>
                         <th>教室代號</th>
                         <th>教室名稱</th>
                         <th>啟用狀態</th>
                     </tr>
                     </thead>
-                    <tfoot>
-                    <!--               <tr>
-                                       <th>Name</th>
-                                       <th>Position</th>
-                                       <th>Office</th>
-                                       <th>Age</th>
-                                       <th>Start date</th>
-                                       <th>Salary</th>
-                                   </tr>-->
-                    </tfoot>
                     <tbody>
                         <?php
-                            foreach ($classroom as $room):
-                                echo "<tr>".
-                                    "<td class='select_col' id='{$room->room_id}' onclick='select(this.id)'></td>".
-                                    "<td>{$room->room_id}</td>".
-                                    "<td>{$room->room_name}</td>".
+                            foreach ($classroom as $room_id => $room):
+                                echo "<tr id='{$room_id}'>".
+                                    "<td class='select_col' onclick='select(this.parentNode.id)'></td>".
+                                    "<td>{$room_id}</td>".
+                                    "<td><span class='select_col_reverse'>{$room['info']['room_name']}</span><div class='ui input'>".
+                                    "<input type='text' class='select_col' value='{$room['info']['room_name']}' onblur=changeName('{$room_id}',this.value) />".
+                                    "</div></td>".
                                     "<td>";
-                            if($room->active == 1):
-                                echo "<input type='checkbox' data-toggle='toggle' data-on='啟動' data-off='關閉' data-height='10' disabled checked>";
+                            if($room['info']['active'] == 1):
+                                echo "<input type='checkbox' class='actBtn' data-toggle='toggle' data-on='啟動' data-off='關閉' data-height='10' data-onstyle='primary' data-offstyle='danger' disabled checked>";
                             else:
-                                echo "<input type='checkbox' data-toggle='toggle' data-on='啟動' data-off='關閉' data-height='10' disabled>";
+                                echo "<input type='checkbox' class='actBtn' data-toggle='toggle' data-on='啟動' data-off='關閉' data-height='10' data-onstyle='primary' data-offstyle='danger' disabled>";
                             endif;
                                 echo "</td></tr>";
                             endforeach;
                         ?>
                     </tbody>
+                    <tfoot></tfoot>
                 </table>
             </div>
         </div>
-<!--        <div class="row">
-            <div class="col-md-4">
-               <div class="card">
-                    <div class="header">
-                        <h4 class="title">Email Statistics</h4>
-                        <p class="category">Last Campaign Performance</p>
-                    </div>
-                    <div class="content">
-                        <div id="chartPreferences" class="ct-chart ct-perfect-fourth"></div>
-
-                        <div class="footer">
-                            <div class="legend">
-                                <i class="fa fa-circle text-info"></i> Open
-                                <i class="fa fa-circle text-danger"></i> Bounce
-                                <i class="fa fa-circle text-warning"></i> Unsubscribe
-                            </div>
-                            <hr>
-                            <div class="stats">
-                                <i class="fa fa-clock-o"></i> Campaign sent 2 days ago
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="header">
-                        <h4 class="title">Users Behavior</h4>
-                        <p class="category">24 Hours performance</p>
-                    </div>
-                    <div class="content">
-                        <div id="chartHours" class="ct-chart"></div>
-                        <div class="footer">
-                            <div class="legend">
-                                <i class="fa fa-circle text-info"></i> Open
-                                <i class="fa fa-circle text-danger"></i> Click
-                                <i class="fa fa-circle text-warning"></i> Click Second Time
-                            </div>
-                            <hr>
-                            <div class="stats">
-                                <i class="fa fa-history"></i> Updated 3 minutes ago
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="card ">
-                    <div class="header">
-                        <h4 class="title">2014 Sales</h4>
-                        <p class="category">All products including Taxes</p>
-                    </div>
-                    <div class="content">
-                        <div id="chartActivity" class="ct-chart"></div>
-
-                        <div class="footer">
-                            <div class="legend">
-                                <i class="fa fa-circle text-info"></i> Tesla Model S
-                                <i class="fa fa-circle text-danger"></i> BMW 5 Series
-                            </div>
-                            <hr>
-                            <div class="stats">
-                                <i class="fa fa-check"></i> Data information certified
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6">
-                <div class="card ">
-                    <div class="header">
-                        <h4 class="title">Tasks</h4>
-                        <p class="category">Backend development</p>
-                    </div>
-                    <div class="content">
-                        <div class="table-full-width">
-                            <table class="table">
-                                <tbody>
-                                <tr>
-                                    <td>
-                                        <label class="checkbox">
-                                            <input type="checkbox" value="" data-toggle="checkbox">
-                                        </label>
-                                    </td>
-                                    <td>Sign contract for "What are conference organizers afraid of?"</td>
-                                    <td class="td-actions text-right">
-                                        <button type="button" rel="tooltip" title="Edit Task"
-                                                class="btn btn-info btn-simple btn-xs">
-                                            <i class="fa fa-edit"></i>
-                                        </button>
-                                        <button type="button" rel="tooltip" title="Remove"
-                                                class="btn btn-danger btn-simple btn-xs">
-                                            <i class="fa fa-times"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <label class="checkbox">
-                                            <input type="checkbox" value="" data-toggle="checkbox" checked="">
-                                        </label>
-                                    </td>
-                                    <td>Lines From Great Russian Literature? Or E-mails From My Boss?</td>
-                                    <td class="td-actions text-right">
-                                        <button type="button" rel="tooltip" title="Edit Task"
-                                                class="btn btn-info btn-simple btn-xs">
-                                            <i class="fa fa-edit"></i>
-                                        </button>
-                                        <button type="button" rel="tooltip" title="Remove"
-                                                class="btn btn-danger btn-simple btn-xs">
-                                            <i class="fa fa-times"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <label class="checkbox">
-                                            <input type="checkbox" value="" data-toggle="checkbox" checked="">
-                                        </label>
-                                    </td>
-                                    <td>Flooded: One year later, assessing what was lost and what was found when
-                                        a ravaging rain swept through metro Detroit
-                                    </td>
-                                    <td class="td-actions text-right">
-                                        <button type="button" rel="tooltip" title="Edit Task"
-                                                class="btn btn-info btn-simple btn-xs">
-                                            <i class="fa fa-edit"></i>
-                                        </button>
-                                        <button type="button" rel="tooltip" title="Remove"
-                                                class="btn btn-danger btn-simple btn-xs">
-                                            <i class="fa fa-times"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <label class="checkbox">
-                                            <input type="checkbox" value="" data-toggle="checkbox">
-                                        </label>
-                                    </td>
-                                    <td>Create 4 Invisible User Experiences you Never Knew About</td>
-                                    <td class="td-actions text-right">
-                                        <button type="button" rel="tooltip" title="Edit Task"
-                                                class="btn btn-info btn-simple btn-xs">
-                                            <i class="fa fa-edit"></i>
-                                        </button>
-                                        <button type="button" rel="tooltip" title="Remove"
-                                                class="btn btn-danger btn-simple btn-xs">
-                                            <i class="fa fa-times"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <label class="checkbox">
-                                            <input type="checkbox" value="" data-toggle="checkbox">
-                                        </label>
-                                    </td>
-                                    <td>Read "Following makes Medium better"</td>
-                                    <td class="td-actions text-right">
-                                        <button type="button" rel="tooltip" title="Edit Task"
-                                                class="btn btn-info btn-simple btn-xs">
-                                            <i class="fa fa-edit"></i>
-                                        </button>
-                                        <button type="button" rel="tooltip" title="Remove"
-                                                class="btn btn-danger btn-simple btn-xs">
-                                            <i class="fa fa-times"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <label class="checkbox">
-                                            <input type="checkbox" value="" data-toggle="checkbox">
-                                        </label>
-                                    </td>
-                                    <td>Unfollow 5 enemies from twitter</td>
-                                    <td class="td-actions text-right">
-                                        <button type="button" rel="tooltip" title="Edit Task"
-                                                class="btn btn-info btn-simple btn-xs">
-                                            <i class="fa fa-edit"></i>
-                                        </button>
-                                        <button type="button" rel="tooltip" title="Remove"
-                                                class="btn btn-danger btn-simple btn-xs">
-                                            <i class="fa fa-times"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <div class="footer">
-                            <hr>
-                            <div class="stats">
-                                <i class="fa fa-history"></i> Updated 3 minutes ago
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>-->
     </div>
 </div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="addRoom">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h3 class="modal-title">新增可借用教室</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <?= form_label("教室代號&emsp;<span style='color:red'>設定後不可更改</span>","room_id",['class' => 'control-label'])?>
+                        <?= form_input(['v-model' => 'id','id'=> 'room_id' ,'class' => 'form-control', 'type'=>'text','placeholder'=> 'BGC000','name'=>'room_id'])?>
+                    </div>
+                    <div class="form-group">
+                        <?= form_label("教室名稱","room_name",['class' => 'control-label'])?>
+                        <?= form_input(['v-model' =>'name','class' => 'form-control', 'type'=>'text','placeholder'=> '綜三館會議室','name'=>'room_name'])?>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <h4 style="color: red">本系統允許分次加入教室，當全部設定完畢後，請記得點選&nbsp;<button class='btn btn-info' disabled>變更</button>！</h4>
+                    <?= form_button(null,'關閉',['class' => 'btn btn-lg btn-default','data-dismiss'=>'modal'])?>
+                    <button class="btn btn-lg" :class="[ok?'btn-success':'btn-default']" :disabled="!ok" @click="add" data-dismiss='modal'>加入</button>
+                </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<script src="<?= base_url('public/js/room_status.js')?>"></script>
 <script>
-    function select(id){
-        var dom = document.getElementById(id);
-        if(dom.innerHTML.length == 0)
-            dom.innerHTML = "<i class='green checkmark icon'></i>";
-        else
-            dom.innerHTML = "";
+    let oldInfo = <?= json_encode($classroom,JSON_UNESCAPED_UNICODE)?>;
+    let newInfo = <?= json_encode($classroom,JSON_UNESCAPED_UNICODE)?>;
+
+    function submit(){
+//        console.log(newInfo);
+        $.post("<?=base_url('/Admin/uploadData')?>",newInfo,function(){
+            location.reload();
+        });
     }
 
-    function showExcolum(){
-        $(".select_col").toggle();
+    // room_status
+    let newNode = new Vue({
+        el: "#addRoom",
+        data:{
+            id:"",
+            name:"",
+            check: false,
+            tbody: document.getElementsByTagName("tbody")[0]
+        },
+        computed:{
+            ok: function () {
+                for(let i = 0 ; i < this.tbody.childNodes.length;i++){
+                    if(this.tbody.childNodes[i].id === this.id){
+                        $.notify({
+                            icon: 'pe-7s-repeat',
+                            message: "教室代號已存在！"
+                        },{
+                            type: 'danger',
+                            timer: 100,
+                            animate: {
+                                enter: 'animated rollIn',
+                                exit: 'animated rollOut'
+                            }
+                        });
+                        return false
+                    }
+                }
+                return this.id !== "" && this.name !== "";
+            }
+        },
+        methods:{
+            add: function(){
+                let newRow = "<td class='select_col' onclick=select('"+this.id+"')></td>"+
+                    "<td>"+this.id+"</td>"+
+                    "<td><span class='select_col_reverse' hidden>"+this.name+"</span><div class='ui input'>"+
+                    "<input type='text' class='select_col' value="+this.name+" onblur=changeName('"+this.id+"',this.value) />"+
+                    "</div></td>"+
+                    "<td>"+
+                    "<input type='checkbox' class='actBtn' data-toggle='toggle' data-on='啟動' data-off='關閉' data-height='10' data-onstyle='primary' data-offstyle='danger' checked>"+
+                    "</td>";
+                let newDom = document.createElement("tr");
+                newDom.setAttribute("id",this.id);
+                newDom.innerHTML = newRow;
+                this.tbody.insertBefore(newDom,this.tbody.childNodes[0]);
+                // initial button of active as bootstrapToggle.
+                $('.actBtn').first().bootstrapToggle();
+                // Inserts new datus into array.
+                newInfo[this.id] = {
+                    "status" : "INSERT",
+                    "info" : {
+                        "room_name" : this.name,
+                        "active" : "1"
+                    }
+                };
+                this.id="";this.name="";
+            }
+        }
+    });
 
-    }
+    $(document).click(function(){
+        $('.actBtn').bootstrapToggle();
+        if(localStorage.getItem("edit") === "true") {
+            showExcolum();
+        }else {
+            recover();
+        }
+    });
 </script>
