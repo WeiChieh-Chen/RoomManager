@@ -12,8 +12,8 @@
 <!--            </a>-->
         </div>
 
-        <ul class="nav">
-            <li class="active">
+        <ul id="navbar" class="nav">
+            <li>
                 <a href="dashboard.html">
                     <i class="pe-7s-graph"></i>
                     <p>Dashboard</p>
@@ -26,13 +26,13 @@
                 </a>
             </li>
             <li>
-                <a href="table.html">
+                <a href="#">
                     <i class="pe-7s-note2"></i>
                     <p>Table List</p>
                 </a>
             </li>
             <li>
-                <?=anchor("Admin/RoomStatus","<i class='pe-7s-config'></i><p>教室狀態</p>")?>
+                <?=anchor("Admin/#","<i class='pe-7s-config'></i><p>教室狀態</p>")?>
             </li>
         </ul>
     </div>
@@ -99,3 +99,10 @@
         </div>
     </nav>
 
+    <script>
+        $("#navbar li").eq(parseInt(localStorage.getItem("nav_active"))).addClass("active");
+        $("#navbar").delegate("li", "click", function () {
+            $('.active').removeClass();
+            localStorage.setItem("nav_active",$(this).index());
+        });
+    </script>
