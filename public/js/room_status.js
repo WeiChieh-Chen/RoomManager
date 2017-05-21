@@ -45,6 +45,7 @@ function select(id){
         // If it is row just added then removed when it is clicked.
         if(newInfo[id]['status'] === "INSERT"){
             delete newInfo[id];
+            $('#'+id).remove();
         }else{
             newInfo[id] = {"status" : "DELETE"};
         }
@@ -70,7 +71,23 @@ function showExcolum(){
 // Recovering for page.
 function recover(){
     localStorage.setItem("edit","false");
-    location.reload();
+    // Let button and column of disabled to enable.
+    $(".select_col").hide();
+    $(".select_col_reverse").show();
+    $("input[type='checkbox']").bootstrapToggle('disable');
+    // Change button of edit
+    editBtn.hidden = false;
+    fnBtn.hide();
+
+    Object.keys(newInfo).forEach(function(id){
+        if(newInfo[id]['status'] === "INSERT"){
+            delete newInfo[id];
+            $('#'+id).remove();
+        }else if(newInfo[id]['status'] === "DELETE") {
+            document.getElementById(id).childNodes[0].innerHTML = "";
+            newInfo[id] = {"status": "NORMAL"};
+        }
+    });
 }
 
 function changeName(id,context) {
