@@ -6,9 +6,10 @@
 
     <div class="sidebar-wrapper">
         <div class="logo">
-            <a href="http://www.creative-tim.com" class="simple-text">
-                Creative Tim
-            </a>
+            <?=anchor("/Home","教室借用系統",['class'=>'simple-text'])?>
+<!--            <a href="http://www.creative-tim.com" class="simple-text">-->
+<!--                Creative Tim-->
+<!--            </a>-->
         </div>
 
         <ul class="nav">
@@ -31,22 +32,7 @@
                 </a>
             </li>
             <li>
-                <a href="typography.html">
-                    <i class="pe-7s-news-paper"></i>
-                    <p>Typography</p>
-                </a>
-            </li>
-            <li>
-                <a href="icons.html">
-                    <i class="pe-7s-science"></i>
-                    <p>Icons</p>
-                </a>
-            </li>
-            <li>
-                <a href="notifications.html">
-                    <i class="pe-7s-bell"></i>
-                    <p>Notifications</p>
-                </a>
+                <?=anchor("Admin/RoomStatus","<i class='pe-7s-config'></i><p>教室狀態</p>")?>
             </li>
         </ul>
     </div>
@@ -97,17 +83,12 @@
                     <li>
                         <?php
                             if($this->session->has_userdata('name')):
-                                echo "<li class='dropdown'>
-                                    <a href='#' class='dropdown-toggle' data-toggle='dropdown'>
-                                        {$this->session->name}
-                                        <b class='caret'></b>
-                                    </a>
-                                    <ul class='dropdown-menu'>
-                                        <li><a href='Auth/logout'>登出</a></li>
-                                     <!--   <li class='divider'></li>
-                                        <li><a href='#'>Separated link</a></li>-->
-                                    </ul>
-                                </li>";
+                                echo "<li class='dropdown'>".
+                                    "<a href='#' class='dropdown-toggle' data-toggle='dropdown'>{$this->session->name}<b class='caret'></b></a>".
+                                    "<ul class='dropdown-menu'>".
+                                        "<li>".anchor('Auth/logout','登出')."</li>".
+                                    "</ul>".
+                                "</li>";
                             else:
                                 echo "<li>".anchor("#","登入",['data-toggle'=>'modal','data-target'=>'#loginModal'])."</li>";
                             endif;

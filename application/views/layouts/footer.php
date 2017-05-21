@@ -66,7 +66,6 @@
 </div> <!--wrapper -->
 </body>
 <!--   Core JS Files   -->
-<script src="<?= base_url('public/js/jquery-3.1.1.min.js')?>" type="text/javascript"></script>
 <script src="<?= base_url('public/js/bootstrap.min.js')?>" type="text/javascript"></script>
 
 <!--  Checkbox, Radio & Switch Plugins -->
@@ -79,29 +78,26 @@
 <script src="<?= base_url('public/js/light-bootstrap-dashboard.js')?>"></script>
 
 <!-- vue.js -->
-<script src="<?= base_url('public/js/vue.js')?>"></script>
 <script src="<?= base_url('public/js/myvue.js')?>"></script>
 
-<script type="text/javascript">
+<!-- Other JS-->
+<script src="<?= base_url('public/js/semantic.min.js')?>"></script>
+<script src="<?= base_url('public/js/dataTables.min.js')?>"></script>
+<script src="<?= base_url('public/js/dataTables.semanticui.min.js')?>"></script>
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 
+<script type="text/javascript">
     $(document).ready(function () {
+        // Very very important, it could resolve conflict of modal of bootstrap and semantic.
+        $.fn.bsModal = $.fn.modal.noConflict();
         $('#loginModal').modal({
             show: false,
             backdrop: false
         });
-
-//        $.notify({
-//            icon: 'pe-7s-gift',
-//            message: "Welcome to <b>Light Bootstrap Dashboard</b> - a beautiful freebie for every web developer."
-//
-//        }, {
-//            type: 'info',
-//            timer: 4000
-//        });
     });
 
     // Login Response
-    var login_state = "<?= $this->session->flashdata("LoginState")?>";
+    let login_state = "<?= $this->session->flashdata("LoginState")?>";
     if(login_state === "SUCCESS"){
         $.notify({
             icon: 'pe-7s-user',
