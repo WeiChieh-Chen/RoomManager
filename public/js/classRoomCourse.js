@@ -1,49 +1,77 @@
 /**
  * Created by User on 2017/5/20.
  */
+let edited = 0;
+drop = $("#selectRoom");
 function show() {
+	if(edited === 1){
+		if(confirm("目前教室資料尚未儲存，是否要儲存目前教室資料?")){
+			save();
+		}
+	}
+	let table = document.getElementById("roomTable");
 	let week = {
-		1:"11001110011100",
-		2:"11011101111100",
-		3:"00001110010011",
-		4:"11001011010000",
-		5:"11001110001100",
-		6:"11110000011000",
-		7:"00000110000000"
+		1:"110011100111000",
+		2:"110111011111000",
+		3:"000011100100110",
+		4:"110010110100000",
+		5:"110011100011000",
+		6:"111100000110000",
+		7:"000001100000000"
 	};
-	let list = "<tr>"+
-	"<td>節  \\  星期</td>"+
-	"<td>星期一</td>"+
-	"<td>星期二</td>"+
-	"<td>星期三</td>"+
-	"<td>星期四</td>"+
-	"<td>星期五</td>"+
-	"<td>星期六</td>"+
-	"<td>星期日</td>"+
-	"</tr>";
+
+	if(drop.find(":selected").val() === "0")
+	{
+		$("#buttonDiv").attr("hidden",true);
+		table.innerHTML = "";
+		edited = 0;
+		return;
+	}
+
+	$("#buttonDiv").attr("hidden",false);
+	let list ="<tr><td colspan='8' style='text-align: center;font-size: 16px'>"+
+		drop.find(":selected").text()+
+		"(橘色代表已借出)</td></tr>" +
+		"<tr>"+
+		"<th bgcolor='#666'>節  \\  星期</th>"+
+		"<th bgcolor='#2ea879'>星期一</th>"+
+		"<th bgcolor='#2ea879'>星期二</th>"+
+		"<th bgcolor='#2ea879'>星期三</th>"+
+		"<th bgcolor='#2ea879'>星期四</th>"+
+		"<th bgcolor='#2ea879'>星期五</th>"+
+		"<th bgcolor='#2ea879'>星期六</th>"+
+		"<th bgcolor='#2ea879'>星期日</th>"+
+		"</tr>";
 	// alert($("#selectRoom").find(":selected").text());
 	// Object.values(week).filter(function (val,index) {
 	//
-	// });第一節<br>08:10~09:00
+	// });
 
 	for(let i = 0;i < 15 ; i++)
 	{
 		list += "<tr>" +
-			"<td>"+
+			"<th bgcolor='#2ea879'>"+
 			sectionControl(i)+
-			"</td>"+
-			"<td></td>" +
-			"<td></td>" +
-			"<td></td>" +
-			"<td></td>" +
-			"<td></td>" +
-			"<td></td>" +
-			"<td></td>" +
-			"</tr>";
+			"</th>";
 		for(let j = 1 ; j < 8 ; j++){
+			list += init(week[j].charAt(i),i,j);
 		}
+		list +="</tr>";
 	}
-	document.getElementById("roomTable").insertAdjacentHTML("beforeend",list);
+
+	table.innerHTML = list;
+}
+
+function changeColor(obj) {
+	edited = 1;
+	if(obj.bgColor === "orange"){
+		obj.bgColor = "";
+		obj.innerText = "0";
+	}else{
+		obj.bgColor = "orange";
+		obj.innerText = "1";
+	}
+	// obj.bgColor= obj.bgColor === "orange"?"":"orange";
 }
 
 function sectionControl(number) {
@@ -94,5 +122,41 @@ function sectionControl(number) {
 			return "第十四節<br>21:40~22:30";
 			break;
 
+	}
+}
+
+function init(at,i,j) {
+	return at === "0"?
+		"<td id='"+i+"_"+j+"' style='color: white;font-size: 0' onclick='changeColor(this)'>0</td>":
+		"<td id='"+i+"_"+j+"' style='color: orange;font-size: 0' bgcolor='orange' onclick='changeColor(this)'>1</td>";
+}
+
+function save() {
+	let data = {
+		1:"",
+		2:"",
+		3:"",
+		4:"",
+		5:"",
+		6:"",
+		7:""
+	};
+
+	if(confirm("確定要儲存資料?")){
+		// alert(document.getElementById("roomTable").rows[2].cells.namedItem("0_1").innerHTML);
+		for(let i = 0;i < 15 ; i++)
+		{
+			for(let j = 1 ; j < 8 ; j++){
+				data[j] += document.getElementById("roomTable").rows[2+i].cells.namedItem(i+"_"+j).innerHTML;
+			}
+		}
+	}
+	console.log(data);
+}
+
+function reset() {
+	if(confirm("確定要重置這間教室資料嗎?")){
+		edited = 0;
+		show();
 	}
 }

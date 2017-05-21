@@ -42,12 +42,15 @@
 			        </select>
 		        </div>
 	        </div>
+	        <div id="buttonDiv" class="col-md-9" hidden>
+	        <button type='button' class='btn btn-info btn-lg col-md-2' style='float: left;' onclick="save()">儲存</button>
+	        <button type='button' class='btn btn-danger btn-lg col-md-2 col-md-push-1' style='float: left;' onclick="reset()">重置</button>
+	        </div>
         </div>
 	    <div class="row">
-		    <div id="calendar" class="　col-md-10">
-			    <div class="table-responsive">
-				    <table id="roomTable" width="100%" border="1" style="text-align: center;height: 100%">
-					   
+		    <div id="calendar" class="container　col-md-5">
+			    <div class="component">
+				    <table id="roomTable" border="1" >
 				    </table>
 			    </div>
 		    </div>

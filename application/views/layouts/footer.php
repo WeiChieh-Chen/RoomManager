@@ -66,7 +66,7 @@
 </div> <!--wrapper -->
 </body>
 <!--   Core JS Files   -->
-<script src="<?= base_url('public/js/jquery-3.1.1.min.js')?>" type="text/javascript"></script>
+
 <script src="<?= base_url('public/js/bootstrap.min.js')?>" type="text/javascript"></script>
 
 <!--  Checkbox, Radio & Switch Plugins -->
@@ -83,6 +83,10 @@
 <script src="<?= base_url('public/js/myvue.js')?>"></script>
 
 <script src="<?= base_url('public/js/classRoomCourse.js')?>"></script>
+<script src="<?= base_url('public/js/moment.min.js')?>"></script>
+<script src="<?= base_url('public/js/fullcalendar.min.js')?>"></script>
+
+
 <script type="text/javascript">
 
     $(document).ready(function () {
