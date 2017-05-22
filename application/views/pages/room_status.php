@@ -92,68 +92,67 @@
     }
 
     // room_status
-    let newNode = new Vue({
-            el: "#addRoom",
-            data: {
-                id: "",
-                name: "",
-                check: false
-            },
-            computed: {
-                ok: function () {
-                    let tmpId = this.id;
-                    let judge = Object.keys(newInfo).every(function (room_id) {
-                        return room_id !== tmpId;
-                    });
+    new Vue({
+        el: "#addRoom",
+        data: {
+            id: "",
+            name: "",
+            check: false
+        },
+        computed: {
+            ok: function () {
+                let tmpId = this.id;
+                let judge = Object.keys(newInfo).every(function (room_id) {
+                    return room_id !== tmpId;
+                });
 
-                    if (!judge) {
-                        $.notify({
-                            icon: 'pe-7s-repeat',
-                            message: "教室代號已存在！"
-                        }, {
-                            type: 'danger',
-                            timer: 100,
-                            animate: {
-                                enter: 'animated rollIn',
-                                exit: 'animated rollOut'
-                            }
-                        });
-                    }
-                    return this.id !== "" && this.name !== "" && judge;
-                }
-
-            },
-            methods: {
-                add: function () {
-                    let tbody = document.getElementsByTagName("tbody")[0];
-                    let newRow = "<td class='select_col' onclick=select('" + this.id + "')></td>" +
-                        "<td>" + this.id + "</td>" +
-                        "<td><span class='select_col_reverse' hidden>" + this.name + "</span><div class='ui input'>" +
-                        "<input type='text' class='select_col' value=" + this.name + " onblur=changeName('" + this.id + "',this.value) />" +
-                        "</div></td>" +
-                        "<td>" +
-                        "<input type='checkbox' class='actBtn' data-toggle='toggle' data-on='啟動' data-off='關閉' data-height='10' data-onstyle='primary' data-offstyle='danger' checked>" +
-                        "</td>";
-                    let newDom = document.createElement("tr");
-                    newDom.setAttribute("id", this.id);
-                    newDom.innerHTML = newRow;
-                    tbody.insertBefore(newDom, tbody.childNodes[0]);
-                    // initial button of active as bootstrapToggle.
-                    $('.actBtn').first().bootstrapToggle();
-                    // Inserts new datus into array.
-                    newInfo[this.id] = {
-                        "status": "INSERT",
-                        "info": {
-                            "room_name": this.name,
-                            "active": "1"
+                if (!judge) {
+                    $.notify({
+                        icon: 'pe-7s-repeat',
+                        message: "教室代號已存在！"
+                    }, {
+                        type: 'danger',
+                        timer: 100,
+                        animate: {
+                            enter: 'animated rollIn',
+                            exit: 'animated rollOut'
                         }
-                    };
-                    this.id = "";
-                    this.name = "";
+                    });
                 }
+                return this.id !== "" && this.name !== "" && judge;
             }
-        })
-    ;
+
+        },
+        methods: {
+            add: function () {
+                let tbody = document.getElementsByTagName("tbody")[0];
+                let newRow = "<td class='select_col' onclick=select('" + this.id + "')></td>" +
+                    "<td>" + this.id + "</td>" +
+                    "<td><span class='select_col_reverse' hidden>" + this.name + "</span><div class='ui input'>" +
+                    "<input type='text' class='select_col' value=" + this.name + " onblur=changeName('" + this.id + "',this.value) />" +
+                    "</div></td>" +
+                    "<td>" +
+                    "<input type='checkbox' class='actBtn' data-toggle='toggle' data-on='啟動' data-off='關閉' data-height='10' data-onstyle='primary' data-offstyle='danger' checked>" +
+                    "</td>";
+                let newDom = document.createElement("tr");
+                newDom.setAttribute("id", this.id);
+                newDom.innerHTML = newRow;
+                tbody.insertBefore(newDom, tbody.childNodes[0]);
+                // initial button of active as bootstrapToggle.
+                $('.actBtn').first().bootstrapToggle();
+                // Inserts new datus into array.
+                newInfo[this.id] = {
+                    "status": "INSERT",
+                    "info": {
+                        "room_name": this.name,
+                        "active": "1"
+                    }
+                };
+                this.id = "";
+                this.name = "";
+            }
+        }
+    });
 
     $(document).click(function () {
         $('.actBtn').bootstrapToggle();
