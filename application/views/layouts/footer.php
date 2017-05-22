@@ -41,18 +41,9 @@
                 <h4 class="modal-title">管理者登入</h4>
             </div>
             <div class="modal-body">
-                    <div class="form-group">
-                        <?= form_label("帳號","account",['class' => 'control-label'])?>
-                        <?= form_input(['id'=> 'account' ,'class' => 'form-control', 'type'=>'text','placeholder'=> 'Account','name'=>'account'])?>
-                    </div>
-                    <div class="form-group">
-                        <?= form_label("密碼","password",['class' => 'control-label'])?>
-                        <?= form_input(['v-model'=> 'pwd' ,'class' => 'form-control', 'type'=>'password','placeholder'=> 'Password','name'=>'password'])?>
-                    </div>
-                    <div class="form-group">
-                        <?= form_label("確認密碼","password_confirmation",['class' => 'control-label'])?>
-                        <?= form_input(['v-model'=> 'repwd' ,'class' => 'form-control', 'type'=>'password','placeholder'=> 'Repeat Password','name'=>'password_confirmation'])?>
-                    </div>
+                    <text-field text="帳號" name="account" placeholder="Account"></text-field>
+                    <pass-field text="密碼" model='pwd' name="password" placeholder="Password"></pass-field>
+                    <pass-field text="確次密碼" model='repwd' name="password_confirmation" placeholder="Repeat Password"></pass-field>
             </div>
             <div class="modal-footer">
                 <?= form_button(null,'關閉',['class' => 'btn btn-default','data-dismiss'=>'modal'])?>

@@ -70,7 +70,7 @@
                     ！
                 </h4>
                 <?= form_button(null, '關閉', ['class' => 'btn btn-lg btn-default', 'data-dismiss' => 'modal']) ?>
-                <button class="btn btn-lg" :class="[ok?'btn-success':'btn-default']" :disabled="!ok" @click="add"
+                <button type='button' class="btn btn-lg" :class="[ok?'btn-success':'btn-default']" :disabled="!ok" @click="add"
                         data-dismiss='modal'>加入
                 </button>
             </div>
@@ -92,12 +92,11 @@
     }
 
     // room_status
-    new Vue({
+    let addRoom = new Vue({
         el: "#addRoom",
         data: {
             id: "",
             name: "",
-            check: false
         },
         computed: {
             ok: function () {
@@ -148,8 +147,6 @@
                         "active": "1"
                     }
                 };
-                this.id = "";
-                this.name = "";
             }
         }
     });
@@ -161,5 +158,10 @@
         } else {
             recover();
         }
+    });
+
+    $('#addRoom').on('hidden.bs.modal',function(){
+        addRoom.id='';
+        addRoom.name='';
     });
 </script>
