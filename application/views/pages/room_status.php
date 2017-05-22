@@ -70,8 +70,8 @@
                     ！
                 </h4>
                 <?= form_button(null, '關閉', ['class' => 'btn btn-lg btn-default', 'data-dismiss' => 'modal']) ?>
-                <button class="btn btn-lg" :class="[ok?'btn-success':'btn-default']" :disabled="!ok" @click="add"
-                        data-dismiss='modal'>加入
+                <button type='button' class="btn btn-lg" :class="[ok?'btn-success':'btn-default']" :disabled="!ok" @click="add"
+                        data-dismiss='modal' @keyup.enter="add">加入
                 </button>
             </div>
         </div><!-- /.modal-content -->
