@@ -13,26 +13,11 @@
         </div>
 
         <ul id="navbar" class="nav">
-            <li>
-                <a href="dashboard.html">
-                    <i class="pe-7s-graph"></i>
-                    <p>Dashboard</p>
+            <li v-for="items in list">
+                <a :href=items.href>
+                    <i :class=items.icon></i>
+                    <p>{{items.item}}</p>
                 </a>
-            </li>
-            <li>
-                <a href="user.html">
-                    <i class="pe-7s-user"></i>
-                    <p>User Profile</p>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <i class="pe-7s-note2"></i>
-                    <p>Table List</p>
-                </a>
-            </li>
-            <li>
-                <?=anchor("Admin/#","<i class='pe-7s-config'></i><p>教室狀態</p>")?>
             </li>
         </ul>
     </div>
@@ -104,5 +89,25 @@
         $("#navbar").delegate("li", "click", function () {
             $('.active').removeClass();
             localStorage.setItem("nav_active",$(this).index());
+        });
+
+        new Vue({
+            el: "#navbar",
+            data: {
+                list: <?php
+                    if($this->session->has_userdata('name')):
+                        $items = [
+                            ["href"=>"#","icon" => "pe-7s-graph","item" => "Dashboard"],
+                            ["href"=>"#","icon" => "pe-7s-user","item" => "User Profile"],
+                            ["href"=>"#","icon" => "pe-7s-note2","item" => "Table List"],
+                            ["href"=> base_url('Admin/RoomStatus'),"icon" => "pe-7s-config","item" => "教室狀態"]
+                        ];
+                    else:
+                        $items = [
+                        ];
+                    endif;
+                    echo json_encode($items,JSON_UNESCAPED_UNICODE);
+                ?>
+            }
         });
     </script>
