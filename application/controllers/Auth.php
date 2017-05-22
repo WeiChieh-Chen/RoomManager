@@ -20,4 +20,9 @@ class Auth extends CI_Controller {
         $this->session->sess_destroy();
         return redirect("/Home");
     }
+	
+	public function saveClassRoom(){
+		
+		return redirect("/Home");
+	}
 }

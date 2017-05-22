@@ -94,19 +94,12 @@
             show: false,
             backdrop: false
         });
-
-//        $.notify({
-//            icon: 'pe-7s-gift',
-//            message: "Welcome to <b>Light Bootstrap Dashboard</b> - a beautiful freebie for every web developer."
-//
-//        }, {
-//            type: 'info',
-//            timer: 4000
-//        });
     });
 
     // Login Response
     var login_state = "<?= $this->session->flashdata("LoginState")?>";
+    var section = JSON.parse('<?= json_encode($section)?>');
+    var period = JSON.parse('<?= json_encode($time)?>');
     if(login_state === "SUCCESS"){
         $.notify({
             icon: 'pe-7s-user',

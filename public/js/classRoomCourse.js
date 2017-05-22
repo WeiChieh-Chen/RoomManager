@@ -4,21 +4,23 @@
 let edited = 0;
 drop = $("#selectRoom");
 function show() {
+
 	if(edited === 1){
 		if(confirm("目前教室資料尚未儲存，是否要儲存目前教室資料?")){
 			save();
 		}
 	}
-	let table = document.getElementById("roomTable");
 	let week = {
-		1:"110011100111000",
-		2:"110111011111000",
-		3:"000011100100110",
-		4:"110010110100000",
-		5:"110011100011000",
-		6:"111100000110000",
-		7:"000001100000000"
+		1:"000000000000000",
+		2:"000000000000000",
+		3:"000000000000000",
+		4:"000000000000000",
+		5:"000000000000000",
+		6:"000000000000000",
+		7:"000000000000000"
 	};
+
+	let table = document.getElementById("roomTable");
 
 	if(drop.find(":selected").val() === "0")
 	{
@@ -28,37 +30,41 @@ function show() {
 		return;
 	}
 
-	$("#buttonDiv").attr("hidden",false);
-	let list ="<tr><td colspan='8' style='text-align: center;font-size: 16px'>"+
-		drop.find(":selected").text()+
-		"(橘色代表已借出)</td></tr>" +
-		"<tr>"+
-		"<th bgcolor='#666'>節  \\  星期</th>"+
-		"<th bgcolor='#2ea879'>星期一</th>"+
-		"<th bgcolor='#2ea879'>星期二</th>"+
-		"<th bgcolor='#2ea879'>星期三</th>"+
-		"<th bgcolor='#2ea879'>星期四</th>"+
-		"<th bgcolor='#2ea879'>星期五</th>"+
-		"<th bgcolor='#2ea879'>星期六</th>"+
-		"<th bgcolor='#2ea879'>星期日</th>"+
-		"</tr>";
-	// alert($("#selectRoom").find(":selected").text());
-	// Object.values(week).filter(function (val,index) {
-	//
-	// });
+	room = section.filter(function (arr) {
+		return arr.room_id === drop.find(":selected").val();
+	});
+	Object.values(room).filter(function (data) {
+		week[data['week']] = data['class'];
+	});
 
-	for(let i = 0;i < 15 ; i++)
-	{
+	$("#buttonDiv").attr("hidden",false);
+
+	let list =  "<tr><td colspan='8' style='text-align: center;font-size: 16px'>"+
+				drop.find(":selected").text()+
+				"(橘色代表已借出)</td></tr>" +
+				"<tr>"+
+				"<th bgcolor='#666'>節  \\  星期</th>"+
+				"<th bgcolor='#2ea879'>星期一</th>"+
+				"<th bgcolor='#2ea879'>星期二</th>"+
+				"<th bgcolor='#2ea879'>星期三</th>"+
+				"<th bgcolor='#2ea879'>星期四</th>"+
+				"<th bgcolor='#2ea879'>星期五</th>"+
+				"<th bgcolor='#2ea879'>星期六</th>"+
+				"<th bgcolor='#2ea879'>星期日</th>"+
+				"</tr>";
+
+	Object.values(period).map(function (times,i) {
 		list += "<tr>" +
 			"<th bgcolor='#2ea879'>"+
-			sectionControl(i)+
+			sectionControl(i,times['start'],times['end'])+
 			"</th>";
 		for(let j = 1 ; j < 8 ; j++){
 			list += init(week[j].charAt(i),i,j);
 		}
-		list +="</tr>";
-	}
-
+	});
+	$("#roomTable").delegate("td", "click", function () {
+		changeColor(this);
+	});
 	table.innerHTML = list;
 }
 
@@ -74,72 +80,73 @@ function changeColor(obj) {
 	// obj.bgColor= obj.bgColor === "orange"?"":"orange";
 }
 
-function sectionControl(number) {
+function sectionControl(number,start,end) {
 	switch (number){
 		case 0:
-			return "第一節<br>08:10~09:00";
+			return "第一節<br>"+start+"~"+end;
 			break;
 		case 1:
-			return "第二節<br>09:10~10:00";
+			return "第二節<br>"+start+"~"+end;
 			break;
 		case 2:
-			return "第三節<br>10:10~11:00";
+			return "第三節<br>"+start+"~"+end;
 			break;
 		case 3:
-			return "第四節<br>11:10~12:00";
+			return "第四節<br>"+start+"~"+end;
 			break;
 		case 4:
-			return "中午午休<br>12:00~13:20";
+			return "中午午休<br>"+start+"~"+end;
 			break;
 		case 5:
-			return "第五節<br>13:20~14:10";
+			return "第五節<br>"+start+"~"+end;
 			break;
 		case 6:
-			return "第六節<br>14:20~15:10";
+			return "第六節<br>"+start+"~"+end;
 			break;
 		case 7:
-			return "第七節<br>15:20~16:10";
+			return "第七節<br>"+start+"~"+end;
 			break;
 		case 8:
-			return "第八節<br>16:20~17:10";
+			return "第八節<br>"+start+"~"+end;
 			break;
 		case 9:
-			return "第九節<br>17:20~18:10";
+			return "第九節<br>"+start+"~"+end;
 			break;
 		case 10:
-			return "第十節<br>18:30~19:20";
+			return "第十節<br>"+start+"~"+end;
 			break;
 		case 11:
-			return "第十一節<br>19:20~20:05";
+			return "第十一節<br>"+start+"~"+end;
 			break;
 		case 12:
-			return "第十二節<br>20:05~20:55";
+			return "第十二節<br>"+start+"~"+end;
 			break;
 		case 13:
-			return "第十三節<br>20:55~21:40";
+			return "第十三節<br>"+start+"~"+end;
 			break;
 		case 14:
-			return "第十四節<br>21:40~22:30";
+			return "第十四節<br>"+start+"~"+end;
 			break;
-
 	}
 }
 
 function init(at,i,j) {
 	return at === "0"?
-		"<td id='"+i+"_"+j+"' style='color: white;font-size: 0' onclick='changeColor(this)'>0</td>":
-		"<td id='"+i+"_"+j+"' style='color: orange;font-size: 0' bgcolor='orange' onclick='changeColor(this)'>1</td>";
+		"<td id='"+i+"_"+j+"' style='color: white;font-size: 0' >0</td>":
+		"<td id='"+i+"_"+j+"' style='color: orange;font-size: 0' bgcolor='orange' >1</td>";
 }
 
 function save() {
-	let data = {
-		1:"",
-		2:"",
-		3:"",
-		4:"",
-		5:"",
-		6:"",
-		7:""
+	let postdata = {
+		"data" :{
+			1:"",
+			2:"",
+			3:"",
+			4:"",
+			5:"",
+			6:"",
+			7:""
+		}
 	};
 
 	if(confirm("確定要儲存資料?")){
@@ -147,11 +154,13 @@ function save() {
 		for(let i = 0;i < 15 ; i++)
 		{
 			for(let j = 1 ; j < 8 ; j++){
-				data[j] += document.getElementById("roomTable").rows[2+i].cells.namedItem(i+"_"+j).innerHTML;
+				postdata["data"][j] += document.getElementById("roomTable").rows[2+i].cells.namedItem(i+"_"+j).innerHTML;
 			}
 		}
 	}
-	console.log(data);
+	console.log(postdata["data"]);
+	$.post("/Auth/saveClassRoom",postdata);
+
 }
 
 function reset() {

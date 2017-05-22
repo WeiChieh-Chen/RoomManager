@@ -23,11 +23,14 @@ class Admin extends CI_Controller {
 	
 	public function course() {
         $this->load->model("ClassRoom");
-    
+        $this->load->model("Time_period");
+        $this->load->model("Section");
 		$data= [
 			'title' => "教室租用系統 - 編輯教室時間",
 			'color' => "blue",
-			'list' => $this->ClassRoom->getRoom()
+			'list' => $this->ClassRoom->getRoom(),
+			'time' => $this->Time_period->getTime(),
+			'section' => $this->Section->getClass()
 		];
 		
 		
