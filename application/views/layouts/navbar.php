@@ -12,19 +12,19 @@
         </div>
 
         <ul class="nav">
-            <li class="active">
-                <a href="dashboard.html">
-                    <i class="pe-7s-graph"></i>
-                    <p>Dashboard</p>
+            <li>
+                <a href="http://localhost:8000/Admin">
+                    <i class="pe-7s-graph3"></i>
+                    <p>數據統計</p>
                 </a>
             </li>
             <li>
-                <a href="user.html">
+                <a href="http://localhost:8000/Admin/showBlacklist">
                     <i class="pe-7s-user"></i>
-                    <p>User Profile</p>
+                    <p>黑名單</p>
                 </a>
             </li>
-            <li>
+            <!--<li>
                 <a href="table.html">
                     <i class="pe-7s-note2"></i>
                     <p>Table List</p>
@@ -47,7 +47,7 @@
                     <i class="pe-7s-bell"></i>
                     <p>Notifications</p>
                 </a>
-            </li>
+            </li>-->
         </ul>
     </div>
 </div>
@@ -63,10 +63,10 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Dashboard</a>
+                <a class="navbar-brand" href="#">教室租用系統</a>
             </div>
             <div class="collapse navbar-collapse">
-                <ul class="nav navbar-nav navbar-left">
+                <!--<ul class="nav navbar-nav navbar-left">
                     <li>
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-dashboard"></i>
@@ -91,7 +91,7 @@
                             <i class="fa fa-search"></i>
                         </a>
                     </li>
-                </ul>
+                </ul>-->
 
                 <ul class="nav navbar-nav navbar-right">
                     <li>
@@ -103,7 +103,7 @@
                                         <b class='caret'></b>
                                     </a>
                                     <ul class='dropdown-menu'>
-                                        <li><a href='Auth/logout'>登出</a></li>
+                                        <li><a href='http://localhost:8000/Auth/logout'>登出</a></li>
                                      <!--   <li class='divider'></li>
                                         <li><a href='#'>Separated link</a></li>-->
                                     </ul>
