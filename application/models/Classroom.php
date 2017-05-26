@@ -33,7 +33,7 @@ Class Classroom extends CI_Model
     }
 
     public function delete($id){
-        $table = ['classroom','section'];
+        $table = ['classroom', 'Timeperiod'];
         $this->db->delete($table,['room_id' => $id]);
     }
 }

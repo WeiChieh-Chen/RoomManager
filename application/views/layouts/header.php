@@ -25,13 +25,15 @@
 
     <!-- Other CSS -->
     <link href="<?= base_url('public/css/semantic.min.css')?>" rel="stylesheet"/>
-    <link href="<?= base_url('public/css/dataTables.min.css')?>" rel="stylesheet"/>
-    <link href="<?= base_url('public/css/dataTables.semanticui.min.css')?>" rel="stylesheet"/>
+    <link href="<?= base_url('public/components/dataTables.min.css')?>" rel="stylesheet"/>
+    <link href="<?= base_url('public/components/dataTables.semanticui.min.css')?>" rel="stylesheet"/>
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 
     <!-- Must be preload-->
     <script src="<?= base_url('public/js/jquery-3.1.1.min.js')?>" type="text/javascript"></script>
     <script src="<?= base_url('public/js/vue.js')?>"></script>
+    <script src="<?= base_url('public/js/components.js')?>"></script>
+
 </head>
 <body>
 <div class="wrapper">

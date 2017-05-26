@@ -13,3 +13,15 @@
         }
     }
 }
+
+// Use for Vue components of BsDrop
+{
+    rooms:{
+        'name': "BGC0305",
+        'value': "BGC0305"
+    },
+    peridos:{
+        'name': "中午休息時間",
+        'value': "12:00"
+    }
+}
