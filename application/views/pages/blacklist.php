@@ -41,7 +41,18 @@
         </div>
     </div>
 </div>
-
+<?php 
+    $options = array(
+        'BGC0305'         => 'BGC0305',
+        'BGC0316'         => 'BGC0316',
+        'BGC0402'         => 'BGC0402',
+        'BGC0501'         => 'BGC0501',
+        'BGC0508'         => 'BGC0508',
+        'BGC0513'         => 'BGC0513',
+        'BGC0601'         => 'BGC0601',
+        'BGC0614'         => 'BGC0614',   
+    );
+?>
 <div id="blacklistModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
     <!-- Modal content-->
@@ -58,7 +69,7 @@
             </div>
             <div class="form-group">
                 <?= form_label("教室代碼","roomID",['class' => 'control-label'])?>
-                <?= form_input(['id'=> 'roomID' ,'class' => 'form-control', 'type'=>'text','placeholder'=> 'stduentID','name'=>'roomID'])?>
+                <?= form_dropdown('roomID', $options, 'BGC0301')?>
             </div>
             <div class="form-group">
                 <?= form_label("原因","reason",['class' => 'control-label'])?>

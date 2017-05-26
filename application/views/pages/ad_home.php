@@ -213,7 +213,7 @@
         [6, reasoncount[6]]
     ];
     var dataset2 = [{
-        label: date.getFullYear()+" 各教室借用次數",
+        label: date.getFullYear()+" 各問題發生次數",
         data: data2,
         color: "#5482FF"
     }];
