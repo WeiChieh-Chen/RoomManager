@@ -6,19 +6,24 @@
 
     <div class="sidebar-wrapper">
         <div class="logo">
-            <?=anchor("/Home","教室借用系統",['class'=>'simple-text'])?>
-<!--            <a href="http://www.creative-tim.com" class="simple-text">-->
-<!--                Creative Tim-->
-<!--            </a>-->
+            <?= anchor("/Home", "教室借用系統", ['class' => 'simple-text']) ?>
+            <!--            <a href="http://www.creative-tim.com" class="simple-text">-->
+            <!--                Creative Tim-->
+            <!--            </a>-->
         </div>
 
         <ul id="navbar" class="nav">
-            <li v-for="items in list">
+            <li v-for="(items,key) in list" @click='selected(key)' :class={'active':key===datus}>
                 <a :href=items.href>
                     <i :class=items.icon></i>
                     <p>{{items.item}}</p>
                 </a>
             </li>
+            <?php
+            if (!$this->session->has_userdata('name')):
+                echo "<li><a href='#shortApp' data-toggle='modal'><i class='pe-7s-note'></i><p>短期申請</p></a></li>";
+            endif;
+            ?>
         </ul>
     </div>
 </div>
@@ -34,80 +39,180 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Dashboard</a>
+                <a class="navbar-brand" href="#"></a>
             </div>
             <div class="collapse navbar-collapse">
-                <ul class="nav navbar-nav navbar-left">
-                    <li>
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-dashboard"></i>
-                        </a>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-globe"></i>
-                            <b class="caret"></b>
-                            <span class="notification">5</span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Notification 1</a></li>
-                            <li><a href="#">Notification 2</a></li>
-                            <li><a href="#">Notification 3</a></li>
-                            <li><a href="#">Notification 4</a></li>
-                            <li><a href="#">Another notification</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="">
-                            <i class="fa fa-search"></i>
-                        </a>
-                    </li>
-                </ul>
-
+                <?php
+                if ($this->session->has_userdata('name')):
+                    echo "<ul class='nav navbar-nav navbar-left'>" .
+                        "<li>".
+                        "<a href='#' class='dropdown-toggle' data-toggle='dropdown'>".
+                        "<i class='fa fa-dashboard'></i>".
+                        "</a>".
+                        "</li>".
+                        "<li class='dropdown'>".
+                        "<a href='#' class='dropdown-toggle' data-toggle='dropdown'>".
+                        "<i class='fa fa-globe'></i>".
+                        "<b class='caret'></b><span class='notification'>5</span>".
+                        "</a>".
+                        "<ul class='dropdown-menu'>".
+                        "<li><a href='#'>Notification 1</a></li>".
+                        "<li><a href='#'>Notification 2</a></li>".
+                        "<li><a href='#'>Notification 3</a></li>".
+                        "<li><a href='#'>Notification 4</a></li>".
+                        "<li><a href='#'>Another notification</a></li>".
+                        "</ul>".
+                        "</li>".
+                        "<li><a href=''><i class='fa fa-search'></i></a></li>".
+                        "</ul>";
+                endif;
+                ?>
                 <ul class="nav navbar-nav navbar-right">
                     <li>
                         <?php
-                            if($this->session->has_userdata('name')):
-                                echo "<li class='dropdown'>".
-                                    "<a href='#' class='dropdown-toggle' data-toggle='dropdown'>{$this->session->name}<b class='caret'></b></a>".
-                                    "<ul class='dropdown-menu'>".
-                                        "<li>".anchor('Auth/logout','登出')."</li>".
-                                    "</ul>".
-                                "</li>";
-                            else:
-                                echo "<li>".anchor("#","登入",['data-toggle'=>'modal','data-target'=>'#loginModal'])."</li>";
-                            endif;
+                        if ($this->session->has_userdata('name')):
+                            echo "<li class='dropdown'>" . "<a href='#' class='dropdown-toggle' data-toggle='dropdown'>{$this->session->name}<b class='caret'></b></a>" . "<ul class='dropdown-menu'>" . "<li>" . anchor('Auth/logout', '登出') . "</li>" . "</ul>" . "</li>";
+                        else:
+                            echo "<li>" . anchor("#", "登入", ['data-toggle' => 'modal', 'data-target' => '#loginModal']) . "</li>";
+                        endif;
                         ?>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
-
     <script>
-        $("#navbar li").eq(parseInt(localStorage.getItem("nav_active"))).addClass("active");
-        $("#navbar").delegate("li", "click", function () {
-            $('.active').removeClass();
-            localStorage.setItem("nav_active",$(this).index());
-        });
-
-        new Vue({
-            el: "#navbar",
-            data: {
-                list: <?php
-                    if($this->session->has_userdata('name')):
+        $(document).ready(function () {
+            new Vue({
+                el: "#navbar",
+                data: {
+                    datus: parseInt(localStorage.getItem("nav_active")),
+                    list: <?php
+                    if ($this->session->has_userdata('name')):
                         $items = [
-                            ["href"=>"#","icon" => "pe-7s-graph","item" => "Dashboard"],
-                            ["href"=>"#","icon" => "pe-7s-user","item" => "User Profile"],
-                            ["href"=>"#","icon" => "pe-7s-note2","item" => "Table List"],
-                            ["href"=> base_url('Admin/RoomStatus'),"icon" => "pe-7s-config","item" => "教室狀態"]
+                            ["href" => "#", "icon" => "pe-7s-graph", "item" => "Dashboard"],
+                            ["href" => "#", "icon" => "pe-7s-user", "item" => "User Profile"],
+                            ["href" => "#", "icon" => "pe-7s-note2", "item" => "Table List"],
+                            ["href" => base_url('Admin/RoomStatus'), "icon" => "pe-7s-config", "item" => "教室狀態"]
                         ];
                     else:
-                        $items = [
-                        ];
+                        $items = [];
                     endif;
-                    echo json_encode($items,JSON_UNESCAPED_UNICODE);
-                ?>
+                    echo json_encode($items, JSON_UNESCAPED_UNICODE);
+                    ?>
+                },
+                methods: {
+                    selected(key){
+                        localStorage.setItem("nav_active", key);
+                    }
+                }
+            });
+
+            if(document.getElementById("shortApp")){
+                new Vue({
+                    el: "#shortApp",
+                    data: { sName: "", sNumber: "", email: "", cellphone: "", department:"",teacher: "", events: "", room_id: "",date:"",start_sec: "", end_sec: ""},
+                    computed: {
+                        right: function () {
+                            if (this.start_sec !== "" && this.end_sec !== "" && this.start_sec > this.end_sec) {
+                                $.notify({
+                                    icon: 'pe-7s-shield',
+                                    message: "結束節次在開始結次前面！"
+                                }, {
+                                    type: 'danger',
+                                    timer: 1000
+                                });
+
+                                return false;
+                            }
+                            return Object.values(this.$data).every(function (value) {
+                                return value !== "";
+                            });
+                        }
+                    },
+                    methods: {
+                        apply(){
+                            let application = {
+                                'sName': this.sName, 'sNumber': this.sNumber,
+                                'email': this.email, 'cellphone': this.cellphone,
+                                'department':this.department,'teacher': this.teacher,
+                                'events': this.events, 'room_id': this.room_id,
+                                'date':this.date,'start_sec': this.start_sec, 'end_sec': this.end_sec
+                            };
+                            $.post("<?=base_url("Home/apply")?>",application,function(msg){
+                                location.reload();
+                            });
+                        }
+                    }
+                });
             }
         });
     </script>
+
+    <!-- For application of shortcut -->
+    <?php
+    if(!$this->session->has_userdata('name')):
+     echo "<div class='modal fade' tabindex='-1' role='dialog' id='shortApp'>".
+        "<div class='modal-dialog' role='document'>".
+            "<div class='modal-content'>".
+                "<div class='modal-header'>".
+                    "<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>".
+                    "<h2 class='modal-title'>短期借用申請單</h2><br>".
+                    "<div class='row'>".
+                        "<div class='col-xs-12'>".
+                            "<div class='form-group'>".
+                                "<input v-model='date'  type='date' class='form-control' />".
+                            "</div>".
+                        "</div>".
+                    "</div>".
+                    "<div class='row'>".
+                        "<div class='col-xs-3'>".
+                            "<bs-drop title='教室代號' bs-class='bs-default' model='room_id' :opt-arr=".json_encode($rooms)."></bs-drop>".
+                        "</div>".
+                        "<div class='col-xs-3'>".
+                            "<bs-drop title='開始節次' bs-class='bs-default' model='start_sec' :opt-arr=".json_encode($periods)."></bs-drop>".
+                        "</div>".
+                        "<div class='col-xs-3'>".
+                            "<bs-drop title='結束節次' bs-class='bs-default' model='end_sec' :opt-arr=".json_encode($periods)."></bs-drop>".
+                        "</div>".
+                    "</div>".
+                "</div>".
+                "<div class='modal-body'>".
+                    "<div class='row'>".
+                        "<div class='col-xs-6'>".
+                            "<text-field text='姓名' model='sName' placeholder='完整姓名'></text-field>".
+                        "</div>".
+                        "<div class='col-xs-6'>".
+                            "<text-field text='學號' model='sNumber' placeholder='OOOOOOOO'></text-field>".
+                        "</div>".
+                    "</div>".
+                    "<div class='row'>".
+                        "<div class='col-xs-6'>".
+                            "<text-field text='E-Mail' model='email' placeholder='請輸人常用信箱，以取得結果信件！'></text-field>".
+                        "</div>".
+                        "<div class='col-xs-6'>".
+                            "<text-field text='電話' model='cellphone' placeholder='手機號碼'></text-field>".
+                        "</div>".
+                    "</div>".
+                    "<div class='row'>".
+                        "<div class='col-xs-6'>".
+                            "<text-field text='科系' model='department' preset='資訊工程系' placeholder='科系'></text-field>".
+                        "</div>".
+                        "<div class='col-xs-6'>".
+                            "<text-field text='指導老師' model='teacher' placeholder='老師姓名'></text-field>".
+                        "</div>".
+                    "</div>".
+                    "<div class='row'>".
+                        "<div class='col-xs-12'>".
+                            "<text-field text='借用事由' model='events' placeholder='簡單描述借用原因'></text-field>".
+                        "</div>".
+                    "</div>".
+                "</div>".
+                "<div class='modal-footer'>".
+                    "<button type='button' class='btn' :class=[right?'btn-primary':'btn-default'] :disabled=!right @click='apply'>送出申請單</button>".
+                "</div>".
+            "</div>". //.modal-content
+        "</div>".//.modal-dialog
+    "</div>"; //.modal
+    endif;
+?>

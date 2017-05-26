@@ -35,15 +35,15 @@
 <div class="modal fade" tabindex="-1" role="dialog" id="loginModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form action="Auth/login" method="post" accept-charset="utf-8">
+            <form action="<?=base_url('Auth/login')?>" method="post" accept-charset="utf-8">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">管理者登入</h4>
             </div>
             <div class="modal-body">
-                    <text-field text="帳號" name="account" placeholder="Account"></text-field>
-                    <pass-field text="密碼" model='pwd' name="password" placeholder="Password"></pass-field>
-                    <pass-field text="確次密碼" model='repwd' name="password_confirmation" placeholder="Repeat Password"></pass-field>
+                    <text-field text="帳號" model="account" placeholder="Account"></text-field>
+                    <pass-field text="密碼" model="pwd" placeholder="Password"></pass-field>
+                    <pass-field text="確次密碼" model="repwd" placeholder="Repeat Password"></pass-field>
             </div>
             <div class="modal-footer">
                 <?= form_button(null,'關閉',['class' => 'btn btn-default','data-dismiss'=>'modal'])?>
@@ -68,13 +68,10 @@
 <!-- Light Bootstrap Table Core javascript and methods for Demo purpose -->
 <script src="<?= base_url('public/js/light-bootstrap-dashboard.js')?>"></script>
 
-<!-- vue.js -->
-<script src="<?= base_url('public/js/myvue.js')?>"></script>
-
 <!-- Other JS-->
 <script src="<?= base_url('public/js/semantic.min.js')?>"></script>
-<script src="<?= base_url('public/js/dataTables.min.js')?>"></script>
-<script src="<?= base_url('public/js/dataTables.semanticui.min.js')?>"></script>
+<script src="<?= base_url('public/components/dataTables.min.js')?>"></script>
+<script src="<?= base_url('public/components/dataTables.semanticui.min.js')?>"></script>
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 
 <script type="text/javascript">
@@ -106,5 +103,21 @@
             timer: 1000
         });
     }
+
+    // Login
+    new Vue({
+        el : "#loginModal",
+        data : {pwd : '',repwd : '',text : '登入'},
+        computed: {
+            isEqual : function(){
+                return this.pwd === this.repwd;
+            }
+        },
+        watch : {
+            isEqual : function() {
+                this.text = this.isEqual ?'登入':'密碼不相符';
+            }
+        }
+    });
 </script>
 </html>
