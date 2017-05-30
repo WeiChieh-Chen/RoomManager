@@ -11,5 +11,9 @@ Class Section extends CI_Model
         $query = $this->db->get("section");
         return $query->result();
     }
+
+    public function insert_xml($data){
+        $this->db->insert_batch("section",$data);
+    }
 }
 

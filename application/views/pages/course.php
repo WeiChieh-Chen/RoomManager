@@ -29,23 +29,17 @@
 
 	        <div class="col-md-3">
 		        <div class="form-group">
-			        <label >選擇教室</label>
+			        <!--<label >選擇教室</label>-->
 			        
-			        <select class="form-control" id="selectRoom" name="selectRoom" onchange="show()">
-				        <option value="0">選擇教室</option>
-				        <?php
-				            foreach ($list as $room){
-				            	if($room->active === "1")//I have to use type of String with 1,because it isn't integer.
-				            	    echo "<option value='". $room->room_id ."'>". $room->room_name ."(". $room->room_id .")</option>";
-				            }
-				        ?>
-			        </select>
+					<form action="<?=base_url('Admin/uploadClass');?>" method="post" accept-charset="utf-8" enctype='multipart/form-data' accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" >
+						<label>匯入課表</label>
+						<input type="file" id="upload" name="upload" >
+						<button type="submit" class="btn btn-success btn-lg" >儲存</button>
+					</form>
+
 		        </div>
 	        </div>
-	        <div id="buttonDiv" class="col-md-9" hidden>
-	        <button type='button' class='btn btn-info btn-lg col-md-2' style='float: left;' onclick="save()">儲存</button>
-	        <button type='button' class='btn btn-danger btn-lg col-md-2 col-md-push-1' style='float: left;' onclick="reset()">重置</button>
-	        </div>
+	        
         </div>
 	    <div class="row">
 		    <div id="calendar" class="container　col-md-5">

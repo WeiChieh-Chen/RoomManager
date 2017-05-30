@@ -27,7 +27,7 @@
             <li>
                 <a href=<?= base_url("Admin/course")?>>
                     <i class="pe-7s-note2"></i>
-                    <p>編輯課程時間</p>
+                    <p>匯入課表</p>
                 </a>
             </li>
             <li>
