@@ -74,6 +74,11 @@
 <script src="<?= base_url('public/components/dataTables.semanticui.min.js')?>"></script>
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 
+<script src="<?= base_url('public/js/classRoomCourse.js')?>"></script>
+<script src="<?= base_url('public/js/moment.min.js')?>"></script>
+<script src="<?= base_url('public/js/fullcalendar.min.js')?>"></script>
+
+
 <script type="text/javascript">
     $(document).ready(function () {
         // Very very important, it could resolve conflict of modal of bootstrap and semantic.
@@ -85,7 +90,8 @@
     });
 
     // Login Response
-    let login_state = "<?= $this->session->flashdata("LoginState")?>";
+    var login_state = "<?= $this->session->flashdata("LoginState")?>";
+
     if(login_state === "SUCCESS"){
         $.notify({
             icon: 'pe-7s-user',

@@ -92,7 +92,7 @@
                         $items = [
                             ["href" => "#", "icon" => "pe-7s-graph", "item" => "Dashboard"],
                             ["href" => "#", "icon" => "pe-7s-user", "item" => "User Profile"],
-                            ["href" => "#", "icon" => "pe-7s-note2", "item" => "Table List"],
+                            ["href" => base_url('Admin/course'), "icon" => "pe-7s-note2", "item" => "匯入課表"],
                             ["href" => base_url('Admin/RoomStatus'), "icon" => "pe-7s-config", "item" => "教室狀態"]
                         ];
                     else:
