@@ -1,5 +1,5 @@
 <?php
-Class classroom extends CI_Model
+Class Classroom extends CI_Model
 {
     public function __construct()
     {
