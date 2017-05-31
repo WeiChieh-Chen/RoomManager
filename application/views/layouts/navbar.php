@@ -90,8 +90,8 @@
                     list: <?php
                     if ($this->session->has_userdata('name')):
                         $items = [
-                            ["href" => "#", "icon" => "pe-7s-graph", "item" => "Dashboard"],
-                            ["href" => "#", "icon" => "pe-7s-user", "item" => "User Profile"],
+                            ["href" => base_url('Admin'), "icon" => "pe-7s-graph", "item" => "教室數據統計"],
+                            ["href" => base_url('Admin/showBlacklist'), "icon" => "pe-7s-user", "item" => "黑名單列表"],
                             ["href" => base_url('Admin/course'), "icon" => "pe-7s-note2", "item" => "匯入課表"],
                             ["href" => base_url('Admin/RoomStatus'), "icon" => "pe-7s-config", "item" => "教室狀態"]
                         ];
@@ -139,7 +139,7 @@
                                 'events': this.events, 'room_id': this.room_id,
                                 'date':this.date,'start_sec': this.start_sec, 'end_sec': this.end_sec
                             };
-                            $.post("<?=base_url("Home/apply")?>",application,function(msg){
+                            $.post("<?=base_url('Home/apply')?>",application,function(){
                                 location.reload();
                             });
                         }

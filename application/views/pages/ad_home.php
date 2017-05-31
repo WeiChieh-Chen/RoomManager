@@ -9,10 +9,11 @@
     </script>
 <?php } ?>
 <div id="page-wrapper">
+    <br>
+    <br>
     <div class="row">
-    <br>
-    <br>
-        <div class="col-lg-6">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-5">
             <div style="width:450px;height:300px;text-align:center;margin:10px">
                 <div id="flot-placeholder" style="width:100%;height:100%;"></div>
             </div>
@@ -20,7 +21,7 @@
                 <div id="flot-placeholder2" style="width:100%;height:100%;"></div>
             </div>
         </div>
-            <div class="col-lg-6">
+            <div class="col-sm-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     各教室借用次數紀錄
@@ -54,7 +55,6 @@
                             <script>
                                 borrow_count.push("<?php echo $row->borrow_count; ?>");
                                 room_id_array.push("<?php echo $row->room_id; ?>");
-                                i++;
                             </script> 
                         </tr>
                     <?php } ?>

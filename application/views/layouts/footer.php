@@ -74,11 +74,8 @@
 <script src="<?= base_url('public/components/dataTables.semanticui.min.js')?>"></script>
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 
-<script src="<?= base_url('public/js/classRoomCourse.js')?>"></script>
-<script src="<?= base_url('public/js/moment.min.js')?>"></script>
-<script src="<?= base_url('public/js/fullcalendar.min.js')?>"></script>
-
 <script type="text/javascript">
+
     $(document).ready(function () {
         // Very very important, it could resolve conflict of modal of bootstrap and semantic.
         $.fn.bsModal = $.fn.modal.noConflict();
@@ -86,27 +83,19 @@
             show: false,
             backdrop: false
         });
-    $(document).ready(function () {
+
         $('#blacklistModal').modal({
             show: false,
             backdrop: false
         });
-        $('#classroomTables').DataTable();
 
-//        $.notify({
-//            icon: 'pe-7s-gift',
-//            message: "Welcome to <b>Light Bootstrap Dashboard</b> - a beautiful freebie for every web developer."
-//
-//        }, {
-//            type: 'info',
-//            timer: 4000
-//        });
+        $('#classroomTables').DataTable();
     });
 
     // Login Response
     var login_state = "<?= $this->session->flashdata("LoginState")?>";
 
-    if(login_state === "SUCCESS"){
+    if (login_state === "SUCCESS") {
         $.notify({
             icon: 'pe-7s-user',
             message: "歡迎 <b><?=$this->session->name?></b> 登入教室租借系統！"
@@ -114,7 +103,7 @@
             type: 'success',
             timer: 1000
         });
-    }else if(login_state === "NOPE"){
+    } else if (login_state === "NOPE") {
         $.notify({
             icon: 'pe-7s-shield',
             message: "登入失敗：帳密錯誤！"
@@ -126,16 +115,16 @@
 
     // Login
     new Vue({
-        el : "#loginModal",
-        data : {pwd : '',repwd : '',text : '登入'},
+        el: "#loginModal",
+        data: {pwd: '', repwd: '', text: '登入'},
         computed: {
-            isEqual : function(){
+            isEqual: function () {
                 return this.pwd === this.repwd;
             }
         },
-        watch : {
-            isEqual : function() {
-                this.text = this.isEqual ?'登入':'密碼不相符';
+        watch: {
+            isEqual: function () {
+                this.text = this.isEqual ? '登入' : '密碼不相符';
             }
         }
     });
