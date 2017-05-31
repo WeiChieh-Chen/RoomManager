@@ -11,8 +11,14 @@ Class Section extends CI_Model
         $query = $this->db->get("section");
         return $query->result();
     }
-
-    public function insert_xml($data){
+    
+    public function search_class($start,$end,$room_id)
+    {
+	   $query = $this->db->where('room_id',$room_id)->where("date between '$start' AND '$end'")->get("section");
+	   return $query->result();
+    }
+	
+	public function insert_xml($data){
         $this->db->insert_batch("section",$data);
     }
 }

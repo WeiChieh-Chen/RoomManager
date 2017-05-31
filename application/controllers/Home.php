@@ -73,5 +73,17 @@ class Home extends CI_Controller {
         $this->application->create($data);
 
     }
+    
+    public function search() {
+	    $post = $this->input->post();
+	    $this->load->model(["section",'application','time_period']);
+	    $data = [
+	        "apply_data"    =>	$this->application->search_app($post['start'],$post['end'],$post['room_id']),
+		    "class_data"    =>  $this->section->search_class($post['start'],$post['end'],$post['room_id']),
+		    "period"        =>  $this->time_period->getTime()
+	    ];
 
+	    echo json_encode($data);
+    }
+	
 }

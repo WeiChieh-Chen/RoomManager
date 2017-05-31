@@ -26,21 +26,18 @@
 <!--            </div>-->
 <!---->
 
-
-	        <div class="col-md-3">
-		        <div class="form-group">
-			        <!--<label >選擇教室</label>-->
-			        
-					<form action="<?=base_url('Admin/uploadClass');?>" method="post" accept-charset="utf-8" enctype='multipart/form-data' accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" >
+	        <div class="form-group">
+				<form action="<?=base_url('Admin/uploadClass');?>" method="post" accept-charset="utf-8" enctype='multipart/form-data' accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" >
+					<div class="col-lg-3">
 						<label>匯入課表</label>
 						<input type="file" id="upload" name="upload" >
-						<button type="submit" class="btn btn-success btn-lg" >儲存</button>
-					</form>
+					</div>
+					<div class="col-lg-4">
+						<button type="submit" class="btn btn-success btn-lg">儲存</button>
+					</div>
+				</form>
 
-		        </div>
 	        </div>
-	        
-        </div>
 	    <div class="row">
 		    <div id="calendar" class="container　col-md-5">
 			    <div class="component">

@@ -74,7 +74,6 @@
 <script src="<?= base_url('public/components/dataTables.semanticui.min.js')?>"></script>
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 
-<script src="<?= base_url('public/js/classRoomCourse.js')?>"></script>
 <script src="<?= base_url('public/js/moment.min.js')?>"></script>
 <script src="<?= base_url('public/js/fullcalendar.min.js')?>"></script>
 
