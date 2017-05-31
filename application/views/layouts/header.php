@@ -24,6 +24,9 @@
 
 	
     <link href="<?= base_url('public/css/pe-icon-7-stroke.css')?>" rel="stylesheet"/>
+    <script src="<?= base_url('public/js/jquery.flot.axislabels.js')?>" type="text/javascript"></script>
+    <script src="<?= base_url('public/js/jquery.flot.symbol.js')?>" type="text/javascript"></script>
+    <script src="<?= base_url('public/js/jquery.flot.js')?>" type="text/javascript"></script>
 
     <!-- Other CSS -->
     <link href="<?= base_url('public/css/semantic.min.css')?>" rel="stylesheet"/>

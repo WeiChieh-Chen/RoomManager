@@ -15,12 +15,19 @@ class Admin extends CI_Controller {
     }
 
     public function index() {
-        $this->load->view('layouts/header',$this->data);
-        $this->load->view('layouts/navbar');
-        $this->load->view('pages/home');
-        $this->load->view('layouts/footer');
-    }
-
+        $reasoncount = array(0,0,0,0,0,0,0);
+        $this->load->model("classroom");
+        $this->load->model("blacklist");
+        $class = $this->db->get("classroom");
+        $calssroom = $class->result();
+        $reason = $this->db->get("blacklist");
+        $blacklist = $reason->result();
+        }
+            $reasoncount = $this->blacklist->reasoncount($value->reason,$reasoncount);    
+        foreach ($blacklist as $key => $value) {
+        $data= [
+            'calssroom' => $calssroom,
+            'reasoncount' => $reasoncount
     public function RoomStatus(){
         $this->load->model('classroom');
         $rooms = [];
@@ -54,6 +61,15 @@ class Admin extends CI_Controller {
 		$this->load->view('pages/course');
 		$this->load->view('layouts/footer');
 	}
+    public function showBlacklist()
+    {
+        $reasonlist = array();
+        $this->load->model("blacklist");
+        $query = $this->db->get("blacklist");
+        $blacklist = $query->result();
+        foreach ($blacklist as $key => $value) {
+            $reasonlist[] = $this->blacklist->reasonString($value->reason);    
+        }
 
 
     public function uploadData(){
@@ -133,5 +149,33 @@ class Admin extends CI_Controller {
 		redirect(base_url("Admin/course"), 'replace');
 
 	}
+
+        $data= [
+            'blacklist' => $blacklist,
+            'reasonlist' => $reasonlist
+        ];
+
+        $this->load->view('layouts/header',$data);
+        $this->load->view('layouts/navbar');
+        $this->load->view('pages/blacklist');
+        $this->load->view('layouts/footer');
+    }
+    public function insertBlacklist()
+    {
+        $this->load->model("blacklist");
+        $reasonlist = "";
+        for($i=1;$i<8;$i++){
+            if($this->input->post('reason'.$i) != ''){
+                $reasonlist=$reasonlist."".$this->input->post('reason'.$i).",";
+            }
+        }
+        $reasonlist=substr($reasonlist,0,strlen($reasonlist)-1);
+        
+        $this->db->set(['student_id'=>$this->input->post('stduentID'),'room_id'=>$this->input->post('roomID'),'reason'=>$reasonlist]);
+        $this->db->insert('blacklist');
+
+
+        return redirect("/Admin/showBlacklist");
+    }
 
 }

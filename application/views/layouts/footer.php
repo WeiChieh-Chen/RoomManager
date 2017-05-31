@@ -78,7 +78,6 @@
 <script src="<?= base_url('public/js/moment.min.js')?>"></script>
 <script src="<?= base_url('public/js/fullcalendar.min.js')?>"></script>
 
-
 <script type="text/javascript">
     $(document).ready(function () {
         // Very very important, it could resolve conflict of modal of bootstrap and semantic.
@@ -87,6 +86,21 @@
             show: false,
             backdrop: false
         });
+    $(document).ready(function () {
+        $('#blacklistModal').modal({
+            show: false,
+            backdrop: false
+        });
+        $('#classroomTables').DataTable();
+
+//        $.notify({
+//            icon: 'pe-7s-gift',
+//            message: "Welcome to <b>Light Bootstrap Dashboard</b> - a beautiful freebie for every web developer."
+//
+//        }, {
+//            type: 'info',
+//            timer: 4000
+//        });
     });
 
     // Login Response
