@@ -13,23 +13,23 @@
         </div>
         <div class="col-lg-2">
         </div>
-        <div class="col-lg-8">
+        <div class="col-lg-9">
             <div class="panel panel-default">
-                <table width="100%" class="table table-striped table-bordered table-hover" id="classroomTables">
+                <table width="100%" class="table table-striped table-bordered table-hover">
                     <thead>
                         <tr>
-                            <th>學號</th>
-                            <th>教室代碼</th>
-                            <th>原因</th>       
+                            <th style="font-size: 20px;">學號</th>
+                            <th style="font-size: 20px;">教室代碼</th>
+                            <th style="font-size: 20px;">原因</th>       
                         </tr>
                     </thead>
                     <tbody>
                     <?php $i=0; ?>
                     <?php foreach($blacklist as $key => $row){ ?>
-                        <tr>
-                            <td><?php echo $row->student_id; ?></td>
-                            <td><?php echo $row->room_id; ?></td>      
-                            <td><?php echo $reasonlist[$i] ?></td>
+                        <tr class="odd">
+                            <td style="font-size: 20px;"><?php echo $row->student_id; ?></td>
+                            <td style="font-size: 20px;"><?php echo $row->room_id; ?></td>      
+                            <td style="font-size: 20px;"><?php echo $reasonlist[$i] ?></td>
                             <?php $i++; ?> 
                         </tr>
                     <?php } ?>
@@ -37,7 +37,7 @@
                 </table>
             </div>
         </div>
-        <div class="col-lg-2">
+        <div class="col-lg-1">
         </div>
     </div>
 </div>
@@ -107,3 +107,4 @@
   </div>
 </div>
 
+<th  style="display: none;">移除教室</th>

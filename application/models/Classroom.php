@@ -11,5 +11,10 @@ Class Classroom extends CI_Model
 		$query =  $this->db->get("classroom");
 		return $query->result();
 	}
+    public function getRoominfo()
+    {
+        $class = $this->db->get("classroom");
+        return $class->result();
+    }
 }
 

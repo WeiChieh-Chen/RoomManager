@@ -17,15 +17,13 @@ class Admin extends CI_Controller
     {
         $reasoncount = array(0, 0, 0, 0, 0, 0, 0);
         $this->load->model(["classroom", "blacklist"]);
-        $class = $this->db->get("classroom");
-        $calssroom = $class->result();
-        $reason = $this->db->get("blacklist");
-        $blacklist = $reason->result();
+        $class = $this->classroom->getRoominfo();
+        $reason = $this->blacklist->getBlacklistinfo();
 
-        foreach ($blacklist as $key => $value) {
+        foreach ($reason as $key => $value) {
             $reasoncount = $this->blacklist->reasoncount($value->reason, $reasoncount);
         }
-        $data = ['calssroom' => $calssroom, 'reasoncount' => $reasoncount];
+        $data = ['calssroom' => $class, 'reasoncount' => $reasoncount];
 
         $this->load->view('layouts/header', $this->data);
         $this->load->view('layouts/navbar');
@@ -73,8 +71,7 @@ class Admin extends CI_Controller
     {
         $reasonlist = array();
         $this->load->model("blacklist");
-        $query = $this->db->get("blacklist");
-        $blacklist = $query->result();
+        $blacklist = $this->blacklist->getBlacklistinfo();
         foreach ($blacklist as $key => $value) {
             $reasonlist[] = $this->blacklist->reasonString($value->reason);
         }
