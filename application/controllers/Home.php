@@ -23,21 +23,24 @@ class Home extends CI_Controller {
                 'value' => $room->room_id
             ];
         }
-
-        foreach ($this->timeperiod->getPeriod() as $unit){
-            if($unit->start === "12:00") {
-                $dropdown['periods'][] = [
-                    'name' => "中午休息時間",
-                    'value' => $unit->period_id
-                ];
-            }
-            else {
-                $dropdown['periods'][] = [
-                    'name' => "第{$unit->period_id}節",
-                    'value' => $unit->period_id
-                ];
-            }
-        }
+	
+	    foreach ($this->timeperiod->getPeriod() as $unit) {
+		    if ($unit -> start === "12:00") {
+			    $dropdown['periods'][] = [
+				    'name' => "中午休息時間",
+				    'value' => $unit -> period_id
+			    ];
+		    } else {
+			    $tmp = $unit -> period_id;
+			    if ($unit -> start >= "12:00") {
+				    $tmp--;
+			    }
+			    $dropdown['periods'][] = [
+				    'name' => "第{$tmp}節",
+				    'value' => $unit -> period_id
+			    ];
+		    }
+	    }
 
         $this->load->view('layouts/header',$data);
         $this->load->view('layouts/navbar',$dropdown);

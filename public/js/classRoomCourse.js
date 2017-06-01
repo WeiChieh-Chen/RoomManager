@@ -68,66 +68,45 @@
 // 	table.innerHTML = list;
 // }
 
-// function changeColor(obj) {
-// 	edited = 1;
-// 	if(obj.bgColor === "orange"){
-// 		obj.bgColor = "";
-// 		obj.innerText = "0";
-// 	}else{
-// 		obj.bgColor = "orange";
-// 		obj.innerText = "1";
-// 	}
-// 	// obj.bgColor= obj.bgColor === "orange"?"":"orange";
-// }
+function checkColor(obj) {
+	alertify.defaults.glossary.title = "租借申請時段";
+	alertify.defaults.glossary.ok = "確定";
+	alertify.defaults.glossary.cancel = "取消";
+	edited = 1;
+	if(obj.bgColor === "orange"){
+		$.notify({
+			icon: 'pe-7s-shield',
+			message: "該時段已被使用!"
+		}, {
+			type: 'warning',
+			timer: 100
+		});
+	}
+	// else if(obj.style.color === "red"){
+	// 	alertify.confirm("<span style='font-size: 2em'>是否取消開始的時段</span>", function () {
+	// 		// obj.bgColor = "#00FFF2";
+	// 		obj.innerHTML = "";
+	// 		obj.style.fontSize = "2.5em";
+	// 		obj.style.color = 'white';
+	//
+	// 	},function () { });
+	// }
+	else{
+		alertify.confirm("<span style='font-size: 2em'>確定要從這時段<span style='color: red'>開始</span>租借?</span>", function () {
+			obj.bgColor = "#00FFF2";
+			obj.innerHTML = "<span class='glyphicon glyphicon-arrow-down''></span>";
+			obj.style.fontSize = "2.5em";
+			obj.style.color = 'red';
+			// $("#shortApp").modal("show");
+		},function () { });
+
+	}
+}
 
 function sectionControl(number,start,end) {
-	switch (number){
-		case 0:
-			return "第一節<br>"+start+"~"+end;
-			break;
-		case 1:
-			return "第二節<br>"+start+"~"+end;
-			break;
-		case 2:
-			return "第三節<br>"+start+"~"+end;
-			break;
-		case 3:
-			return "第四節<br>"+start+"~"+end;
-			break;
-		case 15:
-			return "中午午休<br>"+start+"~"+end;
-			break;
-		case 5:
-			return "第五節<br>"+start+"~"+end;
-			break;
-		case 6:
-			return "第六節<br>"+start+"~"+end;
-			break;
-		case 7:
-			return "第七節<br>"+start+"~"+end;
-			break;
-		case 8:
-			return "第八節<br>"+start+"~"+end;
-			break;
-		case 9:
-			return "第九節<br>"+start+"~"+end;
-			break;
-		case 10:
-			return "第十節<br>"+start+"~"+end;
-			break;
-		case 11:
-			return "第十一節<br>"+start+"~"+end;
-			break;
-		case 12:
-			return "第十二節<br>"+start+"~"+end;
-			break;
-		case 13:
-			return "第十三節<br>"+start+"~"+end;
-			break;
-		case 14:
-			return "第十四節<br>"+start+"~"+end;
-			break;
-	}
+	let str = ["","第一節","第二節","第三節","第四節","中午午休","第五節","第六節","第七節","第八節","第九節"
+		,"第十節","第十一節","第十二節","第十三節","第十四節"];
+	return str[number]+"<br>"+start+"~"+end;
 }
 
 function init(at,i,j) {
@@ -136,36 +115,36 @@ function init(at,i,j) {
 		"<td id='"+i+"_"+j+"' style='color: orange;font-size: 0' bgcolor='orange' >1</td>";
 }
 
-function save() {
-	let postdata = {
-		"data" :{
-			1:"",
-			2:"",
-			3:"",
-			4:"",
-			5:"",
-			6:"",
-			7:""
-		}
-	};
-
-	if(confirm("確定要儲存資料?")){
-		// alert(document.getElementById("roomTable").rows[2].cells.namedItem("0_1").innerHTML);
-		for(let i = 0;i < 15 ; i++)
-		{
-			for(let j = 1 ; j < 8 ; j++){
-				postdata["data"][j] += document.getElementById("roomTable").rows[2+i].cells.namedItem(i+"_"+j).innerHTML;
-			}
-		}
-	}
-	console.log(postdata["data"]);
-	$.post("/Auth/saveClassRoom",postdata);
-
-}
-
-function reset() {
-	if(confirm("確定要重置這間教室資料嗎?")){
-		edited = 0;
-		show();
-	}
-}
+// function save() {
+// 	let postdata = {
+// 		"data" :{
+// 			1:"",
+// 			2:"",
+// 			3:"",
+// 			4:"",
+// 			5:"",
+// 			6:"",
+// 			7:""
+// 		}
+// 	};
+//
+// 	if(confirm("確定要儲存資料?")){
+// 		// alert(document.getElementById("roomTable").rows[2].cells.namedItem("0_1").innerHTML);
+// 		for(let i = 0;i < 15 ; i++)
+// 		{
+// 			for(let j = 1 ; j < 8 ; j++){
+// 				postdata["data"][j] += document.getElementById("roomTable").rows[2+i].cells.namedItem(i+"_"+j).innerHTML;
+// 			}
+// 		}
+// 	}
+// 	console.log(postdata["data"]);
+// 	$.post("/Auth/saveClassRoom",postdata);
+//
+// }
+//
+// function reset() {
+// 	if(confirm("確定要重置這間教室資料嗎?")){
+// 		edited = 0;
+// 		show();
+// 	}
+// }

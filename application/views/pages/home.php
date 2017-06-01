@@ -1,4 +1,5 @@
 <link href="<?= base_url('public/css/component.css')?>" rel="stylesheet"/>
+<link href="<?= base_url('public/css/alertify.min.css')?>" rel="stylesheet"/>
 <div class="content">
 	<div class="container-fluid">
 		<div class='row' id="table">
@@ -15,7 +16,7 @@
 			"<button type='button' class='btn' :class=[check?'btn-primary':'btn-default'] :disabled=!check @click='search(0)'>查詢</button>".
 			"</div>"
 			?>
-			<div class="col-xs-3 col-xs-push-6">
+			<div class="col-xs-3 col-xs-push-2" hidden id="button_list">
 				<button type="button" class="btn btn-fill" @click = "search(-7)">
 					<i class="long arrow left icon"></i>
 				</button>
@@ -26,26 +27,30 @@
 					<i class="long arrow right icon"></i>
 				</button>
 			</div>
-			<div class="col-xs-3">
-
-			</div>
 		</div>
 		
 		<div class="row">
-			<div id="calendar" class="container　col-md-5 col-md-push-3">
-				<div class="component">
-					<table id="roomTable" border="1" >
-					</table>
+			<div class="col-xs-4 ">
+				<div id="calendar" class="container">
+					<div class="component">
+						<table id="roomTable" border="1">
+						</table>
+					</div>
 				</div>
 			</div>
+			
 		</div>
 	</div>
 	
 	<script>
+		String.prototype.replaceAt = function (index, chr) {
+			if (index > this.length - 1) return this;
+			return this.substr(0, index) + chr + this.substr(index + 1);
+		};
 		let room_id = "";
 		let today;
 		let period ={};
-		new Vue({
+		let g = new Vue({
 			el:"#table",
 			data: { room_id: "",total:0},
 			computed:{
@@ -58,6 +63,7 @@
 			},
 			methods: {
 				search(diff){
+					$("#button_list").attr("hidden",false);
 					if(diff === 0) this.total = 0;
 					else this.total += diff;
 					room_id = this.room_id;
@@ -83,33 +89,81 @@
 				}
 			}
 		});
+		
 		let table = document.getElementById("roomTable");
-		function show(data,st,end) {console.log(data);
+		function show(data,st,ed) {console.log(data);
+			start = new Date(st);
+			end = new Date(ed);
+			
+			let week = {
+				1:"000000000000000",
+				2:"000000000000000",
+				3:"000000000000000",
+				4:"000000000000000",
+				5:"000000000000000",
+				6:"000000000000000",
+				7:"000000000000000"
+			};
+			Object.values(data['class_data']).map(function (obj) {
+				now = new Date(obj.date);
+				day = now.getDay();
+				if(day !== 0){
+					for(let i = parseInt(obj.start); i <= parseInt(obj.end) ; i++){
+						week[day] = week[day].replaceAt(i,"1");
+					}
+				}else{
+					for(let i = parseInt(obj.start); i <= parseInt(obj.end) ; i++){
+						week[day] = week[7].replaceAt(i,"1");
+					}
+				}
+			});
+			Object.values(data['apply_data']).map(function (obj) {
+				now = new Date(obj.borrow_date);
+				day = now.getDay();
+				if(day !== 0){
+					for(let i = parseInt(obj.borrow_start); i <= parseInt(obj.borrow_end) ; i++){
+						week[day] = week[day].replaceAt(i,"1");
+					}
+				}else{
+					for(let i = parseInt(obj.borrow_start); i <= parseInt(obj.borrow_end) ; i++){
+						week[day] = week[7].replaceAt(i,"1");
+					}
+				}
+			});
 			period = data["period"];
-			let list =  "<tr><td colspan='8' style='text-align: center;font-size: 16px'>"+
+			let list =  "<tr><th colspan='8' style='text-align: center;font-size: 16px;color: black'>"+
 				room_id+
-				"(橘色代表已借出)<br>"+st+" ~ "+end+"</td></tr>" +
+				"(橘色代表已借出)<br>"+st+" ~ "+ed+"</th></tr>" +
 				"<tr>"+
 				"<th bgcolor='#666'>節  \\  星期</th>"+
-				"<th bgcolor='#2ea879'>星期一</th>"+
-				"<th bgcolor='#2ea879'>星期二</th>"+
-				"<th bgcolor='#2ea879'>星期三</th>"+
-				"<th bgcolor='#2ea879'>星期四</th>"+
-				"<th bgcolor='#2ea879'>星期五</th>"+
-				"<th bgcolor='#2ea879'>星期六</th>"+
-				"<th bgcolor='#2ea879'>星期日</th>"+
+				set_week(st);
 				"</tr>";
 
 			Object.values(period).map(function (times,i) {
 		        list += "<tr>" +
-		            "<th bgcolor='#2ea879'>"+
-		            sectionControl(i,times['start'],times['end'])+
+		            "<th bgcolor='#2ea879' >"+
+		            sectionControl(parseInt(times['period_id']),times['start'],times['end'])+
 		            "</th>";
-//		        for(let j = 1 ; j < 8 ; j++){
-//		            list += init(week[j].charAt(i),i,j);
-//		        }
+		        for(let j = 1 ; j < 8 ; j++){
+		            list += init(week[j].charAt(i),i,j);
+		        }
 		    });
+		    $("#roomTable").delegate("td", "click", function () {
+		 		checkColor(this);
+		 	});
 			table.innerHTML = list;
+		}
+		
+		function set_week(start) {
+			let str = "";
+			let weekArr =["星期一","星期二","星期三","星期四","星期五","星期六","星期日"];
+			day = new Date(start);
+			for(let i = 0 ; i < 7 ; i++){
+				str += "<th bgcolor='#2ea879'>"+weekArr[i]+"<br>("+day.getUTCFullYear() + "/" + (day.getMonth()+1) + "/" + day.getDate()+")</th>";
+				day.setDate((day.getDate() + 1));
+			}
+			return str;
 		}
 	</script>
 	<script src="<?= base_url('public/js/classRoomCourse.js')?>"></script>
+	<script src="<?= base_url('public/js/alertify.min.js')?>"></script>
