@@ -72,6 +72,7 @@
 <script src="<?= base_url('public/js/semantic.min.js')?>"></script>
 <script src="<?= base_url('public/components/dataTables.min.js')?>"></script>
 <script src="<?= base_url('public/components/dataTables.semanticui.min.js')?>"></script>
+<script src="<?= base_url('public/js/statistic-chart.js')?>"></script>
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 
 <script type="text/javascript">
@@ -128,5 +129,21 @@
             }
         }
     });
+
+    // // blacklistsubmit
+    // new Vue({
+    //     el: "#blacklistModal",
+    //     data: {stduentID: 'BGC0305',roomID: 'BGC0305', text: '送出'},
+    //     computed: {
+    //         isEqual: function () {
+    //             return this.stduentID === this.roomID;
+    //         }
+    //     },
+    //     watch: {
+    //         isEqual: function () {
+    //             this.text = this.isEqual ? '送出' : '尚未填寫完畢';
+    //         }
+    //     }
+    // });
 </script>
 </html>

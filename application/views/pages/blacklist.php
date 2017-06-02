@@ -1,8 +1,7 @@
 <div id="page-wrapper">
     <div class="row">
-        <div class="col-lg-12">
-            <h1 class="page-header">&nbsp;&nbsp;黑名單</h1>
-        </div>
+        <br>
+        <br>
         <div class="col-lg-2">
         </div>
         <div class="col-lg-10">
@@ -57,7 +56,7 @@
   <div class="modal-dialog">
     <!-- Modal content-->
     <div class="modal-content">
-    <form action="http://localhost:8000/Admin/insertBlacklist" method="post" accept-charset="utf-8">
+    <form action="http://localhost:8000/Admin/insertBlacklist" method="post" onsubmit="return chkData()" accept-charset="utf-8">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title">新增黑名單</h4>
@@ -69,7 +68,7 @@
             </div>
             <div class="form-group">
                 <?= form_label("教室代碼","roomID",['class' => 'control-label'])?>
-                <?= form_dropdown('roomID', $options, 'BGC0301')?>
+                <?= form_dropdown('roomID', $options, 'BGC0305',['class' => "form-control"])?>
             </div>
             <div class="form-group">
                 <?= form_label("原因","reason",['class' => 'control-label'])?>
@@ -100,11 +99,37 @@
       </div>
       <div class="modal-footer">
         <?= form_button(null,'關閉',['class' => 'btn btn-default','data-dismiss'=>'modal'])?>
-                <button type="submit" class="btn btn-primary">送出</button>
+        <button type="submit" class="btn btn-primary">送出</button>
       </div>
     </div>
 
   </div>
 </div>
 
-<th  style="display: none;">移除教室</th>
+<script language=javascript>
+
+function chkData()
+{ 
+    var choose = true;
+    for(var i=1;i<8;i++){
+        if(document.getElementsByName("reason"+i)[0].checked){
+            choose = false;
+            break;
+        }
+    }
+    if (document.getElementsByName("stduentID")[0].value == "" && choose){
+        alert("尚未輸入資料");
+        return false;    //return false;程式就不會往下執行，防呆用
+    }else if(isNaN(document.getElementsByName("stduentID")[0].value)){
+        alert("學號格式錯誤");
+        return false;    //return false;程式就不會往下執行，防呆用
+    }else if(document.getElementsByName("stduentID")[0].value == ""){
+        alert("學號尚未填入");
+        return false;    //return false;程式就不會往下執行，防呆用
+    }else if(choose){
+        alert("尚未選擇理由");
+        return false;    //return false;程式就不會往下執行，防呆用
+    }
+} 
+
+</script>
