@@ -35,9 +35,9 @@
     <script src="<?= base_url('public/js/jquery-3.1.1.min.js')?>" type="text/javascript"></script>
     <script src="<?= base_url('public/js/vue.js')?>"></script>
     <script src="<?= base_url('public/js/components.js')?>"></script>
-    <script src="<?= base_url('public/js/jquery.flot.axislabels.js')?>" type="text/javascript"></script>
-    <script src="<?= base_url('public/js/jquery.flot.symbol.js')?>" type="text/javascript"></script>
-    <script src="<?= base_url('public/js/jquery.flot.js')?>" type="text/javascript"></script>
+    <script src="<?= base_url('public/components/jquery.flot.axislabels.js')?>" type="text/javascript"></script>
+    <script src="<?= base_url('public/components/jquery.flot.symbol.js')?>" type="text/javascript"></script>
+    <script src="<?= base_url('public/components/jquery.flot.js')?>" type="text/javascript"></script>
 </head>
 <body>
 <div class="wrapper">
