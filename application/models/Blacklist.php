@@ -8,7 +8,18 @@ Class Blacklist extends CI_Model
     }
 
     public function getBlacklistinfo()
-    {
+    {   
+        date_default_timezone_set("Asia/Taipei");
+        $myDate = explode("-", date("Y-m-d",strtotime("now")));
+        $date=$myDate[0]."-9-01";
+        $date2=$myDate[0]."-3-01";
+        if((strtotime("now")-strtotime($date))/60/60/24 < 30 && (strtotime("now")-strtotime($date))/60/60/24 >= 0){ 
+            $this->db->empty_table('blacklist');
+
+        }
+        else if((strtotime("now")-strtotime($date2))/60/60/24 < 30 && (strtotime("now")-strtotime($date2))/60/60/24 >= 0){
+            $this->db->empty_table('blacklist');
+        } 
         $query = $this->db->get("blacklist");
         return $query->result();
     }
