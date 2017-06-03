@@ -60,10 +60,13 @@
 <script src="<?= base_url('public/js/bootstrap.min.js')?>" type="text/javascript"></script>
 
 <!--  Checkbox, Radio & Switch Plugins -->
-<script src="<?= base_url('public/js/bootstrap-checkbox-radio-switch.js')?>" type="text/javascript"></script>
+<script src="<?= base_url('public/components/bootstrap-checkbox-radio-switch.js')?>" type="text/javascript"></script>
 
 <!--  Notifications Plugin    -->
-<script src="<?= base_url('public/js/bootstrap-notify.js')?>"></script>
+<script src="<?= base_url('public/components/bootstrap-notify.js')?>"></script>
+
+<!--  Notifications Plugin    -->
+<script src="<?= base_url('public/components/bootstrap-select.js')?>"></script>
 
 <!-- Light Bootstrap Table Core javascript and methods for Demo purpose -->
 <script src="<?= base_url('public/js/light-bootstrap-dashboard.js')?>"></script>

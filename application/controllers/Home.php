@@ -20,24 +20,30 @@ class Home extends CI_Controller {
         foreach ($this->classroom->getRoom() as $room){
             $dropdown['rooms'][] = [
                 'name' => $room->room_id,
+	            'id'   => $room->room_id,
                 'value' => $room->room_id
             ];
         }
-
-        foreach ($this->timeperiod->getPeriod() as $unit){
-            if($unit->start === "12:00") {
-                $dropdown['periods'][] = [
-                    'name' => "中午休息時間",
-                    'value' => $unit->period_id
-                ];
-            }
-            else {
-                $dropdown['periods'][] = [
-                    'name' => "第{$unit->period_id}節",
-                    'value' => $unit->period_id
-                ];
-            }
-        }
+	
+	    foreach ($this->timeperiod->getPeriod() as $unit) {
+		    if ($unit -> start === "12:00") {
+			    $dropdown['periods'][] = [
+				    'name' => "中午休息時間",
+				    'id' => $unit -> period_id."_period",
+				    'value' => $unit -> period_id
+			    ];
+		    } else {
+			    $tmp = $unit -> period_id;
+			    if ($unit -> start >= "12:00") {
+				    $tmp--;
+			    }
+			    $dropdown['periods'][] = [
+				    'name' => "第{$tmp}節",
+				    'id'   => $unit -> period_id."_period",
+				    'value' => $unit -> period_id
+			    ];
+		    }
+	    }
 
         $this->load->view('layouts/header',$data);
         $this->load->view('layouts/navbar',$dropdown);
@@ -73,5 +79,17 @@ class Home extends CI_Controller {
         $this->application->create($data);
 
     }
+    
+    public function search() {
+	    $post = $this->input->post();
+	    $this->load->model(["section",'application','time_period']);
+	    $data = [
+	        "apply_data"    =>	$this->application->search_app($post['start'],$post['end'],$post['room_id']),
+		    "class_data"    =>  $this->section->search_class($post['start'],$post['end'],$post['room_id']),
+		    "period"        =>  $this->time_period->getTime()
+	    ];
 
+	    echo json_encode($data);
+    }
+	
 }
