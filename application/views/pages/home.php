@@ -1,5 +1,5 @@
 <link href="<?= base_url('public/css/component.css')?>" rel="stylesheet"/>
-<link href="<?= base_url('public/css/alertify.min.css')?>" rel="stylesheet"/>
+<link href="<?= base_url('public/components/alertify.min.css')?>" rel="stylesheet"/>
 <div class="content">
 	<div class="container-fluid">
 		<div class='row' id="table">
@@ -47,10 +47,12 @@
 			if (index > this.length - 1) return this;
 			return this.substr(0, index) + chr + this.substr(index + 1);
 		};
+		
 		let room_id = "";
 		let today;
 		let period ={};
-		let g = new Vue({
+		
+		new Vue({
 			el:"#table",
 			data: { room_id: "",total:0},
 			computed:{
@@ -91,7 +93,7 @@
 		});
 		
 		let table = document.getElementById("roomTable");
-		function show(data,st,ed) {console.log(data);
+		function show(data,st,ed) {
 			start = new Date(st);
 			end = new Date(ed);
 			
@@ -104,6 +106,7 @@
 				6:"000000000000000",
 				7:"000000000000000"
 			};
+			
 			Object.values(data['class_data']).map(function (obj) {
 				now = new Date(obj.date);
 				day = now.getDay();
@@ -117,6 +120,7 @@
 					}
 				}
 			});
+			
 			Object.values(data['apply_data']).map(function (obj) {
 				now = new Date(obj.borrow_date);
 				day = now.getDay();
@@ -130,6 +134,7 @@
 					}
 				}
 			});
+			
 			period = data["period"];
 			let list =  "<tr><th colspan='8' style='text-align: center;font-size: 16px;color: black'>"+
 				room_id+
@@ -148,8 +153,9 @@
 		            list += init(week[j].charAt(i),i,j);
 		        }
 		    });
+			
 		    $("#roomTable").delegate("td", "click", function () {
-		 		checkColor(this);
+		 		checkColor(this,st);
 		 	});
 			table.innerHTML = list;
 		}
@@ -166,4 +172,4 @@
 		}
 	</script>
 	<script src="<?= base_url('public/js/classRoomCourse.js')?>"></script>
-	<script src="<?= base_url('public/js/alertify.min.js')?>"></script>
+	<script src="<?= base_url('public/components/alertify.min.js')?>"></script>

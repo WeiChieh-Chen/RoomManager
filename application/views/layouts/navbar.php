@@ -21,7 +21,7 @@
             </li>
             <?php
             if (!$this->session->has_userdata('name')):
-                echo "<li><a href='#shortApp' data-toggle='modal'><i class='pe-7s-note'></i><p>短期申請</p></a></li>";
+                echo "<li><a id='shortBtn' data-target='#shortApp' data-toggle='modal'><i class='pe-7s-note'></i><p>短期申請</p></a></li>";
             endif;
             ?>
         </ul>
@@ -81,7 +81,11 @@
             </div>
         </div>
     </nav>
-    <script>
+    <script type="text/javascript">
+	    let formData = { sName: "", sNumber: "", email: "", cellphone: "", department:"",teacher: "", events: "", room_id: "",date:"",start_sec: "", end_sec: ""};
+	    let sec = ["","第一節","第二節","第三節","第四節","中午午休","第五節","第六節","第七節","第八節","第九節"
+		    ,"第十節","第十一節","第十二節","第十三節","第十四節"];
+        let form;
         $(document).ready(function () {
             new Vue({
                 el: "#navbar",
@@ -107,11 +111,11 @@
                     }
                 }
             });
-
+            
             if(document.getElementById("shortApp")){
-                new Vue({
+                form = new Vue({
                     el: "#shortApp",
-                    data: { sName: "", sNumber: "", email: "", cellphone: "", department:"",teacher: "", events: "", room_id: "",date:"",start_sec: "", end_sec: ""},
+                    data: formData,
                     computed: {
                         right: function () {
                             if (this.start_sec !== "" && this.end_sec !== "" && this.start_sec > this.end_sec) {
@@ -145,6 +149,7 @@
                         }
                     }
                 });
+                
             }
         });
     </script>
@@ -161,19 +166,22 @@
                     "<div class='row'>".
                         "<div class='col-xs-12'>".
                             "<div class='form-group'>".
-                                "<input v-model='date'  type='date' class='form-control' />".
+                                "<input v-model='date' id='form_date'  type='date' class='form-control' />".
                             "</div>".
                         "</div>".
                     "</div>".
-                    "<div class='row'>".
+                    "<div class='row' id='dropList'>".
                         "<div class='col-xs-3'>".
-                            "<bs-drop title='教室代號' bs-class='bs-default' model='room_id' :opt-arr=".json_encode($rooms)."></bs-drop>".
+	                        "<label class='control-label'>教室代號</label>".
+                            "<bs-drop title='選擇教室' bs-class='bs-default' model='room_id' :opt-arr=".json_encode($rooms)."></bs-drop>".
                         "</div>".
                         "<div class='col-xs-3'>".
-                            "<bs-drop title='開始節次' bs-class='bs-default' model='start_sec' :opt-arr=".json_encode($periods)."></bs-drop>".
+	                        "<label class='control-label'>開始節次</label>".
+                            "<bs-drop title='選擇開始節次' bs-class='bs-default' model='start_sec' :opt-arr=".json_encode($periods)."></bs-drop>".
                         "</div>".
                         "<div class='col-xs-3'>".
-                            "<bs-drop title='結束節次' bs-class='bs-default' model='end_sec' :opt-arr=".json_encode($periods)."></bs-drop>".
+	                        "<label class='control-label'>結束節次</label>".
+                            "<bs-drop title='選擇結束節次' bs-class='bs-default' model='end_sec' :opt-arr=".json_encode($periods)."></bs-drop>".
                         "</div>".
                     "</div>".
                 "</div>".

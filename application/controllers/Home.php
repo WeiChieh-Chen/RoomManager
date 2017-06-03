@@ -20,6 +20,7 @@ class Home extends CI_Controller {
         foreach ($this->classroom->getRoom() as $room){
             $dropdown['rooms'][] = [
                 'name' => $room->room_id,
+	            'id'   => $room->room_id,
                 'value' => $room->room_id
             ];
         }
@@ -28,6 +29,7 @@ class Home extends CI_Controller {
 		    if ($unit -> start === "12:00") {
 			    $dropdown['periods'][] = [
 				    'name' => "中午休息時間",
+				    'id' => $unit -> period_id."_period",
 				    'value' => $unit -> period_id
 			    ];
 		    } else {
@@ -37,6 +39,7 @@ class Home extends CI_Controller {
 			    }
 			    $dropdown['periods'][] = [
 				    'name' => "第{$tmp}節",
+				    'id'   => $unit -> period_id."_period",
 				    'value' => $unit -> period_id
 			    ];
 		    }

@@ -80,16 +80,17 @@ Vue.component('BsDrop', {
            optText: this.title
       }
     },
-    template: "<div class='form-group'><div class='dropdown'>" +
-    "<button class='btn dropdown-toggle' :class=bsClass type='button'  data-toggle='dropdown' aria-haspopup='true' aria-expanded='true'>" +
-    "{{optText}}&emsp;<span class='caret'></span>" +
-    "</button>" +
-    "<ul class='dropdown-menu' :name=model>" +
-    "<li v-for='opt in optArr' @click=changOpt(opt) ><a href='#'>{{opt.name}}</a></li>" +
-    // "<li role='separator' class='divider'></li>" +
-    // "<li><a href='#'>Separated link</a></li>" +
-    "</ul>" +
-    "</div></div>",
+	template: "<div class='form-group'><div class='dropdown'>" +
+	"<button class='btn dropdown-toggle' :class=bsClass type='button'  data-toggle='dropdown' aria-haspopup='true' aria-expanded='true'>" +
+	"{{optText}}&emsp;<span class='caret'></span>" +
+	"</button>" +
+	"<ul class='dropdown-menu' :name=model>" +
+	"<li v-for='opt in optArr' @click=changOpt(opt)><a v-if='model === \"start_sec\" ' :id=\"'start_'+opt.value\">{{opt.name}}</a>" +
+    "<a v-else :id=opt.value>{{opt.name}}</a></li>"+
+	// "<li role='separator' class='divider'></li>" +
+	// "<li><a href='#'>Separated link</a></li>" +
+	"</ul>" +
+	"</div></div>",
     methods:{
         changOpt(opt){
             this.optText =  opt.name;

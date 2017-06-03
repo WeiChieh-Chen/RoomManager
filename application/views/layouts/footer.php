@@ -60,10 +60,13 @@
 <script src="<?= base_url('public/js/bootstrap.min.js')?>" type="text/javascript"></script>
 
 <!--  Checkbox, Radio & Switch Plugins -->
-<script src="<?= base_url('public/js/bootstrap-checkbox-radio-switch.js')?>" type="text/javascript"></script>
+<script src="<?= base_url('public/components/bootstrap-checkbox-radio-switch.js')?>" type="text/javascript"></script>
 
 <!--  Notifications Plugin    -->
-<script src="<?= base_url('public/js/bootstrap-notify.js')?>"></script>
+<script src="<?= base_url('public/components/bootstrap-notify.js')?>"></script>
+
+<!--  Notifications Plugin    -->
+<script src="<?= base_url('public/components/bootstrap-select.js')?>"></script>
 
 <!-- Light Bootstrap Table Core javascript and methods for Demo purpose -->
 <script src="<?= base_url('public/js/light-bootstrap-dashboard.js')?>"></script>
@@ -73,10 +76,6 @@
 <script src="<?= base_url('public/components/dataTables.min.js')?>"></script>
 <script src="<?= base_url('public/components/dataTables.semanticui.min.js')?>"></script>
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-
-<script src="<?= base_url('public/js/moment.min.js')?>"></script>
-<script src="<?= base_url('public/js/fullcalendar.min.js')?>"></script>
-
 
 <script type="text/javascript">
     $(document).ready(function () {
