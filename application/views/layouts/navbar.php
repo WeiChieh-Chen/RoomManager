@@ -39,7 +39,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">教室租用系統</a>
+                <a class="navbar-brand" href="#"><?= $title ?></a>
             </div>
             <div class="collapse navbar-collapse">
                 <?php
@@ -71,7 +71,7 @@
                     <li>
                         <?php
                         if ($this->session->has_userdata('name')):
-                            echo "<li class='dropdown'>" . "<a href='#' class='dropdown-toggle' data-toggle='dropdown'>{$this->session->name}<b class='caret'></b></a>" . "<ul class='dropdown-menu'>" . "<li>" . anchor('Auth/logout', '登出') . "</li>" . "</ul>" . "</li>";
+                            echo "<li class='dropdown'>" . "<a href='#' class='dropdown-toggle' data-toggle='dropdown'>{$this->session->name}<b class='caret'></b></a>" . "<ul class='dropdown-menu'>" . "<li>" . anchor('Auth/logout', '登出',['onclick'=>"localStorage.setItem('nav_active',0)"]) . "</li>" . "</ul>" . "</li>";
                         else:
                             echo "<li>" . anchor("#", "登入", ['data-toggle' => 'modal', 'data-target' => '#loginModal']) . "</li>";
                         endif;
@@ -153,6 +153,27 @@
                 
             }
         });
+
+
+        // 讓它在第一次初始時，設為1
+        runOnce(function(){
+            localStorage.setItem('nav_active',0);
+        });
+
+        // 控制只讓函式執行一次
+        function runOnce(fn, context) {
+            return function () {
+                try {
+                    fn.apply(context || this, arguments);
+                }
+                catch (e) {
+                    //console.error(e);//一般可以注解掉這一行
+                }
+                finally {
+                    fn = null;
+                }
+            }
+        }
     </script>
 
     <!-- For application of shortcut -->
