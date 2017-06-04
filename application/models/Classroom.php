@@ -16,5 +16,30 @@ Class Classroom extends CI_Model
         $class = $this->db->get("classroom");
         return $class->result();
     }
+
+    public function create($id,$info){
+        $data = [
+            "borrow_count" => 0,
+            "active" => $info['active'],
+            "room_id" => $id,
+            "room_name" => $info['room_name']
+        ];
+
+        $this->db->insert("classroom",$data);
+
+    }
+
+    public function update($id,$info){
+        $data = [
+            "active" => $info['active'],
+            "room_name" => $info['room_name']
+        ];
+        $this->db->update("classroom",$data,['room_id' => $id]);
+    }
+
+    public function delete($id){
+        $table = ['classroom','section'];
+        $this->db->delete($table,['room_id' => $id]);
+    }
 }
 
