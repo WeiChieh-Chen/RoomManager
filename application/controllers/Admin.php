@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Admin extends CI_Controller
 {
-    protected $data = ['title' => "教室租用系統", 'color' => "blue"];
+    protected $data = ['title' => "教室借用系統", 'color' => "blue"];
 
     public function __construct()
     {
@@ -24,6 +24,7 @@ class Admin extends CI_Controller
             $reasoncount = $this->blacklist->reasoncount($value->reason, $reasoncount);
         }
         $data = ['calssroom' => $class, 'reasoncount' => $reasoncount];
+        $this->data['title'] = "教室數據統計";
 
         $this->load->view('layouts/header', $this->data);
         $this->load->view('layouts/navbar');
@@ -46,7 +47,7 @@ class Admin extends CI_Controller
             ];
         }
         $data = ["classroom" => $rooms];
-
+        $this->data['title'] = "教室狀態";
         $this->load->view('layouts/header', $this->data);
         $this->load->view('layouts/navbar');
         $this->load->view('pages/room_status', $data);
@@ -60,6 +61,7 @@ class Admin extends CI_Controller
         $this->load->model("Section");
         $this->session->set_flashdata("uploadState", "");
 
+        $this->data['title'] = "匯入課表";
         $this->load->view('layouts/header', $this->data);
         $this->load->view('layouts/navbar');
         $this->load->view('pages/course');
@@ -77,6 +79,7 @@ class Admin extends CI_Controller
         }
         $data = ['blacklist' => $blacklist, 'reasonlist' => $reasonlist];
 
+        $this->data['title'] = "黑名單列表";
         $this->load->view('layouts/header', $this->data);
         $this->load->view('layouts/navbar');
         $this->load->view('pages/blacklist', $data);
@@ -190,6 +193,7 @@ class Admin extends CI_Controller
             'namelist' => $this->borrower->getNameList()
         ];
 
+        $this->data['title'] = "審核列表";
         $this->load->view('layouts/header', $this->data);
         $this->load->view('layouts/navbar');
         $this->load->view('pages/audit',$data);
