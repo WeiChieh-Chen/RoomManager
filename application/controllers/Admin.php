@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Admin extends CI_Controller
 {
-    protected $data = ['title' => "教室借用系統", 'color' => "blue"];
+    protected $data = ['anchor' => "/Admin", 'color' => "blue"];
 
     public function __construct()
     {
