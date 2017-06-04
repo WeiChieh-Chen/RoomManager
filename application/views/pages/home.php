@@ -12,8 +12,8 @@
 			"<div class='col-xs-2'>".
 				"<bs-drop title='教室代號' bs-class='bs-default' model='room_id' :opt-arr=".json_encode($rooms)."></bs-drop>".
 			"</div>".
-			"<div class='col-xs-1'>".
-			"<button type='button' class='btn' :class=[check?'btn-primary':'btn-default'] :disabled=!check @click='search(0)'>查詢</button>".
+			"<div class='col-xs-2'>".
+			"<button type='button' class='btn btn-block' :class=[check?'btn-primary':'btn-default'] :disabled=!check @click='search(0)'>查詢</button>".
 			"</div>"
 			?>
 			<div class="col-xs-3 col-xs-push-2" hidden id="button_list">
