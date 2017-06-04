@@ -12,6 +12,7 @@ class Home extends CI_Controller {
     public function index(){
         $this->load->model(['classroom','timeperiod']);
         $data= [
+            'anchor' => '/Home',
             'title' => '短期申請',
             'color' => "gray"
         ];
