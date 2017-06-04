@@ -25,3 +25,11 @@
         'value': "5"
     }
 }
+
+// update data
+{
+    application_id: 0|1,
+    .
+    .
+    .
+}
