@@ -21,8 +21,8 @@
     <!--     Fonts and icons     -->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet"/>
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'/>
-
 	
+
     <link href="<?= base_url('public/css/pe-icon-7-stroke.css')?>" rel="stylesheet"/>
 
     <!-- Other CSS -->
@@ -30,6 +30,7 @@
     <link href="<?= base_url('public/components/dataTables.min.css')?>" rel="stylesheet"/>
     <link href="<?= base_url('public/components/dataTables.semanticui.min.css')?>" rel="stylesheet"/>
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <link href="<?= base_url('public/css/funkyradio.css')?>" rel="stylesheet">
 
     <!-- Must be preload-->
     <script src="<?= base_url('public/js/jquery-3.1.1.min.js')?>" type="text/javascript"></script>

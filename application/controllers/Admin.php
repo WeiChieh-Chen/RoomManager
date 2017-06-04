@@ -182,4 +182,25 @@ class Admin extends CI_Controller
         return redirect("/Admin/showBlacklist");
     }
 
+    public function Audit(){
+        $this->load->model(['borrower','application']);
+
+        $data = [
+            'list' => $this->application->getTable(),
+            'namelist' => $this->borrower->getNameList()
+        ];
+
+        $this->load->view('layouts/header', $this->data);
+        $this->load->view('layouts/navbar');
+        $this->load->view('pages/audit',$data);
+        $this->load->view('layouts/footer');
+    } 
+
+    public function Audit_Sending(){
+        $this->load->model('application');
+        $data = $this->input->post();
+        $this->application->updateData($data);
+    } 
+
+
 }
