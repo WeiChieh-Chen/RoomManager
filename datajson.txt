@@ -1,0 +1,35 @@
+// Recoding user of login
+{
+    name :
+}
+
+// Delete or Update or Insert of data to use by room_status
+{
+    room_id:{
+        status: "DELETE"|"UPDATE"|"INSERT"|"NORMAL",
+        info: {
+            room_name:
+            active:
+        }
+    }
+}
+
+// Use for Vue components of BsDrop
+{
+    rooms:{
+        'name': "BGC0305",
+        'value': "BGC0305"
+    },
+    peridos:{
+        'name': "中午休息時間",
+        'value': "5"
+    }
+}
+
+// update data
+{
+    application_id: 0|1,
+    .
+    .
+    .
+}

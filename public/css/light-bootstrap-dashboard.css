@@ -1450,6 +1450,7 @@ body > .navbar-collapse[data-color="purple"]:after {
 }
 .navbar-transparent .navbar-brand:focus, .navbar-transparent .navbar-brand:hover, [class*="navbar-ct"] .navbar-brand:focus, [class*="navbar-ct"] .navbar-brand:hover {
   background-color: transparent;
+  background-color: transparent;
   opacity: 1;
   filter: alpha(opacity=100);
 }
