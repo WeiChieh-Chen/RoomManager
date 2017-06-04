@@ -2,10 +2,16 @@
     var borrow_count = [];
     var room_id_array= [];
     var reasoncount = [];
+    var roomBreakcount = [];
 </script>
 <?php foreach($reasoncount as $key => $row){ ?>
     <script>
         reasoncount.push("<?php echo $row; ?>");
+    </script>
+<?php } ?>
+<?php foreach($roomBreakcount as $key => $row){ ?>
+    <script>
+        roomBreakcount.push("<?php echo $row; ?>");
     </script>
 <?php } ?>
 <div id="page-wrapper">
@@ -16,6 +22,9 @@
         <div class="col-sm-5">
             <div style="width:450px;height:300px;text-align:center;margin:10px">
                 <div id="flot-placeholder" style="width:100%;height:100%;"></div>
+            </div>
+            <div style="width:450px;height:300px;text-align:center;margin:10px">
+                <div id="flot-placeholder3" style="width:100%;height:100%;"></div>
             </div>
             <div style="width:450px;height:300px;text-align:center;margin:10px">
                 <div id="flot-placeholder2" style="width:100%;height:100%;"></div>
