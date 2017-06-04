@@ -64,8 +64,9 @@
 				}
 			},
 			methods: {
-				search(diff){
+				search(diff,obj){
 					$("#button_list").attr("hidden",false);
+					$("#button_list").find(":button").attr("disabled",true);
 					if(diff === 0) this.total = 0;
 					else this.total += diff;
 					room_id = this.room_id;
@@ -86,12 +87,15 @@
 					let st = application['start'];
 					let end = application['end'];
 					$.post("<?=base_url("Home/search")?>",application,function(jsonData){
+						setTimeout(function () {
+							$("#button_list").find(":button").attr("disabled",false);
+						},1000);
 						show(JSON.parse(jsonData),st,end);
 					});
 				}
 			}
 		});
-		
+		let isdelegate = false;
 		let table = document.getElementById("roomTable");
 		function show(data,st,ed) {
 			start = new Date(st);
@@ -153,10 +157,12 @@
 		            list += init(week[j].charAt(i),i,j);
 		        }
 		    });
-			
-		    $("#roomTable").delegate("td", "click", function () {
-		 		checkColor(this,st);
-		 	});
+			if(!isdelegate){
+				$("#roomTable").delegate("td", "click", function () {
+					checkColor(this,st);
+				});
+				isdelegate = true;
+			}
 			table.innerHTML = list;
 		}
 		
