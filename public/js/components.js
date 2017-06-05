@@ -93,7 +93,7 @@ Vue.component('BsDrop', {
 	"</div></div>",
     methods:{
         changOpt(opt){
-            this.optText =  opt.name;
+            this.optText =  opt.name.replace(/\(.*\)/g,'');
             this.$parent[this.model] = opt.value;
         }
     }

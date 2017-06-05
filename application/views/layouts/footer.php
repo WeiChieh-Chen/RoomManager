@@ -75,7 +75,7 @@
 <script src="<?= base_url('public/js/semantic.min.js')?>"></script>
 <script src="<?= base_url('public/components/dataTables.min.js')?>"></script>
 <script src="<?= base_url('public/components/dataTables.semanticui.min.js')?>"></script>
-<script src="<?= base_url('public/components/statistic-chart.js')?>"></script>
+<script src="<?= base_url('public/js/statistic-chart.js')?>"></script>
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 
 <script type="text/javascript">
