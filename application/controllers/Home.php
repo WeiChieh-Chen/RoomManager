@@ -29,7 +29,7 @@ class Home extends CI_Controller {
 	    foreach ($this->timeperiod->getPeriod() as $unit) {
 		    if ($unit -> start === "12:00") {
 			    $dropdown['periods'][] = [
-				    'name' => "中午休息時間",
+				    'name' => "中午休息時間({$unit -> start}~{$unit -> end})",
 				    'id' => $unit -> period_id."_period",
 				    'value' => $unit -> period_id
 			    ];
@@ -39,7 +39,7 @@ class Home extends CI_Controller {
 				    $tmp--;
 			    }
 			    $dropdown['periods'][] = [
-				    'name' => "第{$tmp}節",
+				    'name' => "第{$tmp}節&emsp;({$unit -> start}~{$unit -> end})",
 				    'id'   => $unit -> period_id."_period",
 				    'value' => $unit -> period_id
 			    ];
