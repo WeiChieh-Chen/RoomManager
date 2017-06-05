@@ -19,11 +19,13 @@ class Home extends CI_Controller {
 
         $dropdown=[];
         foreach ($this->classroom->getRoom() as $room){
-            $dropdown['rooms'][] = [
-                'name' => $room->room_id,
-	            'id'   => $room->room_id,
-                'value' => $room->room_id
-            ];
+            if($room->active ==='1'){
+                $dropdown['rooms'][] = [
+                    'name' => $room->room_id,
+                    'id'   => $room->room_id,
+                    'value' => $room->room_id
+                ];
+            }
         }
 	
 	    foreach ($this->timeperiod->getPeriod() as $unit) {
