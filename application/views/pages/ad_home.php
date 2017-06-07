@@ -50,20 +50,20 @@
                     <tbody>
                     <?php foreach($calssroom as $key => $row){ ?>
                         <tr>
-                            <td><?php echo $row->room_id; ?></td>
-                            <td><?php echo $row->room_name; ?></td>      
+                            <td><?php echo $row['room_id']; ?></td>
+                            <td><?php echo $row['room_name']; ?></td>      
                             <td><?php 
-                                    if($row->active){
+                                    if($row['active']){
                                         echo "啟用中"; 
                                     }else{
                                         echo "未啟用";
                                     }
                                 ?>
                             </td> 
-                            <td><?php echo $row->borrow_count; ?></td>
+                            <td><?php echo $row['borrow_count']; ?></td>
                             <script>
-                                borrow_count.push("<?php echo $row->borrow_count; ?>");
-                                room_id_array.push("<?php echo $row->room_id; ?>");
+                                borrow_count.push("<?php echo $row['borrow_count']; ?>");
+                                room_id_array.push("<?php echo $row['room_id']; ?>");
                             </script> 
                         </tr>
                     <?php } ?>

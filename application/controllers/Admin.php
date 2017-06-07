@@ -25,7 +25,7 @@ class Admin extends CI_Controller
             $reasoncount = $this->blacklist->reasoncount($value->reason, $reasoncount);
         }
         foreach ($class as $key => $value) {
-            $roomBreakcount[] = $this->blacklist->getroomBreak($value->room_id);
+            $roomBreakcount[] = $this->blacklist->getroomBreak($value['room_id']);
         }
         $data = ['calssroom' => $class, 'reasoncount' => $reasoncount, 'roomBreakcount' => $roomBreakcount];
         
