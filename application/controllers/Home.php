@@ -83,16 +83,33 @@ class Home extends CI_Controller {
 
     }
     
-    public function search() {
+    public function searchRoom() {
 	    $post = $this->input->post();
 	    $this->load->model(["section",'application','time_period']);
 	    $data = [
-	        "apply_data"    =>	$this->application->search_app($post['start'],$post['end'],$post['room_id']),
+	        "apply_data"    =>	$this->application->search_class($post['start'],$post['end'],$post['room_id']),
 		    "class_data"    =>  $this->section->search_class($post['start'],$post['end'],$post['room_id']),
 		    "period"        =>  $this->time_period->getTime()
 	    ];
 
 	    echo json_encode($data);
     }
+	
+	public function searchDate() {
+		$post = $this->input->post();
+		$this->load->model(["section",'application','time_period','classroom']);
+		$data = [
+			"apply_data"    =>	$this->application->search_date($post['start']),
+			"class_data"    =>  $this->section->search_date($post['start']),
+			"period"        =>  $this->time_period->getTime(),
+			"classroom"     =>  []
+		];
+		foreach ($this->classroom->getRoom() as $key => $room){
+			if($room->active ==='1'){
+				$data['classroom'][$key] = $room;
+			}
+		}
+		echo json_encode($data);
+	}
 	
 }
