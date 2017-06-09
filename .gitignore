@@ -29,3 +29,4 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 application/config/
 
 ci_sessions/
+!/application/config/email.php

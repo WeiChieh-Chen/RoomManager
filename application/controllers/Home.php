@@ -6,7 +6,7 @@ class Home extends CI_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->helper(['url','form','date']);
-        $this->load->library('session');
+        $this->load->library(['session','email']);
     }
 
     public function index(){
@@ -123,5 +123,19 @@ class Home extends CI_Controller {
 		
 		echo json_encode($data);
 	}
+
+	public function sendMail(){
+        $this->email->from('urink8854@gmail.com', '陳威傑');
+        $this->email->to('40343228@gm.nfu.edu.tw');
+        $this->email->subject('寄信測試');
+        $this->email->message('Testing the email class.');
+
+//        phpinfo();
+        if($this->email->send()){
+            echo 'Email has been sent.';
+        }else {
+            show_error($this->email->print_debugger());
+        }
+    }
 	
 }

@@ -204,7 +204,8 @@ class Admin extends CI_Controller
         $this->load->model('application');
         $data = $this->input->post();
         $this->application->updateData($data);
-    } 
-
-
+    }
+//    public function sendMail(){
+//
+//    }
 }
