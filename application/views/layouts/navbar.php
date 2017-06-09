@@ -198,11 +198,11 @@
 	                        "<label class='control-label'>教室代號</label>".
                             "<bs-drop title='選擇教室' bs-class='bs-default' model='room_id' :opt-arr=".json_encode($rooms)."></bs-drop>".
                         "</div>".
-                        "<div class='col-xs-3'>".
+                        "<div class='col-xs-4'>".
 	                        "<label class='control-label'>開始節次</label>".
                             "<bs-drop title='選擇開始節次' bs-class='bs-default' model='start_sec' :opt-arr=".json_encode($periods)."></bs-drop>".
                         "</div>".
-                        "<div class='col-xs-3'>".
+                        "<div class='col-xs-4'>".
 	                        "<label class='control-label'>結束節次</label>".
                             "<bs-drop title='選擇結束節次' bs-class='bs-default' model='end_sec' :opt-arr=".json_encode($periods)."></bs-drop>".
                         "</div>".

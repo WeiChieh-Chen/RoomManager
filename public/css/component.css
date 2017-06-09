@@ -3,9 +3,9 @@
 	line-height: 1.5em;
 	margin: 0 auto;
 	padding: 2em 0 3em;
-	width: 90%;
-	max-width: 1000px;
-	overflow: hidden;
+	/*width: 90%;*/
+	/*max-width: 1000px;*/
+	/*overflow: hidden;*/
 }
 .component .filler {
 	font-family: "Blokk", Arial, sans-serif;
@@ -15,7 +15,7 @@ table {
     border-collapse: collapse;
 
     margin-bottom: 3em;
-    width: 100%;
+    /*width: 100%;*/
     background: #fff;
 }
 td, th {
@@ -49,7 +49,7 @@ tbody tr:hover {
 /* For appearance */
 .sticky-wrap {
 	overflow-x: auto;
-	overflow-y: hidden;
+	/*overflow-y: hidden;*/
 	position: relative;
 	margin: 3em 0;
 	width: 100%;

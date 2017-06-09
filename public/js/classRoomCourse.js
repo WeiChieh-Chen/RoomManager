@@ -68,12 +68,11 @@
 // 	table.innerHTML = list;
 // }
 
-function checkColor(obj,st) {
+function checkColor(obj,st,mode) {
 	alertify.defaults.glossary.title = "<h2 style='font-size: 2em'>租借申請借用須知</h2>";
 	alertify.defaults.glossary.ok = "確定";
 	alertify.defaults.glossary.cancel = "取消";
 
-	edited = 1;
 	if(obj.bgColor === "orange"){
 		$.notify({
 			icon: 'pe-7s-shield',
@@ -86,7 +85,7 @@ function checkColor(obj,st) {
 	else{
 		// alertify.confirm("<span style='font-size: 2em'>確定要從這時段<span style='color: red'>開始</span>租借?</span>", function () {
 		alertify.confirm(
-			"<span style='font-size: 1.5em'>借用須知：<br><br></span>"+
+			"<span style='font-size: 1.5em;'>借用須知：<br><br></span>"+
 			"<span style='font-size: 1.5em'>１. 填寫借用表單之前，請先確認教室是否空堂。<br></span>"+
 			"<span style='font-size: 1.5em'>本校教室使用時間表查詢--<a href='http://osa.nfu.edu.tw/query/classroom.php'>連結在這</a><br></span>"+
 			"<span style='font-size: 1.5em'>本系教室借用表查詢--<a href='https://goo.gl/mKzhr9'>連結在這<br></a><br></span>"+
@@ -96,16 +95,22 @@ function checkColor(obj,st) {
 		"<span style='font-size: 1.5em'>５. 系辦保有審核及撤銷使用的權利。<br><br></span>"
 			, function () {
 			let id = obj.id.split('_');
-			st = new Date(st);
-			st.setDate((st.getDate() + parseInt(id[1]) - 1 ) );
-
-			form.date = st.getUTCFullYear() + format(st.getMonth()+1)+ format(st.getDate()); //date
-
-			// document.getElementById("form_date").value = form.date;
-			document.getElementById(room_id).click();                           //room_id
-			document.getElementById("start_" + (parseInt(id[0])+1)).click();    //start_sec
-			document.getElementById(parseInt(id[0])+1).click();                 //end_sec
-			document.getElementById("shortBtn").click();                        //show modal
+			console.log(mode);
+			if(mode === 0){
+				st = new Date(st);
+				st.setDate((st.getDate() + parseInt(id[1]) - 1 ) );                             //set next date
+				form.date = st.getUTCFullYear() + format(st.getMonth()+1)+ format(st.getDate()); //date
+				document.getElementById(room_id).click();                           //room_id
+			}else if(mode === 1){
+				form.date = st;                                                     //date
+				document.getElementById(idArr[parseInt(id[1]) - 1]).click();        //room_id
+			}else if(mode === 2){alert(st);
+				form.date = st;                                                     //date
+				document.getElementById(room_id).click();                           //room_id
+			}
+			document.getElementById("start_" + (parseInt(id[0])+1)).click();        //start_sec
+			document.getElementById(parseInt(id[0])+1).click();                     //end_sec
+			document.getElementById("shortBtn").click();                            //show modal
 		},function () { }).set('resizable',true).resizeTo('50%','60%');
 
 	}
@@ -125,3 +130,4 @@ function init(statue,i,j) {
 		"<td id='"+i+"_"+j+"' style='color: white;font-size: 0' >0</td>":
 		"<td id='"+i+"_"+j+"' style='color: orange;font-size: 0' bgcolor='orange' >1</td>";
 }
+
