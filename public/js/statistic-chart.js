@@ -1,4 +1,5 @@
-var scrolls = 0;
+// var scrolls = 0;
+var i = 0;
 var data = [
     [0, borrow_count[0]],
     [1, borrow_count[1]],
@@ -203,10 +204,16 @@ var options3 = {
 
 $(document).ready(function() {
     $.plot($("#flot-placeholder"), dataset, options);
-    // $("#flot-placeholder").UseTooltip();
     $.plot($("#flot-placeholder2"), dataset2, options2);
-    // $("#flot-placeholder2").UseTooltip();
     $.plot($("#flot-placeholder3"), dataset3, options3);
+    var data4 = [{
+        values: [roomAllbreakcount[0][0], roomAllbreakcount[0][1], roomAllbreakcount[0][2], roomAllbreakcount[0][3], roomAllbreakcount[0][4], roomAllbreakcount[0][5], roomAllbreakcount[0][6]],
+        labels: ["大門未鎖", "電源未關", "冷氣未關", "風扇未關", "電燈未關", "未維持環境整潔", "設備損壞"],
+        type: 'pie'
+    }];
+    Plotly.newPlot('plotly-placeholder', data4, );
+    // $("#flot-placeholder").UseTooltip();
+    // $("#flot-placeholder2").UseTooltip();
     // $("#flot-placeholder3").UseTooltip();
     // $(window).scroll(function() {
     //     didScroll = true;
@@ -221,6 +228,40 @@ function gd(year, month, day) {
 
 var previousPoint = null,
     previousLabel = null;
+
+function changeroomup() {
+    i++;
+    if (i > 7) i = 7;
+    $("#yearchange").remove();
+    $("#yearchange").remove();
+    $("#yearchange").remove();
+    $("#plotly-placeholder").remove();
+    $('<li id="yearchange"> <button type="button" class="btn btn-link btn-md" onclick="changeroomdown()">&laquo;</button> </li><li id="yearchange"><button type="button" class="btn btn-link btn-md">' + room_id_array[i] + '</button></li><li id="yearchange"> <button type="button" class="btn btn-link btn-md" onclick="changeroomup()">&raquo;</button></li>').appendTo("#year");
+    $('<div id="plotly-placeholder" style="width:100%;height:100%;"></div>').appendTo("#plotlypanel");
+    var data4 = [{
+        values: [roomAllbreakcount[i][0], roomAllbreakcount[i][1], roomAllbreakcount[i][2], roomAllbreakcount[i][3], roomAllbreakcount[i][4], roomAllbreakcount[i][5], roomAllbreakcount[i][6]],
+        labels: ["大門未鎖", "電源未關", "冷氣未關", "風扇未關", "電燈未關", "未維持環境整潔", "設備損壞"],
+        type: 'pie'
+    }];
+    Plotly.newPlot('plotly-placeholder', data4, );
+}
+
+function changeroomdown() {
+    i--;
+    if (i < 0) i = 0;
+    $("#yearchange").remove();
+    $("#yearchange").remove();
+    $("#yearchange").remove();
+    $("#plotly-placeholder").remove();
+    $('<li id="yearchange"> <button type="button" class="btn btn-link btn-md" onclick="changeroomdown()">&laquo;</button> </li><li id="yearchange"><button type="button" class="btn btn-link btn-md">' + room_id_array[i] + '</button></li><li id="yearchange"> <button type="button" class="btn btn-link btn-md" onclick="changeroomup()">&raquo;</button></li>').appendTo("#year");
+    $('<div id="plotly-placeholder" style="width:100%;height:100%;"></div>').appendTo("#plotlypanel");
+    var data4 = [{
+        values: [roomAllbreakcount[i][0], roomAllbreakcount[i][1], roomAllbreakcount[i][2], roomAllbreakcount[i][3], roomAllbreakcount[i][4], roomAllbreakcount[i][5], roomAllbreakcount[i][6]],
+        labels: ["大門未鎖", "電源未關", "冷氣未關", "風扇未關", "電燈未關", "未維持環境整潔", "設備損壞"],
+        type: 'pie'
+    }];
+    Plotly.newPlot('plotly-placeholder', data4, );
+}
 
 // $.fn.UseTooltip = function() {
 //     $(this).bind("plothover", function(event, pos, item) {

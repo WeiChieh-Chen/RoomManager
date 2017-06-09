@@ -17,6 +17,7 @@ class Admin extends CI_Controller
     {
         $reasoncount = array(0, 0, 0, 0, 0, 0, 0);
         $roomBreakcount = array();
+        $roomAllbreakcount = array();
         $this->load->model(["classroom", "blacklist"]);
         $class = $this->classroom->getRoominfo();
         $reason = $this->blacklist->getBlacklistinfo();
@@ -26,8 +27,20 @@ class Admin extends CI_Controller
         }
         foreach ($class as $key => $value) {
             $roomBreakcount[] = $this->blacklist->getroomBreak($value['room_id']);
+            $roomAllbreakcount[] = $this->blacklist->getroomAllbreak($value['room_id']);
         }
-        $data = ['calssroom' => $class, 'reasoncount' => $reasoncount, 'roomBreakcount' => $roomBreakcount];
+
+        // foreach ($roomAllbreakcount as $key => $row) {
+        //     foreach ($row as $key => $value) {
+        //         echo $value;
+        //     }
+        //     echo " ";
+        // }
+        $data = [
+        'calssroom' => $class, 
+        'reasoncount' => $reasoncount, 
+        'roomBreakcount' => $roomBreakcount, 
+        'roomAllbreakcount' => $roomAllbreakcount];
         
 
         $this->load->view('layouts/header', $this->data);

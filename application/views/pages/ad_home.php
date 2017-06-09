@@ -3,6 +3,7 @@
     var room_id_array= [];
     var reasoncount = [];
     var roomBreakcount = [];
+    var roomAllbreakcount = [];
 </script>
 <?php foreach($reasoncount as $key => $row){ ?>
     <script>
@@ -14,21 +15,57 @@
         roomBreakcount.push("<?php echo $row; ?>");
     </script>
 <?php } ?>
+<?php foreach($roomAllbreakcount as $key => $row){ ?>
+    <script>
+        var roomOnebreakcount = [];
+    </script>
+    <?php foreach ($row as $key => $value){ ?>
+        <script>
+            roomOnebreakcount.push("<?php echo $value; ?>");
+        </script>
+    <?php } ?>
+    <script>
+        roomAllbreakcount.push(roomOnebreakcount);
+    </script>
+<?php } ?>
+    <script>
+        console.log(roomAllbreakcount);
+    </script>
 <div id="page-wrapper">
     <br>
     <br>
     <div class="row">
-        <div class="col-sm-1"></div>
-        <div class="col-sm-5">
+        <nav class = "col-sm-12">
+            <ul id="year" class="pagination">
+                <li id="yearchange">
+                    <button type="button" class="btn btn-link btn-md" onclick="changeroomdown()">&laquo;</button>
+                </li>
+
+                <li id="yearchange">
+                    <button type="button" class="btn btn-link btn-md">BGC0305</button>
+                </li>
+
+                <li id="yearchange"> 
+                    <button type="button" class="btn btn-link btn-md" onclick="changeroomup()">&raquo;</button>
+                </li>
+            </ul>
+        </nav>
+        <div class="col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    各教室各問題發生次數
+                </div>
+                <div id="plotlypanel" class="panel-body">
+                    <div id="plotly-placeholder" style="width:100%;height:100%;"></div>
+                </div>
+            </div>
+            
             <div style="width:450px;height:300px;text-align:center;margin:10px">
                 <div id="flot-placeholder" style="width:100%;height:100%;"></div>
             </div>
             <div style="width:450px;height:300px;text-align:center;margin:10px">
                 <div id="flot-placeholder3" style="width:100%;height:100%;"></div>
-            </div>
-            <div style="width:450px;height:300px;text-align:center;margin:10px">
-                <div id="flot-placeholder2" style="width:100%;height:100%;"></div>
-            </div>
+            </div>           
         </div>
             <div class="col-sm-6">
             <div class="panel panel-default">
@@ -73,8 +110,12 @@
                 <!-- /.panel-body -->
             </div>
             <!-- /.panel -->
+            <br>
+            <br>
+            <div style="width:450px;height:300px;text-align:center;margin:10px">
+                <div id="flot-placeholder2" style="width:100%;height:100%;"></div>
+            </div>
         </div>
-        
     </div>
     <!-- /.row -->
 </div>
