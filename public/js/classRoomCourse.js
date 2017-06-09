@@ -95,24 +95,22 @@ function checkColor(obj,st,mode) {
 		"<span style='font-size: 1.5em'>５. 系辦保有審核及撤銷使用的權利。<br><br></span>"
 			, function () {
 			let id = obj.id.split('_');
-
+			console.log(mode);
 			if(mode === 0){
 				st = new Date(st);
-				st.setDate((st.getDate() + parseInt(id[1]) - 1 ) );
+				st.setDate((st.getDate() + parseInt(id[1]) - 1 ) );                             //set next date
 				form.date = st.getUTCFullYear() + format(st.getMonth()+1)+ format(st.getDate()); //date
 				document.getElementById(room_id).click();                           //room_id
-				document.getElementById("start_" + (parseInt(id[0])+1)).click();    //start_sec
-				document.getElementById(parseInt(id[0])+1).click();                 //end_sec
-
-			}else if(mode === 1){console.log(st);
+			}else if(mode === 1){
 				form.date = st;                                                     //date
-				document.getElementById(idArr[parseInt(id[1]) - 1]).click()         //room_id
-				document.getElementById("start_" + (parseInt(id[0])+1)).click();    //start_sec
-				document.getElementById(parseInt(id[0])+1).click();                 //end_sec
-			}else if(mode === 2){
-
+				document.getElementById(idArr[parseInt(id[1]) - 1]).click();        //room_id
+			}else if(mode === 2){alert(st);
+				form.date = st;                                                     //date
+				document.getElementById(room_id).click();                           //room_id
 			}
-			document.getElementById("shortBtn").click();                        //show modal
+			document.getElementById("start_" + (parseInt(id[0])+1)).click();        //start_sec
+			document.getElementById(parseInt(id[0])+1).click();                     //end_sec
+			document.getElementById("shortBtn").click();                            //show modal
 		},function () { }).set('resizable',true).resizeTo('50%','60%');
 
 	}

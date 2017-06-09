@@ -27,7 +27,7 @@ class Home extends CI_Controller {
                 ];
             }
         }
-	
+        
 	    foreach ($this->timeperiod->getPeriod() as $unit) {
 		    if ($unit -> start === "12:00") {
 			    $dropdown['periods'][] = [
@@ -109,6 +109,18 @@ class Home extends CI_Controller {
 				$data['classroom'][$key] = $room;
 			}
 		}
+		echo json_encode($data);
+	}
+	
+	public function searchBoth() {
+		$post = $this->input->post();
+		$this->load->model(["section",'application','time_period']);
+		$data = [
+			"apply_data"    =>	$this->application->search_both($post['start'],$post['room_id']),
+			"class_data"    =>  $this->section->search_both($post['start'],$post['room_id']),
+			"period"        =>  $this->time_period->getTime()
+		];
+		
 		echo json_encode($data);
 	}
 	

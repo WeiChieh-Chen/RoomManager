@@ -9,17 +9,17 @@
 <!--				</div>-->
 <!--			</div>-->
 			<?=
-			"<div class='col-xs-3'>".
+			"<div class='col-xs-2'>".
 			"<input v-model='date' id='form_date'  type='date' class='form-control' />".
 			"</div>".
 			"<div class='col-xs-2'>".
 				"<bs-drop title='教室代號' bs-class='bs-default' model='room_id' :opt-arr=".json_encode($rooms)."></bs-drop>".
 			"</div>".
-			"<div class='col-xs-2'>".
+			"<div class='col-xs-1'>".
 			"<button type='button' class='btn btn-block' :class=[check?'btn-primary':'btn-default'] :disabled=!check @click='search(0)'>查詢</button>".
 			"</div>"
 			?>
-			<div class="col-xs-3 col-xs-push-2" hidden id="button_list">
+			<div class="col-xs-3 " hidden id="button_list">
 				<button type="button" class="btn btn-fill" @click = "search(-7)">
 					<i class="long arrow left icon"></i>
 				</button>
@@ -103,15 +103,26 @@
 							show_class(JSON.parse(jsonData),st,end);
 						});
 					}else if(mode === 1){
+						room_id = "";
 						let application = {
 							'start':this.date
 						};
 						let st = this.date;
 						$.post("<?=base_url("Home/searchDate")?>",application,function(jsonData){
+							$("#button_list").find(":button").attr("disabled",false);
 							show_date(JSON.parse(jsonData),st);
 						});
 					}else if(mode === 2){
-						alert("search one date and one room");
+						room_id = this.room_id;
+						let application = {
+							'room_id': this.room_id,
+							'start':this.date
+						};
+						let st = this.date;
+						$.post("<?=base_url("Home/searchBoth")?>",application,function(jsonData){
+							$("#button_list").find(":button").attr("disabled",false);
+							show_both(JSON.parse(jsonData),st);
+						});
 					}
 				}
 			}
@@ -237,6 +248,50 @@
 				}
 			});
 
+			if(!isdelegate){
+				isdelegate = true;
+			}else{
+				$("#roomTable").undelegate("td", "click");
+			}
+			$("#roomTable").delegate("td", "click", function () {
+				checkColor(this,st,mode);
+			});
+			table.innerHTML = list;
+		}
+
+		function show_both(data,st) {
+			let status = "000000000000000";
+			
+			Object.values(data['class_data']).map(function (obj) {
+				for(let i = parseInt(obj.start)-1; i < parseInt(obj.end) ; i++){
+					status	 = status.replaceAt(i,"1");
+				}
+			});
+		
+
+			Object.values(data['apply_data']).map(function (obj) {
+				for(let i = parseInt(obj.borrow_start)-1; i < parseInt(obj.borrow_end) ; i++){
+					status	 = status.replaceAt(i,"1");
+				}
+			});
+
+
+			period = data["period"];
+			let list =  "<tr><th colspan='2' style='text-align: center;font-size: 16px;color: black'>"+
+				"(橘色代表已借出)<br>"+st+"</th></tr>" +
+				"<tr>"+
+				"<th bgcolor='#666' style='text-align: center'>節  \\  教室</th>"+
+				"<th  bgcolor='#2ea879' style='text-align: center'>"+room_id+"</th>"+
+				"</tr>";
+
+			Object.values(period).map(function (times,i) {
+				list += "<tr>" +
+					"<th bgcolor='#2ea879' >"+
+					sectionControl(parseInt(times['period_id']),times['start'],times['end'])+
+					"</th>";
+				list += init(status.charAt(i),i,1);             // id = i_j     period_classroom  || period_week
+				
+			});
 			if(!isdelegate){
 				isdelegate = true;
 			}else{

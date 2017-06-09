@@ -26,6 +26,11 @@ Class Application extends CI_Model
 		$query = $this->db->select(["borrow_date","borrow_start","borrow_end","reason",'room_id'])->where('borrow_date',$start)->where('apply_result',1)->get("application");
 		return $query->result();
 	}
+	
+	public function search_both($start,$room_id){
+		$query = $this->db->select(["borrow_date","borrow_start","borrow_end","reason",'room_id'])->where(['room_id' => $room_id,'apply_result' => 1])->where('borrow_date',$start)->get("application");
+		return $query->result();
+	}
 
     public function updateData($data){
         foreach ($data as $key => $value) {
