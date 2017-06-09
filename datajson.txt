@@ -33,3 +33,29 @@
     .
     .
 }
+
+// Parameter of sendMail
+{
+    "room_id":
+    "email":
+    "sName":
+    "sNumber":
+    "cellphone":
+    "teacher":
+    "reason":
+}
+
+// Parameter of replyMail
+{
+    "application_id" : {
+        "email":
+        "room_id":
+        "date":
+        "start":
+        "end":
+        "apply_result":
+    },
+    .
+    .
+    .
+}

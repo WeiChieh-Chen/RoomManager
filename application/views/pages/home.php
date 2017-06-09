@@ -32,9 +32,6 @@
 			</div>
 		</div>
 		<div class="row">
-            <a role='button' href="<?=base_url('Home/sendMail')?>" class='btn btn-lg btn-primary'>寄信測試</a>
-        </div>
-		<div class="row">
 			<div class="col-xs-4 ">
 				<div id="calendar" class="container">
 					<div class="component">

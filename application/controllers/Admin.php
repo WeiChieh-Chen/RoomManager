@@ -198,14 +198,11 @@ class Admin extends CI_Controller
         $this->load->view('layouts/navbar');
         $this->load->view('pages/audit',$data);
         $this->load->view('layouts/footer');
-    } 
+    }
 
     public function Audit_Sending(){
         $this->load->model('application');
         $data = $this->input->post();
         $this->application->updateData($data);
     }
-//    public function sendMail(){
-//
-//    }
 }
