@@ -119,12 +119,4 @@
     </div>
     <!-- /.row -->
 </div>
-<!-- /#page-wrapper -->
-<!--<script type='text/javascript'>
-$(function(){
-    $(window).scroll(function () {
-        var scrollVal = $(this).scrollTop();
-        console.log(scrollVal);
-    });
-});
-</script>-->
+<script src="<?= base_url('public/js/statistic-chart.js')?>"></script>
