@@ -28,7 +28,10 @@
 
 // update data
 {
-    application_id: 0|1,
+    application_id: {
+        "result": 0|1,
+        "reason":
+    },
     .
     .
     .
@@ -42,7 +45,7 @@
     "sNumber":
     "cellphone":
     "teacher":
-    "reason":
+    "events":
 }
 
 // Parameter of replyMail
@@ -50,10 +53,11 @@
     "application_id" : {
         "email":
         "room_id":
-        "date":
-        "start":
-        "end":
+        "borrow_date":
+        "borrow_start":
+        "borrow_end":
         "apply_result":
+        "reason": when apply_result is 0.
     },
     .
     .

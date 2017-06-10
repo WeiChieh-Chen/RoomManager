@@ -8,10 +8,27 @@ Class Application extends CI_Model
         $this->load->database("room_borrow");
     }
 
-    public function getTable(){
-    	return $this->db->get($this->table)->result();
+    public function getNoAudit(){
+    	return $this->db->where('apply_result',2)->get($this->table)->result();
     }
 
+    public function getEmailInfo(){
+        $table = $this->db->select(
+            'application_id,email,room_id,borrow_date,borrow_start,borrow_end,apply_result'
+        )->from($this->table)->join('borrower','borrower.student_id = application.student_id')->get()->result();
+
+        foreach ($table as $item){
+            $data[$item->application_id] = [
+                'email' => $item->email,
+                "room_id"=> $item->room_id,
+                "borrow_date" => $item->borrow_date,
+                "borrow_start" => $item->borrow_start,
+                "borrow_end" => $item->borrow_end,
+                "apply_result" => $item->apply_result
+            ];
+        }
+        return $data;
+    }
 
     public function create($data){
         $this->db->insert($this->table,$data);
@@ -32,9 +49,7 @@ Class Application extends CI_Model
 		return $query->result();
 	}
 
-    public function updateData($data){
-        foreach ($data as $key => $value) {
-            $this->db->update($this->table,['apply_result' => $value],['application_id' => $key]);
-        }
+    public function updateData($id,$result){
+        $this->db->update($this->table,['apply_result' => $result],['application_id' => $id]);
     }
 }

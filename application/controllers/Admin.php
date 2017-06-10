@@ -189,7 +189,7 @@ class Admin extends CI_Controller
         $this->load->model(['borrower','application']);
 
         $data = [
-            'list' => $this->application->getTable(),
+            'list' => $this->application->getNoAudit(),
             'namelist' => $this->borrower->getNameList()
         ];
 
@@ -202,7 +202,21 @@ class Admin extends CI_Controller
 
     public function Audit_Sending(){
         $this->load->model('application');
-        $data = $this->input->post();
-        $this->application->updateData($data);
+        foreach ($this->input->post() as $id => $info) {
+//            $this->application->updateData($id,$info['result']);
+        }
+
+        $table = $this->application->getEmailInfo();
+
+        $data = [];
+        foreach ($this->input->post() as $id => $info) {
+            if($info['result'] === "0"){
+                $table[$id]["reason"] = $info['reason'];
+            }
+            $data[] = $table[$id];
+        }
+
+        $this->session->set_flashdata('audit_list',$data);
+        return redirect("Email/replyMail");
     }
 }
