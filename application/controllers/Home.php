@@ -57,15 +57,19 @@ class Home extends CI_Controller {
     public function apply(){
         $post = $this->input->post();
         $this->load->model(['borrower','application']);
+
+        $data = [
+            'student_id' => $post['sNumber'],
+            'email' => $post['email'],
+            'name' => $post['sName'],
+            'cellphone' => $post['cellphone'],
+            'department' => $post['department']
+        ];
         if(is_null($this->borrower->find($post['sNumber']))){
-            $data = [
-                'student_id' => $post['sNumber'],
-                'email' => $post['email'],
-                'name' => $post['sName'],
-                'cellphone' => $post['cellphone'],
-                'department' => $post['department']
-            ];
             $this->borrower->create($data);
+        }else {
+            unset($data['student_id']);
+            $this->borrower->update($post['sNumber'],$data);
         }
 
         date_default_timezone_set('Asia/Taipei');

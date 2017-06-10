@@ -17,6 +17,10 @@ Class Borrower extends CI_Model
         $this->db->insert($this->table,$data);
     }
 
+    public function update($id,$data){
+        $this->db->update($this->table,$data,['student_id' => $id]);
+    }
+
     public function getNameList(){
         $data = [];
         foreach ($this->db->get($this->table)->result() as $item) {

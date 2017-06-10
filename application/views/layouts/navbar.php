@@ -211,7 +211,7 @@
                 "<div class='modal-body'>".
                     "<div class='row'>".
                         "<div class='col-xs-6'>".
-                            "<text-field text='姓名' model='sName' placeholder='完整姓名'></text-field>".
+                            "<text-field text='姓名' model='sName' placeholder='完整姓名(最多5個字)'></text-field>".
                         "</div>".
                         "<div class='col-xs-6'>".
                             "<text-field text='學號' model='sNumber' placeholder='OOOOOOOO'></text-field>".
@@ -222,7 +222,7 @@
                             "<text-field text='E-Mail' model='email' placeholder='請輸人常用信箱，以取得結果信件！'></text-field>".
                         "</div>".
                         "<div class='col-xs-6'>".
-                            "<text-field text='電話' model='cellphone' placeholder='手機號碼'></text-field>".
+                            "<text-field text='電話' model='cellphone' placeholder='手機號碼，找不到人才會聯絡！'></text-field>".
                         "</div>".
                     "</div>".
                     "<div class='row'>".
