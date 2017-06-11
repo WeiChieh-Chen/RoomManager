@@ -5,7 +5,6 @@
 
 	th{
 		text-align: center;
-        font-size: 1.2em
 	}
 
 	tr {
@@ -24,16 +23,16 @@
 				<div class="content table-responsive table-full-width">
 					<table class="table table-hover table-striped" id='auditTable'>
 						<thead>
-							<th>申請代碼</th>
-							<th>申請日期</th>
-							<th>教室代號</th>
-							<th>開始時間</th>
-							<th>結束時間</th>
-							<th>申請人</th>
-							<th>學號</th>
-							<th>申請事由</th>
-							<th>指導老師</th>
-							<th>審核結果</th>
+							<th style='font-size: 1.2em'>申請代碼</th>
+							<th style='font-size: 1.2em'>申請日期</th>
+							<th style='font-size: 1.2em'>教室代號</th>
+							<th style='font-size: 1.2em'>開始時間</th>
+							<th style='font-size: 1.2em'>結束時間</th>
+							<th style='font-size: 1.2em'>申請人</th>
+							<th style='font-size: 1.2em'>學號</th>
+							<th style='font-size: 1.2em'>申請事由</th>
+							<th style='font-size: 1.2em'>指導老師</th>
+							<th style='font-size: 1.2em'>審核結果</th>
 						</thead>
 						
 						<tbody>

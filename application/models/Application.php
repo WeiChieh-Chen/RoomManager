@@ -12,6 +12,10 @@ Class Application extends CI_Model
     	return $this->db->where('apply_result',2)->get($this->table)->result();
     }
 
+    public function getNoAuditCount(){
+        return $this->db->where('apply_result',2)->count_all_results($this->table);
+    }
+
     public function getEmailInfo(){
         $table = $this->db->select(
             'application_id,email,room_id,borrow_date,borrow_start,borrow_end,apply_result'

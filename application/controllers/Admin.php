@@ -10,7 +10,6 @@ class Admin extends CI_Controller
         parent::__construct();
         $this->load->helper(['url', 'form']);
         $this->load->library('session');
-
     }
 
     public function index()
@@ -18,7 +17,7 @@ class Admin extends CI_Controller
         $reasoncount = array(0, 0, 0, 0, 0, 0, 0);
         $roomBreakcount = array();
         $roomAllbreakcount = array();
-        $this->load->model(["classroom", "blacklist"]);
+        $this->load->model(["classroom", "blacklist","application"]);
         $class = $this->classroom->getRoominfo();
         $reason = $this->blacklist->getBlacklistinfo();
 
@@ -33,6 +32,8 @@ class Admin extends CI_Controller
 //        foreach ($class as $key => $row) {
 //                echo $row['borrow_count'];
 //        }
+
+        $this->session->noaudit = $this->application->getNoAuditCount();
 
         $this->data['title'] = "教室數據統計";
         $data = [
@@ -208,6 +209,8 @@ class Admin extends CI_Controller
             'list' => $this->application->getNoAudit(),
             'namelist' => $this->borrower->getNameList()
         ];
+
+        $this->session->noaudit = $this->application->getNoAuditCount();
 
         $this->data['title'] = "審核列表";
         $this->load->view('layouts/header', $this->data);
