@@ -14,6 +14,10 @@ class Admin extends CI_Controller
 
     public function index()
     {
+        if(!$this->session->has_userdata('name')){
+            return redirect('/Home');
+        }
+
         $reasoncount = array(0, 0, 0, 0, 0, 0, 0);
         $roomBreakcount = array();
         $roomAllbreakcount = array();
