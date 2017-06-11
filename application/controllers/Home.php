@@ -84,7 +84,16 @@ class Home extends CI_Controller {
             'apply_time' => date("Y-m-d H:i:s",time())
         ];
         $this->application->create($data);
-
+        $this->session->set_flashdata('toManager',[
+            "room_id"=> $post['room_id'],
+            "email"=> $post['email'],
+            "sName"=> $post['sName'],
+            "sNumber"=> $post['sNumber'],
+            "cellphone"=> $post['cellphone'],
+            "teacher"=> $post['teacher'],
+            "events"=> $post['events']
+        ]);
+        return redirect("Email/sendMail");
     }
     
     public function searchRoom() {
@@ -127,5 +136,4 @@ class Home extends CI_Controller {
 		
 		echo json_encode($data);
 	}
-	
 }

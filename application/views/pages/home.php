@@ -31,7 +31,6 @@
 				</button>
 			</div>
 		</div>
-		
 		<div class="row">
 			<div class="col-xs-4 ">
 				<div id="calendar" class="container">
