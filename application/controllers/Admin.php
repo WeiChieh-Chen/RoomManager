@@ -18,6 +18,8 @@ class Admin extends CI_Controller
             return redirect('/Home');
         }
 
+        $i=0;
+        $roomperfectrate = array();
         $reasoncount = array(0, 0, 0, 0, 0, 0, 0);
         $roomBreakcount = array();
         $roomAllbreakcount = array();
@@ -32,6 +34,14 @@ class Admin extends CI_Controller
             $roomBreakcount[] = $this->blacklist->getroomBreak($value['room_id']);
             $roomAllbreakcount[] = $this->blacklist->getroomAllbreak($value['room_id']);
         }
+        
+        foreach ($roomBreakcount as $key => $value) {
+            $roomperfectrate[] = ['borrow' => $class[$i]['borrow_count'], 'break' => $value];
+            $i++;
+        }
+    //    foreach ($roomperfectrate as $key => $row) {
+    //             echo $row['break'];
+    //    }
 
 //        foreach ($class as $key => $row) {
 //                echo $row['borrow_count'];
@@ -44,7 +54,8 @@ class Admin extends CI_Controller
             'calssroom' => $class,
             'reasoncount' => $reasoncount,
             'roomBreakcount' => $roomBreakcount,
-            'roomAllbreakcount' => $roomAllbreakcount
+            'roomAllbreakcount' => $roomAllbreakcount,
+            'roomperfectrate' => $roomperfectrate
         ];
 
         $this->load->view('layouts/header');
