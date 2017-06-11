@@ -1,28 +1,12 @@
 <footer class="footer">
     <div class="container-fluid">
         <nav class="pull-left">
-            <ul>
-                <li>
-                    <a href="#">
-                        Home
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        Company
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        Portfolio
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        Blog
-                    </a>
-                </li>
-            </ul>
+<!--            <ul>-->
+<!--                <li><a href="#"> Home </a></li>-->
+<!--                <li><a href="#"> Company </a></li>-->
+<!--                <li><a href="#"> Portfolio </a></li>-->
+<!--                <li><a href="#"> Blog </a></li>-->
+<!--            </ul>-->
         </nav>
         <p class="copyright pull-right">
             Viewport by &copy; 2016 <a href="http://www.creative-tim.com">Creative Tim</a>, made with love for a better web
@@ -72,10 +56,11 @@
 <script src="<?= base_url('public/js/light-bootstrap-dashboard.js')?>"></script>
 
 <!-- Other JS-->
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/numeric/1.2.6/numeric.min.js"></script>
 <script src="<?= base_url('public/js/semantic.min.js')?>"></script>
 <script src="<?= base_url('public/components/dataTables.min.js')?>"></script>
 <script src="<?= base_url('public/components/dataTables.semanticui.min.js')?>"></script>
-<script src="<?= base_url('public/components/statistic-chart.js')?>"></script>
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 
 <script type="text/javascript">
@@ -102,7 +87,7 @@
     if (login_state === "SUCCESS") {
         $.notify({
             icon: 'pe-7s-user',
-            message: "歡迎 <b><?=$this->session->name?></b> 登入教室租借系統！"
+            message: "歡迎 <b><?=$this->session->name?></b> 登入教室借用系統！"
         }, {
             type: 'success',
             timer: 1000

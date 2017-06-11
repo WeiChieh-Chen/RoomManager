@@ -46,5 +46,21 @@ Class Blacklist extends CI_Model
         }
         return $countarray;
     }
+
+    public function getroomBreak($room_id)
+    {
+        $query = $this->db->where(["room_id"=>$room_id])->count_all_results('blacklist');
+        return $query;
+    }
+    public function getroomAllbreak($room_id)
+    {
+        $countarray = array(0, 0, 0, 0, 0, 0, 0);
+        $query = $this->db->where(["room_id"=>$room_id])->get("blacklist");
+        $roomdata = $query->result();
+        foreach ($roomdata as $key => $value) {
+            $countarray = $this->blacklist->reasoncount($value->reason,$countarray);
+        }
+        return $countarray;
+    }
 }
 

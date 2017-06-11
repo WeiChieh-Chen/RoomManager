@@ -28,7 +28,43 @@
 
 // update data
 {
-    application_id: 0|1,
+    data: {
+        application_id: {
+            "update" : 0|1,
+            "result": 0|1,
+            "reason":
+        },
+        .
+        .
+        .
+    },
+    .
+    .
+    .
+}
+
+// Parameter of sendMail
+{
+    "room_id":
+    "email":
+    "sName":
+    "sNumber":
+    "cellphone":
+    "teacher":
+    "events":
+}
+
+// Parameter of replyMail
+{
+    "application_id" : {
+        "email":
+        "room_id":
+        "borrow_date":
+        "borrow_start":
+        "borrow_end":
+        "apply_result":
+        "reason": when apply_result is 0.
+    },
     .
     .
     .

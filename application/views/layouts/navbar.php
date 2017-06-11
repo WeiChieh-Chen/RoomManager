@@ -1,4 +1,4 @@
-<div class="sidebar" data-color="<?= $color ?>" data-image="assets/img/sidebar-5.jpg">
+<div class="sidebar" data-color="<?= $color ?>" data-image="<?=base_url('public/img/'.$image)?>">
     <!--
         Tip 1: you can change the color of the sidebar using: data-color="blue | azure | green | orange | red | purple"
         Tip 2: you can also add an image using data-image tag
@@ -46,25 +46,21 @@
                 <?php
                 if ($this->session->has_userdata('name')):
                     echo "<ul class='nav navbar-nav navbar-left'>" .
-                        "<li>".
-                        "<a href='#' class='dropdown-toggle' data-toggle='dropdown'>".
-                        "<i class='fa fa-dashboard'></i>".
-                        "</a>".
-                        "</li>".
+//                        "<li>".
+//                        "<a href='#' class='dropdown-toggle' data-toggle='dropdown'>".
+//                        "<i class='fa fa-dashboard'></i>".
+//                        "</a>".
+//                        "</li>".
                         "<li class='dropdown'>".
                         "<a href='#' class='dropdown-toggle' data-toggle='dropdown'>".
-                        "<i class='fa fa-globe'></i>".
-                        "<b class='caret'></b><span class='notification'>5</span>".
+                        "<i class='fa fa-envelope-o'></i>".
+                        "<b class='caret'></b><span class='notification'>{$this->session->noaudit}</span>".
                         "</a>".
                         "<ul class='dropdown-menu'>".
-                        "<li><a href='#'>Notification 1</a></li>".
-                        "<li><a href='#'>Notification 2</a></li>".
-                        "<li><a href='#'>Notification 3</a></li>".
-                        "<li><a href='#'>Notification 4</a></li>".
-                        "<li><a href='#'>Another notification</a></li>".
+                        "<li><a href=".base_url('Admin/Audit')." onclick=localStorage.setItem('nav_active','2')>前往審核列表頁面</a></li>".
                         "</ul>".
                         "</li>".
-                        "<li><a href=''><i class='fa fa-search'></i></a></li>".
+//                        "<li><a href=''><i class='fa fa-search'></i></a></li>".
                         "</ul>";
                 endif;
                 ?>
@@ -83,7 +79,7 @@
         </div>
     </nav>
     <script type="text/javascript">
-	    let formData = { sName: "", sNumber: "", email: "", cellphone: "", department:"",teacher: "", events: "", room_id: "",date:"",start_sec: "", end_sec: ""};
+	    let formData = { sName: "", sNumber: "", email: "", cellphone: "", department:"",teacher: "", events: "", room_id: "",date:"",start_sec: "", end_sec: "",send: false};
 	    let sec = ["","第一節","第二節","第三節","第四節","中午午休","第五節","第六節","第七節","第八節","第九節"
 		    ,"第十節","第十一節","第十二節","第十三節","第十四節"];
         let form;
@@ -133,11 +129,12 @@
                             }
                             return Object.values(this.$data).every(function (value) {
                                 return value !== "";
-                            });
+                            }) && !this.send;
                         }
                     },
                     methods: {
                         apply(){
+                            this.send = true;
                             let application = {
                                 'sName': this.sName, 'sNumber': this.sNumber,
                                 'email': this.email, 'cellphone': this.cellphone,
@@ -145,6 +142,16 @@
                                 'events': this.events, 'room_id': this.room_id,
                                 'date':this.date,'start_sec': this.start_sec, 'end_sec': this.end_sec
                             };
+
+                            $.notify({
+                                icon: 'pe-7s-paper-plane',
+                                message: "申請單寄送中……<br>請等候管理員審核及回覆！"
+                            }, {
+                                type: 'success',
+                                timer: 1000
+                            });
+
+
                             $.post("<?=base_url('Home/apply')?>",application,function(){
                                 location.reload();
                             });
@@ -198,11 +205,11 @@
 	                        "<label class='control-label'>教室代號</label>".
                             "<bs-drop title='選擇教室' bs-class='bs-default' model='room_id' :opt-arr=".json_encode($rooms)."></bs-drop>".
                         "</div>".
-                        "<div class='col-xs-3'>".
+                        "<div class='col-xs-4'>".
 	                        "<label class='control-label'>開始節次</label>".
                             "<bs-drop title='選擇開始節次' bs-class='bs-default' model='start_sec' :opt-arr=".json_encode($periods)."></bs-drop>".
                         "</div>".
-                        "<div class='col-xs-3'>".
+                        "<div class='col-xs-4'>".
 	                        "<label class='control-label'>結束節次</label>".
                             "<bs-drop title='選擇結束節次' bs-class='bs-default' model='end_sec' :opt-arr=".json_encode($periods)."></bs-drop>".
                         "</div>".
@@ -211,7 +218,7 @@
                 "<div class='modal-body'>".
                     "<div class='row'>".
                         "<div class='col-xs-6'>".
-                            "<text-field text='姓名' model='sName' placeholder='完整姓名'></text-field>".
+                            "<text-field text='姓名' model='sName' placeholder='完整姓名(最多5個字)'></text-field>".
                         "</div>".
                         "<div class='col-xs-6'>".
                             "<text-field text='學號' model='sNumber' placeholder='OOOOOOOO'></text-field>".
@@ -222,7 +229,7 @@
                             "<text-field text='E-Mail' model='email' placeholder='請輸人常用信箱，以取得結果信件！'></text-field>".
                         "</div>".
                         "<div class='col-xs-6'>".
-                            "<text-field text='電話' model='cellphone' placeholder='手機號碼'></text-field>".
+                            "<text-field text='電話' model='cellphone' placeholder='手機號碼，找不到人才會聯絡！'></text-field>".
                         "</div>".
                     "</div>".
                     "<div class='row'>".

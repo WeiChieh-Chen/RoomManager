@@ -11,7 +11,7 @@
     <div class="container-fluid">
         <div class="row">
             <button id='editBtn' class='btn btn-lg btn-info' onclick="showExcolum()">編輯</button>
-            <button class='fnBtn btn btn-lg btn-info' onclick="submit()" hidden>變更</button>
+            <button class='fnBtn btn btn-lg btn-primary' onclick="submit()" hidden>變更</button>
             <button class='fnBtn btn btn-lg btn-success' data-toggle='modal' data-target='#addRoom' hidden>新增</button>
             <button class='fnBtn btn btn-lg btn-warning' onclick="recover()" hidden>取消</button>
         </div>

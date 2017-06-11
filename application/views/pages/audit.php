@@ -18,61 +18,55 @@
 			<div class="col-xs-1"></div>
 			<div class="col-xs-10">
 				<p align="right">
-					<button id='submitBtn' class='btn btn-lg btn-info' onclick="formSubmit();">提交</button>
+					<button id='submitBtn' class='btn btn-lg btn-primary' onclick="formSubmit();">提交</button>
 				</p>
 				<div class="content table-responsive table-full-width">
 					<table class="table table-hover table-striped" id='auditTable'>
 						<thead>
-							<th style="font-size: 1.2em">申請代碼</th>
-							<th style="font-size: 1.2em">申請日期</th>
-							<th style="font-size: 1.2em">教室代號</th>
-							<th style="font-size: 1.2em">開始時間</th>
-							<th style="font-size: 1.2em">結束時間</th>
-							<th style="font-size: 1.2em">申請人</th>
-							<th style="font-size: 1.2em">學號</th>
-							<th style="font-size: 1.2em">申請事由</th>
-							<th style="font-size: 1.2em">指導老師</th>
-							<th style="font-size: 1.2em">審核結果</th>
+							<th style='font-size: 1.2em'>申請日期</th>
+							<th style='font-size: 1.2em'>教室代號</th>
+							<th style='font-size: 1.2em'>開始節次</th>
+							<th style='font-size: 1.2em'>結束節次</th>
+							<th style='font-size: 1.2em'>申請人</th>
+							<th style='font-size: 1.2em'>學號</th>
+							<th style='font-size: 1.2em'>申請事由</th>
+							<th style='font-size: 1.2em'>指導老師</th>
+							<th style='font-size: 1.2em'>審核結果</th>
 						</thead>
-						
 						<tbody>
 							<?php
-								foreach($list as $item) {
-									$result = ($item->apply_result);
-									$code = ($item->application_id);
+								foreach($list as  $item) {
+									$code = $item->application_id;
+									$data[$item->borrow_date][$code] = [
+                                        'update' => '0',
+                                        'start' => $item->borrow_start,
+                                        'end' => $item->borrow_end,
+                                        'result' => ''
+                                    ];
 									echo 
 										"<tr>".
-											"<td>{$item->application_id}</td>".
 											"<td>{$item->borrow_date}</td>".
 											"<td>{$item->room_id}</td>".
 											"<td>{$item->borrow_start}</td>".
 											"<td>{$item->borrow_end}</td>".
-											"<td>{$namelist[$item->student_id]}</td>".
+											"<td>{$item->name}</td>".
 											"<td>{$item->student_id}</td>".
 											"<td>{$item->reason}</td>".
-											"<td>{$item->teacher}</td>";
-										
-										echo '<td>';
-											
-											echo "<div class='funkyradio'>";
-												echo 
+											"<td>{$item->teacher}</td>".
+									        '<td>'.
+											    "<div class='funkyradio'>".
 													"<div class='funkyradio-primary'>".									
-														"<input type='radio' name='".$code."' id=$code,1 value='1'";
-															if($result) echo "checked";
-												echo		"/>".
-														"<label for=$code,1>通過</label>";
-													"</div>";
-
-												echo 
+														"<input type='radio' name={$code} id={$item->borrow_date}-{$code}_1 value='1'/>".
+														"<label for={$item->borrow_date}-{$code}_1>通過</label>".
+													"</div>".
 													"<div class='funkyradio-primary'>".									
-														"<input type='radio' name='".$code."' id=$code,0 value='0'";
-															if(!$result) echo "checked";
-												echo		"/>".
-														"<label for=$code,0>不通過</label>";
-													"</div>";
-											echo "</div>";
-										echo '</td>';
-									echo "</tr>";
+														"<input type='radio' name={$code} id={$item->borrow_date}-{$code}_0 value='0'/>".
+														"<label for={$item->borrow_date}-{$code}_0>不通過</label>".
+													"</div>".
+											    "</div>".
+                                                "<input type='hidden' class='form-control' placeholder='(選填)告知借用者理由' id={$item->borrow_date}-{$code}_2 value=''/>".
+										    '</td>'.
+									    "</tr>";
 								}
 							?>
 						</tbody>
@@ -85,16 +79,13 @@
 </div>
 
 <script>
-	let newInfo = {};
+    let newInfo = <?=json_encode($data,JSON_UNESCAPED_UNICODE)?>;
 
 	function formSubmit(){
-		$.post("<?=base_url('/Admin/Audit_Sending')?>", newInfo, function () {
-			// console.log(msg);
+		$.post("<?=base_url('/Admin/Audit_Sending')?>", newInfo, function (msg) {
+//			 console.log(msg);
             location.reload();
         });
 	}
-
-	$("#auditTable").delegate('input[type=radio]','click',function(e){
-		newInfo[e.target.id.substring(0,1)] = e.target.value;
-	});
 </script>
+<script src="<?=base_url('public/js/audit.js')?>"></script>

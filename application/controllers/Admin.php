@@ -3,31 +3,63 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Admin extends CI_Controller
 {
-    protected $data = ['anchor' => "/Admin", 'color' => "blue"];
+    protected $data = ['anchor' => "/Admin", 'color' => "blue",'image' => "2339815.jpg"];
 
     public function __construct()
     {
         parent::__construct();
         $this->load->helper(['url', 'form']);
         $this->load->library('session');
-
     }
 
     public function index()
     {
+        if(!$this->session->has_userdata('name')){
+            return redirect('/Home');
+        }
+
+        $i=0;
+        $roomperfectrate = array();
         $reasoncount = array(0, 0, 0, 0, 0, 0, 0);
-        $this->load->model(["classroom", "blacklist"]);
+        $roomBreakcount = array();
+        $roomAllbreakcount = array();
+        $this->load->model(["classroom", "blacklist","application"]);
         $class = $this->classroom->getRoominfo();
         $reason = $this->blacklist->getBlacklistinfo();
 
         foreach ($reason as $key => $value) {
             $reasoncount = $this->blacklist->reasoncount($value->reason, $reasoncount);
         }
-        $data = ['calssroom' => $class, 'reasoncount' => $reasoncount];
-        $this->data['title'] = "教室數據統計";
+        foreach ($class as $key => $value) {
+            $roomBreakcount[] = $this->blacklist->getroomBreak($value['room_id']);
+            $roomAllbreakcount[] = $this->blacklist->getroomAllbreak($value['room_id']);
+        }
+        
+        foreach ($roomBreakcount as $key => $value) {
+            $roomperfectrate[] = ['borrow' => $class[$i]['borrow_count'], 'break' => $value];
+            $i++;
+        }
+    //    foreach ($roomperfectrate as $key => $row) {
+    //             echo $row['break'];
+    //    }
 
-        $this->load->view('layouts/header', $this->data);
-        $this->load->view('layouts/navbar');
+//        foreach ($class as $key => $row) {
+//                echo $row['borrow_count'];
+//        }
+
+        $this->session->noaudit = $this->application->getNoAuditCount();
+
+        $this->data['title'] = "教室數據統計";
+        $data = [
+            'calssroom' => $class,
+            'reasoncount' => $reasoncount,
+            'roomBreakcount' => $roomBreakcount,
+            'roomAllbreakcount' => $roomAllbreakcount,
+            'roomperfectrate' => $roomperfectrate
+        ];
+
+        $this->load->view('layouts/header');
+        $this->load->view('layouts/navbar', $this->data);
         $this->load->view('pages/ad_home', $data);
         $this->load->view('layouts/footer');
     }
@@ -56,15 +88,20 @@ class Admin extends CI_Controller
 
     public function course()
     {
-        $this->load->model("ClassRoom");
-        $this->load->model("Time_period");
-        $this->load->model("Section");
-        $this->session->set_flashdata("uploadState", "");
+	    $this->load->model(['classroom','timeperiod','section']);
 
-        $this->data['title'] = "匯入課表";
+        $this->data['title'] = "課表設定";
+	    $dropdown=[];
+	    foreach ($this->classroom->getRoom() as $room){
+		    $dropdown['rooms'][] = [
+			    'name' => $room->room_id,
+			    'id'   => $room->room_id,
+			    'value' => $room->room_id
+		    ];
+	    }
         $this->load->view('layouts/header', $this->data);
         $this->load->view('layouts/navbar');
-        $this->load->view('pages/course');
+        $this->load->view('pages/course',$dropdown);
         $this->load->view('layouts/footer');
     }
 
@@ -109,13 +146,12 @@ class Admin extends CI_Controller
         }
     }
 
-    public function uploadClass()
+    public function importClass()
     {
         $this->load->model("Section");
         $this->load->library('excel');
         $file = $_FILES['upload'];
         // $file = "./class.xlsx";
-        $this->session->set_flashdata("uploadState", "");
         if (move_uploaded_file($file['tmp_name'], "./uploads/" . $file['name'])) {
             $inputFileName = "./uploads/" . $file['name'];
 
@@ -154,13 +190,12 @@ class Admin extends CI_Controller
                     }
                     // echo $data_value." ";
                     $arr_data[$row][$column] = $data_value;
-                    $this->session->set_flashdata("uploadState", "SUCCESS");
                 }
             }
             $this->Section->insert_xml($arr_data);
 
         } else {
-            $this->session->set_flashdata("uploadState", "NOPE");
+        
         }
 
         redirect(base_url("Admin/course"), 'replace');
@@ -189,22 +224,87 @@ class Admin extends CI_Controller
         $this->load->model(['borrower','application']);
 
         $data = [
-            'list' => $this->application->getTable(),
-            'namelist' => $this->borrower->getNameList()
+            'list' => $this->application->getNoAudit()
         ];
+
+        $this->session->noaudit = $this->application->getNoAuditCount();
 
         $this->data['title'] = "審核列表";
         $this->load->view('layouts/header', $this->data);
         $this->load->view('layouts/navbar');
         $this->load->view('pages/audit',$data);
         $this->load->view('layouts/footer');
-    } 
+    }
 
     public function Audit_Sending(){
-        $this->load->model('application');
-        $data = $this->input->post();
-        $this->application->updateData($data);
-    } 
+        $this->load->model(['application','section']);
 
+        $data = [];
+        $table = $this->application->getEmailInfo();
 
+        foreach ($this->input->post() as $day) {
+            foreach ($day as $id => $info){
+                if($info['update'] === "0") continue;
+
+                $this->application->updateData($id,$info['result']);
+
+                if($info['result'] === "0"){
+                    $table[$id]["reason"] = $info['reason'];
+                } else {
+                    $this->section->insertData([
+                        'room_id' => $table[$id]['room_id'],
+                        'date' => $table[$id]['borrow_date'],
+                        'start' => $table[$id]['borrow_start'],
+                        'end' => $table[$id]['borrow_end']
+                    ]);
+                }
+                $table[$id]['apply_result'] = $info['result'];
+                $data[] = $table[$id];
+            }
+        }
+
+        $this->session->set_flashdata('audit_list',$data);
+        return redirect("Email/replyMail");
+    }
+
+    public function searchRoom(){
+	    $post = $this->input->post();
+	    $this->load->model(["section",'application','time_period']);
+	    $data = [
+		    "class_data"    =>  $this->section->search_class($post['start'],$post['end'],$post['room_id']),
+		    "period"        =>  $this->time_period->getTime()
+	    ];
+	
+	    echo json_encode($data);
+    }
+	
+	public function update_class()
+	{
+		$post = $this->input->post();
+		$this->load->model("section");
+		$temp = $post['data'];
+		$end =  $post['endDate'];
+		$count = sizeof($post['data']);
+		foreach ($post['data'] as $key => $data){
+			$arr = explode("-",$data['date']);
+			while(1){
+				$nextDay = date("Y-m-d",mktime(0,0,0,$arr[1],$arr[2]+7,$arr[0]));
+				if(date($end) > date($nextDay)){//next day
+					$arr[2] += 7;
+					$this->section->recheck($data["start"],$data["end"],$nextDay,$data["room_id"]);
+					$temp[$count]["start"] =$data["start"];
+					$temp[$count]["end"] = $data["end"];
+					$temp[$count]["date"] = $nextDay;
+					$temp[$count]["room_id"] = $data["room_id"];
+					$count++;
+				}else{      //expire
+					break;
+				}
+			}
+
+		}
+		
+		$this->section->insert_xml($temp);
+		echo "SUCCESS";
+	}
 }
