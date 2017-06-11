@@ -30,7 +30,7 @@ class Email extends CI_Controller {
     // Borrower to manager
     public function sendMail(){
         $user = $this->session->toManager;
-
+        $this->email->priority = 1;
         $this->email->from($user['email'], $user['sName']);
         $this->email->to($this->to);
         $this->email->subject("教室申請單");
@@ -52,13 +52,13 @@ class Email extends CI_Controller {
     // Manager to borrower
     public function replyMail(){
         $auditData = $this->session->audit_list;
-
+        $this->email->priority = 1;
         foreach ($auditData as $form){
             $this->email->from($this->to, '教室借用系統');
             $this->email->to($form['email']);
             $this->email->subject("教室借用申請-審核結果");
 
-            if($form['apply_result'] == 1){
+            if($form['apply_result'] === "1"){
                 $this->email->message(
                     "<h2>審核結果：<span style='color: red'>通過</span></h2><br>".
                     "<h2>教室：{$form['room_id']}</h2><br>".

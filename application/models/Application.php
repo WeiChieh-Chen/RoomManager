@@ -9,7 +9,8 @@ Class Application extends CI_Model
     }
 
     public function getNoAudit(){
-    	return $this->db->where('apply_result',2)->get($this->table)->result();
+    	return $this->db->where('apply_result',2)->order_by('borrow_date','asc')->order_by('application_id','asc')
+            ->join('borrower','borrower.student_id = application.student_id')->get($this->table)->result();
     }
 
     public function getNoAuditCount(){
@@ -18,7 +19,7 @@ Class Application extends CI_Model
 
     public function getEmailInfo(){
         $table = $this->db->select(
-            'application_id,email,room_id,borrow_date,borrow_start,borrow_end,apply_result'
+            'application_id,email,room_id,borrow_date,borrow_start,borrow_end,apply_result,name'
         )->from($this->table)->join('borrower','borrower.student_id = application.student_id')->get()->result();
 
         foreach ($table as $item){
@@ -28,7 +29,8 @@ Class Application extends CI_Model
                 "borrow_date" => $item->borrow_date,
                 "borrow_start" => $item->borrow_start,
                 "borrow_end" => $item->borrow_end,
-                "apply_result" => $item->apply_result
+                "apply_result" => $item->apply_result,
+                "name" => $item->name
             ];
         }
         return $data;
