@@ -77,15 +77,20 @@ class Admin extends CI_Controller
 
     public function course()
     {
-        $this->load->model("ClassRoom");
-        $this->load->model("Time_period");
-        $this->load->model("Section");
-        $this->session->set_flashdata("uploadState", "");
+	    $this->load->model(['classroom','timeperiod','section']);
 
-        $this->data['title'] = "匯入課表";
+        $this->data['title'] = "課表設定";
+	    $dropdown=[];
+	    foreach ($this->classroom->getRoom() as $room){
+		    $dropdown['rooms'][] = [
+			    'name' => $room->room_id,
+			    'id'   => $room->room_id,
+			    'value' => $room->room_id
+		    ];
+	    }
         $this->load->view('layouts/header', $this->data);
         $this->load->view('layouts/navbar');
-        $this->load->view('pages/course');
+        $this->load->view('pages/course',$dropdown);
         $this->load->view('layouts/footer');
     }
 
@@ -130,13 +135,12 @@ class Admin extends CI_Controller
         }
     }
 
-    public function uploadClass()
+    public function importClass()
     {
         $this->load->model("Section");
         $this->load->library('excel');
         $file = $_FILES['upload'];
         // $file = "./class.xlsx";
-        $this->session->set_flashdata("uploadState", "");
         if (move_uploaded_file($file['tmp_name'], "./uploads/" . $file['name'])) {
             $inputFileName = "./uploads/" . $file['name'];
 
@@ -175,13 +179,12 @@ class Admin extends CI_Controller
                     }
                     // echo $data_value." ";
                     $arr_data[$row][$column] = $data_value;
-                    $this->session->set_flashdata("uploadState", "SUCCESS");
                 }
             }
             $this->Section->insert_xml($arr_data);
 
         } else {
-            $this->session->set_flashdata("uploadState", "NOPE");
+        
         }
 
         redirect(base_url("Admin/course"), 'replace');
@@ -230,7 +233,7 @@ class Admin extends CI_Controller
         }
 
         $table = $this->application->getEmailInfo();
-
+        
         $data = [];
         foreach ($this->input->post() as $id => $info) {
             if($info['result'] === "0"){
@@ -249,4 +252,45 @@ class Admin extends CI_Controller
         $this->session->set_flashdata('audit_list',$data);
         return redirect("Email/replyMail");
     }
+
+    public function searchRoom(){
+	    $post = $this->input->post();
+	    $this->load->model(["section",'application','time_period']);
+	    $data = [
+		    "class_data"    =>  $this->section->search_class($post['start'],$post['end'],$post['room_id']),
+		    "period"        =>  $this->time_period->getTime()
+	    ];
+	
+	    echo json_encode($data);
+    }
+	
+	public function update_class()
+	{
+		$post = $this->input->post();
+		$this->load->model("section");
+		$temp = $post['data'];
+		$end =  $post['endDate'];
+		$count = sizeof($post['data']);
+		foreach ($post['data'] as $key => $data){
+			$arr = explode("-",$data['date']);
+			while(1){
+				$nextDay = date("Y-m-d",mktime(0,0,0,$arr[1],$arr[2]+7,$arr[0]));
+				if(date($end) > date($nextDay)){//next day
+					$arr[2] += 7;
+					$this->section->recheck($data["start"],$data["end"],$nextDay,$data["room_id"]);
+					$temp[$count]["start"] =$data["start"];
+					$temp[$count]["end"] = $data["end"];
+					$temp[$count]["date"] = $nextDay;
+					$temp[$count]["room_id"] = $data["room_id"];
+					$count++;
+				}else{      //expire
+					break;
+				}
+			}
+
+		}
+		
+		$this->section->insert_xml($temp);
+		echo "SUCCESS";
+	}
 }
