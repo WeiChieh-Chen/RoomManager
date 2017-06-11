@@ -79,7 +79,7 @@
         </div>
     </nav>
     <script type="text/javascript">
-	    let formData = { sName: "", sNumber: "", email: "", cellphone: "", department:"",teacher: "", events: "", room_id: "",date:"",start_sec: "", end_sec: ""};
+	    let formData = { sName: "", sNumber: "", email: "", cellphone: "", department:"",teacher: "", events: "", room_id: "",date:"",start_sec: "", end_sec: "",send: false};
 	    let sec = ["","第一節","第二節","第三節","第四節","中午午休","第五節","第六節","第七節","第八節","第九節"
 		    ,"第十節","第十一節","第十二節","第十三節","第十四節"];
         let form;
@@ -129,11 +129,12 @@
                             }
                             return Object.values(this.$data).every(function (value) {
                                 return value !== "";
-                            });
+                            }) && !this.send;
                         }
                     },
                     methods: {
                         apply(){
+                            this.send = true;
                             let application = {
                                 'sName': this.sName, 'sNumber': this.sNumber,
                                 'email': this.email, 'cellphone': this.cellphone,
@@ -141,6 +142,16 @@
                                 'events': this.events, 'room_id': this.room_id,
                                 'date':this.date,'start_sec': this.start_sec, 'end_sec': this.end_sec
                             };
+
+                            $.notify({
+                                icon: 'pe-7s-paper-plane',
+                                message: "申請單寄送中……<br>請等候管理員審核及回覆！"
+                            }, {
+                                type: 'success',
+                                timer: 1000
+                            });
+
+
                             $.post("<?=base_url('Home/apply')?>",application,function(){
                                 location.reload();
                             });

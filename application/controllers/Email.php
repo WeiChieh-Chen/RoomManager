@@ -35,7 +35,7 @@ class Email extends CI_Controller {
         $this->email->to($this->to);
         $this->email->subject("教室申請單");
         $this->email->message(
-            "<h1>已收到借用&sp;<span style='color: red'>{$user['room_id']}&nbsp;</span>的申請單</h1><br>".
+            "<h1>已收到借用&nbsp;<span style='color: red'>{$user['room_id']}&nbsp;</span>的申請單</h1><br>".
             "<h3>申請人： {$user['sName']}</h3><br>".
             "<h3>學號： {$user['sNumber']}</h3><br>".
             "<h3>聯絡電話： {$user['cellphone']}</h3><br>".
