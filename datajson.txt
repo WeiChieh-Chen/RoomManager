@@ -28,9 +28,15 @@
 
 // update data
 {
-    application_id: {
-        "result": 0|1,
-        "reason":
+    data: {
+        application_id: {
+            "update" : 0|1,
+            "result": 0|1,
+            "reason":
+        },
+        .
+        .
+        .
     },
     .
     .

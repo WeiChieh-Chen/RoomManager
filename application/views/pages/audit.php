@@ -23,7 +23,6 @@
 				<div class="content table-responsive table-full-width">
 					<table class="table table-hover table-striped" id='auditTable'>
 						<thead>
-							<th style='font-size: 1.2em'>申請代碼</th>
 							<th style='font-size: 1.2em'>申請日期</th>
 							<th style='font-size: 1.2em'>教室代號</th>
 							<th style='font-size: 1.2em'>開始節次</th>
@@ -34,35 +33,38 @@
 							<th style='font-size: 1.2em'>指導老師</th>
 							<th style='font-size: 1.2em'>審核結果</th>
 						</thead>
-						
 						<tbody>
 							<?php
-								foreach($list as $item) {
-									$result = ($item->apply_result);
-									$code = ($item->application_id);
+								foreach($list as  $item) {
+									$code = $item->application_id;
+									$data[$item->borrow_date][$code] = [
+                                        'update' => '0',
+                                        'start' => $item->borrow_start,
+                                        'end' => $item->borrow_end,
+                                        'result' => ''
+                                    ];
 									echo 
 										"<tr>".
-											"<td>{$item->application_id}</td>".
 											"<td>{$item->borrow_date}</td>".
 											"<td>{$item->room_id}</td>".
 											"<td>{$item->borrow_start}</td>".
 											"<td>{$item->borrow_end}</td>".
-											"<td>{$namelist[$item->student_id]}</td>".
+											"<td>{$item->name}</td>".
 											"<td>{$item->student_id}</td>".
 											"<td>{$item->reason}</td>".
 											"<td>{$item->teacher}</td>".
 									        '<td>'.
 											    "<div class='funkyradio'>".
 													"<div class='funkyradio-primary'>".									
-														"<input type='radio' name={$code} id={$code}_1 value='1'/>".
-														"<label for={$code}_1>通過</label>".
+														"<input type='radio' name={$code} id={$item->borrow_date}-{$code}_1 value='1'/>".
+														"<label for={$item->borrow_date}-{$code}_1>通過</label>".
 													"</div>".
 													"<div class='funkyradio-primary'>".									
-														"<input type='radio' name={$code} id={$code}_0 value='0'/>".
-														"<label for={$code}_0>不通過</label>".
+														"<input type='radio' name={$code} id={$item->borrow_date}-{$code}_0 value='0'/>".
+														"<label for={$item->borrow_date}-{$code}_0>不通過</label>".
 													"</div>".
 											    "</div>".
-                                                "<input type='hidden' class='form-control' placeholder='(選填)告知借用者理由' id={$code}_2 value=''/>".
+                                                "<input type='hidden' class='form-control' placeholder='(選填)告知借用者理由' id={$item->borrow_date}-{$code}_2 value=''/>".
 										    '</td>'.
 									    "</tr>";
 								}
@@ -77,7 +79,7 @@
 </div>
 
 <script>
-	let newInfo = {};
+    let newInfo = <?=json_encode($data,JSON_UNESCAPED_UNICODE)?>;
 
 	function formSubmit(){
 		$.post("<?=base_url('/Admin/Audit_Sending')?>", newInfo, function (msg) {
@@ -85,20 +87,5 @@
             location.reload();
         });
 	}
-
-	$("#auditTable").delegate('input[type=radio]','click',function(e){
-	    let apply_id =  e.target.id.substring(0,e.target.id.indexOf("_"));
-	    let hideText =  document.getElementById(apply_id+"_2");
-	    if(e.target.value === '0'){
-	        hideText.type = "text";
-            hideText.onblur = function(){
-                newInfo[apply_id]['reason'] = this.value;
-            };
-        }else {
-            hideText.type = "hidden";
-        }
-
-		newInfo[apply_id] = {'result' : e.target.value};
-
-	});
 </script>
+<script src="<?=base_url('public/js/audit.js')?>"></script>

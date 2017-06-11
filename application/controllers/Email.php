@@ -2,35 +2,19 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Email extends CI_Controller {
-    private $to = "";
+    private $to = "40343228@gm.nfu.edu.tw";
 
     public function __construct() {
         parent::__construct();
         $this->load->library(['session','email']);
         $this->load->helper('url');
-        $this->setConfig();
     }
 
-    private function setConfig(){
-        $this->load->model('manager');
-        $this->to = "40343228@gm.nfu.edu.tw"; // System Email Account
-        $config = [
-            'protocol' => 'smtp',
-            'smtp_host' => 'ssl://smtp.gmail.com',
-            'smtp_port' => 465,
-            'smtp_user' => $this->to,
-            'smtp_pass' => 'x37801159', // System Email Password
-            'mailtype'  => 'html',
-            'charset'   => 'utf-8',
-            'newline'   => "\r\n"
-        ];
-        $this->email->initialize($config);
-    }
 
     // Borrower to manager
     public function sendMail(){
         $user = $this->session->toManager;
-
+        $this->email->priority = 1;
         $this->email->from($user['email'], $user['sName']);
         $this->email->to($this->to);
         $this->email->subject("教室申請單");
@@ -52,13 +36,13 @@ class Email extends CI_Controller {
     // Manager to borrower
     public function replyMail(){
         $auditData = $this->session->audit_list;
-
+        $this->email->priority = 1;
         foreach ($auditData as $form){
             $this->email->from($this->to, '教室借用系統');
             $this->email->to($form['email']);
             $this->email->subject("教室借用申請-審核結果");
 
-            if($form['apply_result'] == 1){
+            if($form['apply_result'] === "1"){
                 $this->email->message(
                     "<h2>審核結果：<span style='color: red'>通過</span></h2><br>".
                     "<h2>教室：{$form['room_id']}</h2><br>".

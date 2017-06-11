@@ -213,8 +213,7 @@ class Admin extends CI_Controller
         $this->load->model(['borrower','application']);
 
         $data = [
-            'list' => $this->application->getNoAudit(),
-            'namelist' => $this->borrower->getNameList()
+            'list' => $this->application->getNoAudit()
         ];
 
         $this->session->noaudit = $this->application->getNoAuditCount();
@@ -228,25 +227,29 @@ class Admin extends CI_Controller
 
     public function Audit_Sending(){
         $this->load->model(['application','section']);
-        foreach ($this->input->post() as $id => $info) {
-            $this->application->updateData($id,$info['result']);
-        }
 
-        $table = $this->application->getEmailInfo();
-        
         $data = [];
-        foreach ($this->input->post() as $id => $info) {
-            if($info['result'] === "0"){
-                $table[$id]["reason"] = $info['reason'];
-            } else {
-                $this->section->insertData([
-                    'room_id' => $table[$id]['room_id'],
-                    'date' => $table[$id]['borrow_date'],
-                    'start' => $table[$id]['borrow_start'],
-                    'end' => $table[$id]['borrow_end']
-                ]);
+        $table = $this->application->getEmailInfo();
+
+        foreach ($this->input->post() as $day) {
+            foreach ($day as $id => $info){
+                if($info['update'] === "0") continue;
+
+                $this->application->updateData($id,$info['result']);
+
+                if($info['result'] === "0"){
+                    $table[$id]["reason"] = $info['reason'];
+                } else {
+                    $this->section->insertData([
+                        'room_id' => $table[$id]['room_id'],
+                        'date' => $table[$id]['borrow_date'],
+                        'start' => $table[$id]['borrow_start'],
+                        'end' => $table[$id]['borrow_end']
+                    ]);
+                }
+                $table[$id]['apply_result'] = $info['result'];
+                $data[] = $table[$id];
             }
-            $data[] = $table[$id];
         }
 
         $this->session->set_flashdata('audit_list',$data);
