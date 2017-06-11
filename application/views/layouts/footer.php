@@ -56,10 +56,11 @@
 <script src="<?= base_url('public/js/light-bootstrap-dashboard.js')?>"></script>
 
 <!-- Other JS-->
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/numeric/1.2.6/numeric.min.js"></script>
 <script src="<?= base_url('public/js/semantic.min.js')?>"></script>
 <script src="<?= base_url('public/components/dataTables.min.js')?>"></script>
 <script src="<?= base_url('public/components/dataTables.semanticui.min.js')?>"></script>
-<script src="<?= base_url('public/js/statistic-chart.js')?>"></script>
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 
 <script type="text/javascript">
