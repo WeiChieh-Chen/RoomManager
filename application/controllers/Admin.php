@@ -15,6 +15,8 @@ class Admin extends CI_Controller
 
     public function index()
     {
+        $i=0;
+        $roomperfectrate = array();
         $reasoncount = array(0, 0, 0, 0, 0, 0, 0);
         $roomBreakcount = array();
         $roomAllbreakcount = array();
@@ -29,17 +31,22 @@ class Admin extends CI_Controller
             $roomBreakcount[] = $this->blacklist->getroomBreak($value['room_id']);
             $roomAllbreakcount[] = $this->blacklist->getroomAllbreak($value['room_id']);
         }
-
-//        foreach ($class as $key => $row) {
-//                echo $row['borrow_count'];
-//        }
+        
+        foreach ($roomBreakcount as $key => $value) {
+            $roomperfectrate[] = ['borrow' => $class[$i]['borrow_count'], 'break' => $value];
+            $i++;
+        }
+    //    foreach ($roomperfectrate as $key => $row) {
+    //             echo $row['break'];
+    //    }
 
         $this->data['title'] = "教室數據統計";
         $data = [
             'calssroom' => $class,
             'reasoncount' => $reasoncount,
             'roomBreakcount' => $roomBreakcount,
-            'roomAllbreakcount' => $roomAllbreakcount
+            'roomAllbreakcount' => $roomAllbreakcount,
+            'roomperfectrate' => $roomperfectrate
         ];
 
         $this->load->view('layouts/header');

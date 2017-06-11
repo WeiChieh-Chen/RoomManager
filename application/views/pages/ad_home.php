@@ -4,17 +4,34 @@
     var reasoncount = [];
     var roomBreakcount = [];
     var roomAllbreakcount = [];
+    var roomperfectrate = [];
 </script>
 <?php foreach($reasoncount as $key => $row){ ?>
     <script>
         reasoncount.push("<?php echo $row; ?>");
     </script>
 <?php } ?>
+
 <?php foreach($roomBreakcount as $key => $row){ ?>
     <script>
         roomBreakcount.push("<?php echo $row; ?>");
     </script>
 <?php } ?>
+
+<?php foreach($roomperfectrate as $key => $row){ ?>
+    <script>
+        var Oneroomperfectrate = [];
+    </script>
+    <?php foreach ($row as $key => $value){ ?>
+        <script>
+            Oneroomperfectrate.push("<?php echo $value; ?>");
+        </script>
+    <?php } ?>
+    <script>
+        roomperfectrate.push(Oneroomperfectrate);
+    </script>
+<?php } ?>
+
 <?php foreach($roomAllbreakcount as $key => $row){ ?>
     <script>
         var roomOnebreakcount = [];
@@ -28,14 +45,12 @@
         roomAllbreakcount.push(roomOnebreakcount);
     </script>
 <?php } ?>
-    <script>
-        console.log(roomAllbreakcount);
-    </script>
 <div id="page-wrapper">
     <br>
     <br>
     <div class="row">
         <nav class = "col-sm-12">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <ul id="year" class="pagination">
                 <li id="yearchange">
                     <button type="button" class="btn btn-link btn-md" onclick="changeroomdown()">&laquo;</button>
@@ -59,10 +74,11 @@
                     <div id="plotly-placeholder" style="width:100%;height:100%;"></div>
                 </div>
             </div>
-            
+            <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;本學期各教室借用次數</label>
             <div style="width:450px;height:300px;text-align:center;margin:10px">
                 <div id="flot-placeholder" style="width:100%;height:100%;"></div>
             </div>
+            <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;本學期各教室問題發生次數</label>
             <div style="width:450px;height:300px;text-align:center;margin:10px">
                 <div id="flot-placeholder3" style="width:100%;height:100%;"></div>
             </div>           
@@ -112,8 +128,13 @@
             <!-- /.panel -->
             <br>
             <br>
+            <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;本學期各問題發生次數</label>
             <div style="width:450px;height:300px;text-align:center;margin:10px">
                 <div id="flot-placeholder2" style="width:100%;height:100%;"></div>
+            </div>
+            <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;本學期各教室完善率</label>
+            <div style="width:450px;height:300px;text-align:center;margin:10px">
+                <div id="flot-placeholder4" style="width:100%;height:100%;"></div>
             </div>
         </div>
     </div>
