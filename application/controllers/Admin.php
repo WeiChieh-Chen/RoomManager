@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Admin extends CI_Controller
 {
-    protected $data = ['anchor' => "/Admin", 'color' => "blue",'image' => ""];
+    protected $data = ['anchor' => "/Admin", 'color' => "blue",'image' => "2339815.jpg"];
 
     public function __construct()
     {
