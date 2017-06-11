@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Admin extends CI_Controller
 {
-    protected $data = ['anchor' => "/Admin", 'color' => "blue"];
+    protected $data = ['anchor' => "/Admin", 'color' => "blue",'image' => ""];
 
     public function __construct()
     {
@@ -220,7 +220,7 @@ class Admin extends CI_Controller
     }
 
     public function Audit_Sending(){
-        $this->load->model('application');
+        $this->load->model(['application','section']);
         foreach ($this->input->post() as $id => $info) {
             $this->application->updateData($id,$info['result']);
         }
@@ -231,6 +231,13 @@ class Admin extends CI_Controller
         foreach ($this->input->post() as $id => $info) {
             if($info['result'] === "0"){
                 $table[$id]["reason"] = $info['reason'];
+            } else {
+                $this->section->insertData([
+                    'room_id' => $table[$id]['room_id'],
+                    'date' => $table[$id]['borrow_date'],
+                    'start' => $table[$id]['borrow_start'],
+                    'end' => $table[$id]['borrow_end']
+                ]);
             }
             $data[] = $table[$id];
         }

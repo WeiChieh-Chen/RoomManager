@@ -87,7 +87,7 @@
     if (login_state === "SUCCESS") {
         $.notify({
             icon: 'pe-7s-user',
-            message: "歡迎 <b><?=$this->session->name?></b> 登入教室租借系統！"
+            message: "歡迎 <b><?=$this->session->name?></b> 登入教室借用系統！"
         }, {
             type: 'success',
             timer: 1000

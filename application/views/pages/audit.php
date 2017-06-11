@@ -26,8 +26,8 @@
 							<th style='font-size: 1.2em'>申請代碼</th>
 							<th style='font-size: 1.2em'>申請日期</th>
 							<th style='font-size: 1.2em'>教室代號</th>
-							<th style='font-size: 1.2em'>開始時間</th>
-							<th style='font-size: 1.2em'>結束時間</th>
+							<th style='font-size: 1.2em'>開始節次</th>
+							<th style='font-size: 1.2em'>結束節次</th>
 							<th style='font-size: 1.2em'>申請人</th>
 							<th style='font-size: 1.2em'>學號</th>
 							<th style='font-size: 1.2em'>申請事由</th>

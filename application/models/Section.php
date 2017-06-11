@@ -33,5 +33,9 @@ Class Section extends CI_Model
 	public function insert_xml($data){
         $this->db->insert_batch("section",$data);
     }
+
+    public function insertData($data){
+        $this->db->insert("section",$data);
+    }
 }
 

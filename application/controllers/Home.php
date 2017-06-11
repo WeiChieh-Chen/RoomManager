@@ -14,7 +14,8 @@ class Home extends CI_Controller {
         $data= [
             'anchor' => '/Home',
             'title' => '短期申請',
-            'color' => "gray"
+            'color' => "gray",
+            'image' => "building-g3.png"
         ];
 
         $dropdown=[];
