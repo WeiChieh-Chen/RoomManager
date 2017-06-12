@@ -97,11 +97,12 @@
             list: <?= json_encode($reasonAll,JSON_UNESCAPED_UNICODE)?>,
             studentID:"",
             roomID:"",
-            reason:""
+            reason:"",
+            click:true
         },
         computed:{
           isSubmit(){
-              return this.studentID !== "" && this.roomID !== "" && this.reason !== "";
+              return this.studentID !== "" && this.roomID !== "" && this.reason !== "" && this.click;
           }
         },
         methods: {
@@ -118,16 +119,29 @@
                 }
             },
             submit(){
+                this.click = false;
                 this.reason = this.reason.substring(0,this.reason.length-1); // 6,2, -> 6,2
                 let arr = this.reason.split(","); // ['6','2']
                 arr.sort(function(a,b){return a-b}); // ['2','6']
                 this.reason = arr.toString(); // 2,6
 
-                let data = {};
-                data[this.studentID] = {};
-                data[this.studentID][this.roomID] = this.reason;
-                $.post("<?=base_url('/Admin/insertBlacklist')?>",data,function(msg){
-                    location.reload();
+                let data = {
+                    'sNum' : this.studentID,
+                    'room' : this.roomID,
+                    'reason' : this.reason
+                };
+
+                $.post("<?=base_url('/Admin/insertBlacklist')?>",data,function(status){
+                    if(status === "NOPE"){
+                        $.notify({
+                            icon: 'pe-7s-attention',
+                            message: "該學號並無申請借用過教室！"
+                        }, {
+                            type: 'warning',
+                            timer: 1000
+                        });
+                    }
+                    setTimeout("location.reload()",2000);
                 });
             }
         }
