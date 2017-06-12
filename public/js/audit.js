@@ -1,8 +1,8 @@
 // newInfo announce from audit.php
 $(document).ready(function(){
     $("#auditTable").delegate('input[type=radio]','click',function(e){
-        let day = e.target.id.substring(0,e.target.id.lastIndexOf("-"));// Y-mm-dd
-        let id =  e.target.id.substring(e.target.id.lastIndexOf("-")+1,e.target.id.lastIndexOf("_")); // id
+        let day = e.target.id.substring(0,10);// Y-mm-dd
+        let id =  e.target.id.substring(11,e.target.id.lastIndexOf("_")); // id
         let apply_id = day+"-"+id; // Y-m-d-id is every button of rule of id for audit.php
 
         let hideText =  document.getElementById(apply_id+"_2");
@@ -23,8 +23,8 @@ $(document).ready(function(){
             let setNode = document.querySelectorAll("[id*='"+day+"']");
 
             setNode.forEach(function(node){
-                let tmpDay = node.id.substring(0,node.id.lastIndexOf("-"));
-                let tmpId =  node.id.substring(node.id.lastIndexOf("-")+1,node.id.lastIndexOf("_"));
+                let tmpDay = node.id.substring(0,10);
+                let tmpId =  node.id.substring(11,node.id.lastIndexOf("_"));
                 if(tmpId === id) return; //continue
 
                 if(timeJudge(newInfo[day][id].start,newInfo[day][id].end,newInfo[day][tmpId].start,newInfo[day][tmpId].end)) return;
