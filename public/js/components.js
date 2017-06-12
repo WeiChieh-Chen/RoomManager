@@ -16,7 +16,7 @@ Vue.component('TextField', {
         }
     },
     template: "<div class='form-group'>" +
-    "<label :for=model class='control-label'>{{text}}</label>" +
+    "<label :for=model class='control-label' style='font-size: 1.2em'>{{text}}</label>" +
     "<input type='text' :name=model class='form-control' :value=preset :placeholder=placeholder @input='streamBack' />" +
     "</div>",
     methods: {
@@ -46,7 +46,7 @@ Vue.component('PassField', {
         }
     },
     template: "<div class='form-group'>" +
-    "<label :for=model class='control-label'>{{text}}</label>" +
+    "<label :for=model class='control-label' style='font-size: 1.2em'>{{text}}</label>" +
     "<input type='password'  :name=model class='form-control' :placeholder=placeholder @input='streamBack' />" +
     "</div>",
     methods: {

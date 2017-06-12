@@ -109,12 +109,12 @@ class Admin extends CI_Controller
     public function showBlacklist()
     {
         $reasonlist = array();
-        $this->load->model("blacklist");
+        $this->load->model(["blacklist","blacklist_reason"]);
         $blacklist = $this->blacklist->getBlacklistinfo();
         foreach ($blacklist as $key => $value) {
             $reasonlist[] = $this->blacklist->reasonString($value->reason);
         }
-        $data = ['blacklist' => $blacklist, 'reasonlist' => $reasonlist];
+        $data = ['blacklist' => $blacklist, 'reasonlist' => $reasonlist,'reasonAll' => $this->blacklist_reason->getAll()];
 
         $this->data['title'] = "黑名單列表";
         $this->load->view('layouts/header', $this->data);
@@ -213,7 +213,7 @@ class Admin extends CI_Controller
         }
         $reasonlist = substr($reasonlist, 0, strlen($reasonlist) - 1);
 
-        $this->db->set(['student_id' => $this->input->post('stduentID'), 'room_id' => $this->input->post('roomID'), 'reason' => $reasonlist]);
+        $this->db->set(['student_id' => $this->input->post('studentID'), 'room_id' => $this->input->post('roomID'), 'reason' => $reasonlist]);
         $this->db->insert('blacklist');
 
 
