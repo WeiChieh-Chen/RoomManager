@@ -62,7 +62,7 @@ class Home extends CI_Controller {
 
     public function apply(){
         $post = $this->input->post();
-        $this->load->model(['borrower','application']);
+        $this->load->model(['borrower','application','blacklist']);
 
         $data = [
             'student_id' => $post['sNumber'],
@@ -71,35 +71,37 @@ class Home extends CI_Controller {
             'cellphone' => $post['cellphone'],
             'department' => $post['department']
         ];
-        if(is_null($this->borrower->find($post['sNumber']))){
-            $this->borrower->create($data);
-        }else {
-            unset($data['student_id']);
-            $this->borrower->update($post['sNumber'],$data);
-        }
+        if(!$this->blacklist->checklist($data['student_id'])){
+            if(is_null($this->borrower->find($post['sNumber']))){
+                $this->borrower->create($data);
+            }else {
+                unset($data['student_id']);
+                $this->borrower->update($post['sNumber'],$data);
+            }
 
-        date_default_timezone_set('Asia/Taipei');
-        $data = [
-            'room_id' => $post['room_id'],
-            'student_id' => $post['sNumber'],
-            'reason' => $post['events'],
-            'teacher' => $post['teacher'],
-            'borrow_date' => $post['date'],
-            'borrow_start' => $post['start_sec'],
-            'borrow_end' => $post['end_sec'],
-            'apply_time' => date("Y-m-d H:i:s",time())
-        ];
-        $this->application->create($data);
-        $this->session->set_flashdata('toManager',[
-            "room_id"=> $post['room_id'],
-            "email"=> $post['email'],
-            "sName"=> $post['sName'],
-            "sNumber"=> $post['sNumber'],
-            "cellphone"=> $post['cellphone'],
-            "teacher"=> $post['teacher'],
-            "events"=> $post['events']
-        ]);
-        return redirect("Email/sendMail");
+            date_default_timezone_set('Asia/Taipei');
+            $data = [
+                'room_id' => $post['room_id'],
+                'student_id' => $post['sNumber'],
+                'reason' => $post['events'],
+                'teacher' => $post['teacher'],
+                'borrow_date' => $post['date'],
+                'borrow_start' => $post['start_sec'],
+                'borrow_end' => $post['end_sec'],
+                'apply_time' => date("Y-m-d H:i:s",time())
+            ];
+            $this->application->create($data);
+            $this->session->set_flashdata('toManager',[
+                "room_id"=> $post['room_id'],
+                "email"=> $post['email'],
+                "sName"=> $post['sName'],
+                "sNumber"=> $post['sNumber'],
+                "cellphone"=> $post['cellphone'],
+                "teacher"=> $post['teacher'],
+                "events"=> $post['events']
+            ]);
+            return redirect("Email/sendMail");
+        }
     }
     
     public function searchRoom() {

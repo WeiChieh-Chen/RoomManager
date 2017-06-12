@@ -6,6 +6,11 @@ Class Blacklist extends CI_Model
         parent::__construct();
         $this->load->database("room_borrow");
     }
+    public function checklist($value)
+    {
+        $query = $this->db->where(["student_id"=>$value])->count_all_results('blacklist');
+        return $query;
+    }
 
     public function getBlacklistinfo()
     {   
