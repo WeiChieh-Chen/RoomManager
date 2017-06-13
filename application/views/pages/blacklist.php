@@ -77,6 +77,7 @@
                 <div class="row">
                     <div class="col-xs-3" v-for="(reason,id) in list">
                         <button type="button" class="btn" :id="id" @click="toggle(id)">{{reason}}</button>
+                        <h6>&nbsp;</h6>
                     </div>
                 </div>
             </div>
