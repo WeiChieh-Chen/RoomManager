@@ -17,7 +17,7 @@ class Email extends CI_Controller {
         $this->email->priority = 1;
         if($user['isB']){
             $this->email->from($user['email'], $user['sName']);
-            $this->email->to($this->to);
+            $this->email->to($user['email']);
             $this->email->subject("教室申請單");
             $this->email->message(
                 "<h1><span style='color: red'>您在借用黑名單中，請洽詢管理者</span></h1><br>".
