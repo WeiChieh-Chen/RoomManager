@@ -1,10 +1,16 @@
 <?php
 Class Blacklist extends CI_Model
 {
+    private $table = 'blacklist';
     public function __construct()
     {
         parent::__construct();
         $this->load->database("room_borrow");
+    }
+    public function checklist($value)
+    {
+        $query = $this->db->where(["student_id"=>$value])->count_all_results($this->table);
+        return $query;
     }
 
     public function getBlacklistinfo()
@@ -14,13 +20,13 @@ Class Blacklist extends CI_Model
         $date=$myDate[0]."-9-01";
         $date2=$myDate[0]."-3-01";
         if((strtotime("now")-strtotime($date))/60/60/24 < 30 && (strtotime("now")-strtotime($date))/60/60/24 >= 0){ 
-            $this->db->empty_table('blacklist');
+            $this->db->empty_table($this->table);
 
         }
         else if((strtotime("now")-strtotime($date2))/60/60/24 < 30 && (strtotime("now")-strtotime($date2))/60/60/24 >= 0){
-            $this->db->empty_table('blacklist');
+            $this->db->empty_table($this->table);
         } 
-        $query = $this->db->get("blacklist");
+        $query = $this->db->get($this->table);
         return $query->result();
     }
 
@@ -49,18 +55,22 @@ Class Blacklist extends CI_Model
 
     public function getroomBreak($room_id)
     {
-        $query = $this->db->where(["room_id"=>$room_id])->count_all_results('blacklist');
+        $query = $this->db->where(["room_id"=>$room_id])->count_all_results($this->table);
         return $query;
     }
     public function getroomAllbreak($room_id)
     {
         $countarray = array(0, 0, 0, 0, 0, 0, 0);
-        $query = $this->db->where(["room_id"=>$room_id])->get("blacklist");
+        $query = $this->db->where(["room_id"=>$room_id])->get($this->table);
         $roomdata = $query->result();
         foreach ($roomdata as $key => $value) {
             $countarray = $this->blacklist->reasoncount($value->reason,$countarray);
         }
         return $countarray;
+    }
+
+    public function create($data){
+        $this->db->insert($this->table,$data);
     }
 }
 

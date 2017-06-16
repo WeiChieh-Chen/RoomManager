@@ -69,3 +69,10 @@
     .
     .
 }
+
+// Blacklist
+{
+  student_id:
+  room_id:
+  reason:
+}

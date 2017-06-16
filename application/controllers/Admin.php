@@ -109,12 +109,12 @@ class Admin extends CI_Controller
     public function showBlacklist()
     {
         $reasonlist = array();
-        $this->load->model("blacklist");
+        $this->load->model(["blacklist","blacklist_reason"]);
         $blacklist = $this->blacklist->getBlacklistinfo();
         foreach ($blacklist as $key => $value) {
             $reasonlist[] = $this->blacklist->reasonString($value->reason);
         }
-        $data = ['blacklist' => $blacklist, 'reasonlist' => $reasonlist];
+        $data = ['blacklist' => $blacklist, 'reasonlist' => $reasonlist,'reasonAll' => $this->blacklist_reason->getAll()];
 
         $this->data['title'] = "黑名單列表";
         $this->load->view('layouts/header', $this->data);
@@ -204,20 +204,20 @@ class Admin extends CI_Controller
 
     public function insertBlacklist()
     {
-        $this->load->model("blacklist");
-        $reasonlist = "";
-        for ($i = 1; $i < 8; $i++) {
-            if ($this->input->post('reason' . $i) != '') {
-                $reasonlist = $reasonlist . "" . $this->input->post('reason' . $i) . ",";
-            }
-        }
-        $reasonlist = substr($reasonlist, 0, strlen($reasonlist) - 1);
+        $this->load->model(["borrower","blacklist"]);
+        $post = $this->input->post();
 
-        $this->db->set(['student_id' => $this->input->post('stduentID'), 'room_id' => $this->input->post('roomID'), 'reason' => $reasonlist]);
-        $this->db->insert('blacklist');
+        $data = [
+            'student_id' => $post['sNum'],
+            'room_id' => $post['room'],
+            'reason' => $post['reason']
+        ];
 
-
-        return redirect("/Admin/showBlacklist");
+        if($this->borrower->find($data['student_id'])){
+            $this->blacklist->create($data);
+            echo "SUCCESS";
+        }else echo "NOPE";
+        
     }
 
     public function Audit(){
