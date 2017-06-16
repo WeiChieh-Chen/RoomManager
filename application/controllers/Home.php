@@ -98,7 +98,16 @@ class Home extends CI_Controller {
                 "sNumber"=> $post['sNumber'],
                 "cellphone"=> $post['cellphone'],
                 "teacher"=> $post['teacher'],
-                "events"=> $post['events']
+                "events"=> $post['events'],
+                "isB" => false
+            ]);
+            return redirect("Email/sendMail");
+        }else{
+            $this->session->set_flashdata('toManager',[
+                "email"=> $post['email'],
+                "sName"=> $post['sName'],
+                "sNumber"=> $post['sNumber'],
+                "isB" => true
             ]);
             return redirect("Email/sendMail");
         }
