@@ -16,11 +16,11 @@ class Email extends CI_Controller {
         $user = $this->session->toManager;
         $this->email->priority = 1;
         if($user['isB']){
-            $this->email->from($user['email'], $user['sName']);
+            $this->email->from($user['email'], "教室借用系統-阻擋通知");
             $this->email->to($user['email']);
             $this->email->subject("教室申請單");
             $this->email->message(
-                "<h1><span style='color: red'>您在借用黑名單中，請洽詢管理者</span></h1><br>".
+                "<h1>您是<span style='color: red'>教室借用系統-黑名單</span>的一員，請洽詢管理者</h1><br>".
                 "<h3>申請人： {$user['sName']}</h3><br>".
                 "<h3>學號： {$user['sNumber']}</h3><br>"
             );
