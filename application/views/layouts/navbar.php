@@ -116,7 +116,7 @@
                     data: formData,
                     computed: {
                         right: function () {
-                            if (this.start_sec !== "" && this.end_sec !== "" && this.start_sec > this.end_sec) {
+                            if (this.start_sec !== "" && this.end_sec !== "" && parseInt(this.start_sec) > parseInt(this.end_sec)) {
                                 $.notify({
                                     icon: 'pe-7s-shield',
                                     message: "結束節次在開始結次前面！"
