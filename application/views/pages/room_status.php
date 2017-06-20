@@ -1,3 +1,4 @@
+<link href="<?= base_url('public/components/alertify.min.css')?>" rel="stylesheet"/>
 <style>
     .display {
         font-size: 1.5em;
@@ -30,7 +31,7 @@
                     <tbody>
                     <?php
                     foreach ($classroom as $room_id => $room):
-                        echo "<tr id='{$room_id}'>" . "<td class='select_col' onclick=select('{$room_id}')></td>" . "<td>{$room_id}</td>" . "<td><span class='select_col_reverse'>{$room['info']['room_name']}</span><div class='ui input'>" . "<input type='text' class='select_col' value='{$room['info']['room_name']}' onblur=changeName('{$room_id}',this.value) />" . "</div></td>" . "<td>";
+                        echo "<tr id='{$room_id}'>" . "<td class='select_col' onclick=select('{$room_id}')></td>" . "<td>{$room_id}</td>" . "<td><span class='select_col_reverse'>{$room['info']['room_name']}</span><div class='ui input'>" . "<input type='text' class='select_col' value='{$room['info']['room_name']}' onkeyup=changeName('{$room_id}',this.value) />" . "</div></td>" . "<td>";
                         if ($room['info']['active'] == 1):
                             echo "<input type='checkbox' class='actBtn' data-toggle='toggle' data-on='啟動' data-off='關閉' data-height='10' data-onstyle='primary' data-offstyle='danger' disabled checked>";
                         else:
@@ -78,17 +79,53 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-
 <script src="<?= base_url('public/js/room_status.js') ?>"></script>
+<script src="<?= base_url('public/components/alertify.min.js')?>"></script>
 <script>
     let oldInfo = <?= json_encode($classroom, JSON_UNESCAPED_UNICODE)?>;
-    let newInfo = <?= json_encode($classroom, JSON_UNESCAPED_UNICODE)?>;
+    let newInfo = <?= json_encode($classroom, JSON_UNESCAPED_UNICODE)?>;;
 
     function submit() {
-//        console.log(newInfo);
-        $.post("<?=base_url('/Admin/uploadData')?>", newInfo, function () {
-            location.reload();
+        alertify.defaults.glossary.title = "<h2 style='font-size: 2em'>教室變更再確認</h2>";
+        alertify.defaults.glossary.ok = "確定";
+        alertify.defaults.glossary.cancel = "取消";
+        let content = "<h3>您確定將進行以下變更？</h3>";
+        Object.keys(newInfo).forEach(function(room_id){
+            if(newInfo[room_id]['status'] !== "NORMAL"){
+                switch (newInfo[room_id]['status']){
+                    case "INSERT":
+                        content += "<h3><span style='color: green'>增加教室</span>&emsp;"+room_id+"&emsp;"+newInfo[room_id]['info']['room_name']+"</h3>";
+                        break;
+                    case "UPDATE":
+                        let str = "";
+                        if(oldInfo[room_id]['info']['room_name'] !== newInfo[room_id]['info']['room_name']){
+                            str +=  "<span style='color: orangered'>"+newInfo[room_id]['info']['room_name']+"</span>&emsp;";
+                        }
+                        if(oldInfo[room_id]['info']['active'] !== newInfo[room_id]['info']['active']){
+                            let text = newInfo[room_id]['info']['active'] === "1"?"啟動":"關閉";
+                            if(text === "啟動") {
+                                str += "<span style='color: dodgerblue'>" + text + "</span>&emsp;";
+                            } else {
+                                str += "<span style='color: darkred'>" + text + "</span>&emsp;";
+                            }
+                        }
+                        content += "<h3><span style='color: orangered'>更新資訊</span>&emsp;"+room_id+"&emsp;"+str+"</h3>";
+                        break;
+                    case "DELETE":
+                        content += "<h3><span style='color: red'>移除教室</span>&emsp;"+room_id+"</h3>";
+                        break;
+                }
+            }
         });
+        alertify.confirm(
+            content
+            ,function () {
+                $.post("<?=base_url('/Admin/uploadData')?>", newInfo, function () {
+                    location.reload();
+                });
+            },function (){
+                location.reload();
+            }).set('resizable',true).resizeTo('50%','60%');
     }
 
     // room_status
