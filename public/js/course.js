@@ -25,6 +25,15 @@ function show_class(data,st,ed) {
 		6:"000000000000000",
 		7:"000000000000000"
 	};
+	let reason ={
+		1:{},
+		2:{},
+		3:{},
+		4:{},
+		5:{},
+		6:{},
+		7:{},
+	}
 
 	//set status of day from section
 	Object.values(data['class_data']).map(function (obj) {
@@ -33,14 +42,16 @@ function show_class(data,st,ed) {
 		if(day !== 0){
 			for(let i = parseInt(obj.start)-1; i < parseInt(obj.end) ; i++){
 				week[day] = week[day].replaceAt(i,"1");
+				reason[day][i] = "課程上課使用";
 			}
 		}else{
 			for(let i = parseInt(obj.start)-1; i < parseInt(obj.end) ; i++){
 				week[7] = week[7].replaceAt(i,"1");
+				reason[7][i] = "課程上課使用";
 			}
 		}
 	});
-
+	
 	// set status of day from application
 	Object.values(data['apply_data']).map(function (obj) {
 		now = new Date(obj.borrow_date);
@@ -48,14 +59,16 @@ function show_class(data,st,ed) {
 		if(day !== 0){
 			for(let i = parseInt(obj.borrow_start)-1; i < parseInt(obj.borrow_end) ; i++){
 				week[day] = week[day].replaceAt(i,"1");
+				reason[day][i] = obj.reason;
 			}
 		}else{
 			for(let i = parseInt(obj.borrow_start)-1; i < parseInt(obj.borrow_end) ; i++){
 				week[7] = week[7].replaceAt(i,"1");
+				reason[7][i] = obj.reason;
 			}
 		}
 	});
-
+	
 	// set table title
 	period = data["period"];
 	let list =  "<tr><th colspan='8' style='text-align: center;font-size: 16px;color: black'>"+
@@ -66,15 +79,14 @@ function show_class(data,st,ed) {
 		set_week(st)+
 		"</tr>";
 
-	console.log(week);
 	Object.values(period).map(function (times,i) {
 		//set time text
 		list += "<tr>" +
 			"<th bgcolor='#2ea879' >"+
 			sectionControl(parseInt(times['period_id']),times['start'],times['end'])+
 			"</th>";
-		for(let j = 1 ; j < 8 ; j++){ //set column status
-			list += init(week[j].charAt(i),i,j);
+		for(let j = 1 ; j < 8 ; j++){ //set column status			
+			list += init(week[j].charAt(i),i,j,reason[j][i]);
 		}
 		list += "</tr>";
 	});
@@ -91,16 +103,19 @@ function show_class(data,st,ed) {
 let idArr = [];             //save room_id while mode is 2
 function show_date(data,st) {
 	let day = new Date(st);
-	console.log(data);
+	// console.log(data);
 	let classroom = {};
+	let reason ={}
 	Object.values(data['classroom']).map(function (room) {
 		classroom[room['room_id']] ="000000000000000";
+		reason[room['room_id']] ={};
 	});
 
 	Object.values(data['class_data']).map(function (obj) {
 		if(classroom[obj.room_id] !== undefined){
 			for(let i = parseInt(obj.start)-1; i < parseInt(obj.end) ; i++){
-				classroom[obj.room_id]	 = classroom[obj.room_id].replaceAt(i,"1");
+				classroom[obj.room_id]	= classroom[obj.room_id].replaceAt(i,"1");
+				reason[obj.room_id][i]	= "課程上課使用";
 			}
 		}
 	});
@@ -109,10 +124,11 @@ function show_date(data,st) {
 		if(classroom[obj.room_id] !== undefined){
 			for(let i = parseInt(obj.borrow_start)-1; i < parseInt(obj.borrow_end) ; i++){
 				classroom[obj.room_id]	 = classroom[obj.room_id].replaceAt(i,"1");
+				reason[obj.room_id][i]	= obj.reason;
 			}
 		}
 	});
-	console.log(classroom);
+	// console.log(classroom);
 
 	period = data["period"];
 	let list =  "<tr><th colspan='"+(period.length+2)+
@@ -133,7 +149,7 @@ function show_date(data,st) {
 			sectionControl(parseInt(times['period_id']),times['start'],times['end'])+
 			"</th>";
 		for(let j = 1 ; j <= idArr.length ; j++){
-			list += init(classroom[idArr[j-1]].charAt(i),i,j);
+			list += init(classroom[idArr[j-1]].charAt(i),i,j,reason[idArr[j-1]][i]);
 		}
 	});
 
@@ -150,10 +166,11 @@ function show_date(data,st) {
 
 function show_both(data,st) {
 	let status = "000000000000000";
-
+	let reason = {};
 	Object.values(data['class_data']).map(function (obj) {
 		for(let i = parseInt(obj.start)-1; i < parseInt(obj.end) ; i++){
 			status	 = status.replaceAt(i,"1");
+			reason[i]="課程上課使用";
 		}
 	});
 
@@ -161,10 +178,11 @@ function show_both(data,st) {
 	Object.values(data['apply_data']).map(function (obj) {
 		for(let i = parseInt(obj.borrow_start)-1; i < parseInt(obj.borrow_end) ; i++){
 			status	 = status.replaceAt(i,"1");
+			reason[i]= obj.reason;
 		}
 	});
 
-
+	
 	period = data["period"];
 	let list =  "<tr><th colspan='2' style='text-align: center;font-size: 16px;color: black'>"+
 		"(橘色代表已借出)<br>"+st+"</th></tr>" +
@@ -178,7 +196,7 @@ function show_both(data,st) {
 			"<th bgcolor='#2ea879' >"+
 			sectionControl(parseInt(times['period_id']),times['start'],times['end'])+
 			"</th>";
-		list += init(status.charAt(i),i,1);             // id = i_j     period_classroom  || period_week
+		list += init(status.charAt(i),i,1,reason[i]);             // id = i_j     period_classroom  || period_week
 
 	});
 	if(!isdelegate){
