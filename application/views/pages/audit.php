@@ -78,8 +78,7 @@
     </div>
 </div>
 <script>
-    let newInfo = <?=json_encode($list,JSON_UNESCAPED_UNICODE)?>;
-
+    let newInfo = <?=json_encode($data,JSON_UNESCAPED_UNICODE)?>;
     function formSubmit(){
         $.notify({
             icon: 'pe-7s-paper-plane',
