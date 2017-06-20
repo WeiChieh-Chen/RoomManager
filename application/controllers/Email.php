@@ -16,7 +16,7 @@ class Email extends CI_Controller {
         $user = $this->session->toManager;
         $this->email->priority = 1;
         if($user['isB']){
-            $this->email->from($user['email'], "教室借用系統-阻擋通知");
+            $this->email->from($this->to, "教室借用系統-阻擋通知");
             $this->email->to($user['email']);
             $this->email->subject("教室申請單");
             $this->email->message(

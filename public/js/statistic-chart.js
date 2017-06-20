@@ -340,7 +340,7 @@ function changeroomup() {
         labels: ["大門未鎖", "電源未關", "冷氣未關", "風扇未關", "電燈未關", "未維持環境整潔", "設備損壞"],
         type: 'pie'
     }];
-    Plotly.newPlot('plotly-placeholder', data4, );
+    Plotly.newPlot('plotly-placeholder', data4,null);
 }
 
 function changeroomdown() {
@@ -357,7 +357,7 @@ function changeroomdown() {
         labels: ["大門未鎖", "電源未關", "冷氣未關", "風扇未關", "電燈未關", "未維持環境整潔", "設備損壞"],
         type: 'pie'
     }];
-    Plotly.newPlot('plotly-placeholder', data4, );
+    Plotly.newPlot('plotly-placeholder', data4, null);
 }
 
 // $.fn.UseTooltip = function() {
