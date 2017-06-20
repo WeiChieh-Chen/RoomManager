@@ -43,12 +43,25 @@
                                 'end' => $item->borrow_end,
                                 'result' => ''
                             ];
+
+                            if($item->borrow_start === "5"){
+                                $start = "中午休息時間";
+                            }else if($item->borrow_start > 5){
+                                $start = $item->borrow_start - 1;
+                            }
+
+                            if($item->borrow_end === "5"){
+                                $end = "中午休息時間";
+                            }else if($item->borrow_end > 5){
+                                $end = $item->borrow_end - 1;
+                            }
+                            
                             echo
                                 "<tr>".
                                 "<td>{$item->borrow_date}</td>".
                                 "<td>{$item->room_id}</td>".
-                                "<td>{$item->borrow_start}</td>".
-                                "<td>{$item->borrow_end}</td>".
+                                "<td>{$start}</td>".
+                                "<td>{$end}</td>".
                                 "<td>{$item->name}</td>".
                                 "<td>{$item->student_id}</td>".
                                 "<td>{$item->reason}</td>".
