@@ -47,12 +47,12 @@ function select(id){
             delete newInfo[id];
             $('#'+id).remove();
         }else{
-            newInfo[id] = {"status" : "DELETE"};
+            newInfo[id]['status']=  "DELETE";
         }
 
     } else {
         domOfChild[0].innerHTML = "";
-        newInfo[id] = {"status" : "NORMAL"};
+        newInfo[id]['status'] = "NORMAL";
     }
 }
 
@@ -84,8 +84,11 @@ function recover(){
             delete newInfo[id];
             $('#'+id).remove();
         }else if(newInfo[id]['status'] === "DELETE") {
-            document.getElementById(id).childNodes[0].innerHTML = "";
-            newInfo[id] = {"status": "NORMAL"};
+            document.getElementById(id).firstChild.innerHTML = "";
+            newInfo[id]["status"] = "NORMAL";
+        }else if(newInfo[id]['status'] === "UPDATE"){
+            document.getElementById(id).childNodes[2].childNodes[1].firstChild.value = oldInfo[id]['info']['room_name'];
+            changeName(id,oldInfo[id]['info']['room_name']);
         }
     });
 }
@@ -98,6 +101,11 @@ function changeName(id,context) {
         }else {
             newInfo[id]['status'] = "NORMAL";
         }
+    }
+
+    if(newInfo[id]['status'] === "DELETE"){
+        select(id);
+        newInfo[id]['status'] = "UPDATE";
     }
     newInfo[id]['info']['room_name'] = context;
 }

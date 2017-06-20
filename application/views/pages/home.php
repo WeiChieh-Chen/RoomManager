@@ -15,7 +15,7 @@
 			"<div class='col-xs-2'>".
 				"<bs-drop title='教室代號' bs-class='bs-default' model='room_id' :opt-arr=".json_encode($rooms)."></bs-drop>".
 			"</div>".
-			"<div class='col-xs-1'>".
+			"<div class='col-xs-2'>".
 			"<button type='button' class='btn btn-block' :class=[check?'btn-primary':'btn-default'] :disabled=!check @click='search(0)'>查詢</button>".
 			"</div>"
 			?>
