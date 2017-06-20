@@ -90,7 +90,7 @@ class Admin extends CI_Controller
     {
 	    $this->load->model(['classroom','timeperiod','section']);
 
-        $this->data['title'] = "課表設定";
+        $this->data['title'] = "長期申請";
 	    $dropdown=[];
 	    foreach ($this->classroom->getRoom() as $room){
 		    $dropdown['rooms'][] = [

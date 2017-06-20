@@ -17,7 +17,15 @@ function show_class(data,st,ed) {
 		6:"000000000000000",
 		7:"000000000000000"
 	};
-	console.log(data);
+	let reason ={
+		1:{},
+		2:{},
+		3:{},
+		4:{},
+		5:{},
+		6:{},
+		7:{},
+	}
 	//set status of day from section
 	Object.values(data['class_data']).map(function (obj) {
 		now = new Date(obj.date);
@@ -25,10 +33,12 @@ function show_class(data,st,ed) {
 		if(day !== 0){
 			for(let i = parseInt(obj.start)-1; i < parseInt(obj.end) ; i++){
 				week[day] = week[day].replaceAt(i,"1");
+				reason[day][i] = "課程上課使用";
 			}
 		}else{
 			for(let i = parseInt(obj.start)-1; i < parseInt(obj.end) ; i++){
 				week[7] = week[7].replaceAt(i,"1");
+				reason[7][i] = "課程上課使用";
 			}
 		}
 	});
@@ -51,7 +61,7 @@ function show_class(data,st,ed) {
 			sectionControl(parseInt(times['period_id']),times['start'],times['end'])+
 			"</th>";
 		for(let j = 1 ; j < 8 ; j++){ //set column status
-			list += init(week[j].charAt(i),i,j);
+			list += init(week[j].charAt(i),i,j,reason[j][i]);
 		}
 	});
 	if(!isdelegate){

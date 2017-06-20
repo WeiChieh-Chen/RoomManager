@@ -39,7 +39,7 @@
 		    "<div class='col-xs-1'>".
 		    "<button type='button' class='btn btn-block' :class=[check?'btn-primary':'btn-default'] :disabled=!check @click='search(0)'>查詢</button>".
 		    "</div>".
-		    "<div class='col-xs-1 col-xs-push-3'>".
+		    "<div class='col-xs-2 col-xs-push-2'>".
 		    "<button type='button' class='btn btn-block btn-success' hidden id='saveBtn' onclick='save()'>儲存課表</button>".
 		    "</div>"
 		    ?>
@@ -190,6 +190,6 @@
 	}
 
 </script>
-	<script src="<?= base_url('public/js/adminClass.js')?>"></script>
+	<script src="<?= base_url('public/js/Adminclass.js')?>"></script>
 	<script src="<?= base_url('public/js/classRoomCourse.js')?>"></script>
 	<script src="<?= base_url('public/components/alertify.min.js')?>"></script>
