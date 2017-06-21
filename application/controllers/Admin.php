@@ -104,7 +104,45 @@ class Admin extends CI_Controller
         $this->load->view('pages/course',$dropdown);
         $this->load->view('layouts/footer');
     }
+	
+	public function search_borrower()
+	{
+		$this->load->model(['borrower','application','classroom']);
+		
+		$data = [
+			'list' => $this->application->getNoAudit()
+		];
+		
+		$this->session->noaudit = $this->application->getNoAuditCount();
+		foreach ($this->classroom->getRoom() as $room){
+			$data['rooms'][] = [
+				'name' => $room->room_id,
+				'id'   => $room->room_id,
+				'value' => $room->room_id
+			];
+		}
+		$this->data['title'] = "審核列表";
+		$this->load->view('layouts/header', $this->data);
+		$this->load->view('layouts/navbar');
+		$this->load->view('pages/search_borrower',$data);
+		$this->load->view('layouts/footer');
+	}
+	
+	public function borrower_search(){
+		$this->load->model('section_of_borrower');
+		$post = $this->input->post();
+		$arr = [
+			"name" => $post['sName'],
+			"student_id" => $post['sNumber'],
+			"cellphone" => $post['cellphone'],
+			"teacher" => $post['teacher'],
+			"room_id" => $post['room_id'],
+			"date" => $post['date']
+		];
+		$query = $this->section_of_borrower->search();
 
+		echo json_encode($query);
+	}
 
     public function showBlacklist()
     {
@@ -146,8 +184,7 @@ class Admin extends CI_Controller
         }
     }
 
-    public function importClass()
-    {
+    public function importClass() {
         $this->load->model("Section");
         $this->load->library('excel');
         $file = $_FILES['upload'];
