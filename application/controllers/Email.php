@@ -53,12 +53,29 @@ class Email extends CI_Controller {
             $this->email->to($form['email']);
             $this->email->subject("教室借用申請-審核結果");
 
+            if($form['borrow_start'] === "5"){
+                $form['borrow_start'] = "中午休息時間";
+            }else if($form['borrow_start'] > 5){
+                $form['borrow_start'] = "第".($form['borrow_start'] - 1)."節";
+            }else{
+                $form['borrow_start'] = "第".($form['borrow_start'])."節";
+            }
+
+            if($form['borrow_end'] === "5"){
+                $form['borrow_end'] = "中午休息時間";
+            }else if($form['borrow_end'] > 5){
+                $form['borrow_end'] = "第".($form['borrow_end'] - 1)."節";
+            }else{
+                $form['borrow_end'] = "第".($form['borrow_end'])."節";
+            }
+            
+
             if($form['apply_result'] === "1"){
                 $this->email->message(
                     "<h2>審核結果：<span style='color: red'>通過</span></h2><br>".
                     "<h2>教室：{$form['room_id']}</h2><br>".
                     "<h3>日期：{$form['borrow_date']}</h3><br>".
-                    "<h3>節次：第{$form['borrow_start']}節～第{$form['borrow_end']}節</h3><br>".
+                    "<h3>節次：{$form['borrow_start']}～{$form['borrow_end']}</h3><br>".
                     "<h3>本信件由系統自動發送，請勿回覆！</h3>"
                 );
             }else {
@@ -66,7 +83,7 @@ class Email extends CI_Controller {
                     "<h2>審核結果：<span style='color: red'>不通過</span></h2><br>".
                     "<h2>教室：{$form['room_id']}</h2><br>".
                     "<h3>日期：{$form['borrow_date']}</h3><br>".
-                    "<h3>節次：第{$form['borrow_start']}節～第{$form['borrow_end']}節</h3><br>".
+                    "<h3>節次：{$form['borrow_start']}～{$form['borrow_end']}</h3><br>".
                     "<h3>原因：{$form['reason']}</h3>".
                     "<h4>本信件由系統自動發送，請勿回覆！</h4>"
                 );

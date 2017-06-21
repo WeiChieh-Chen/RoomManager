@@ -90,7 +90,7 @@ class Admin extends CI_Controller
     {
 	    $this->load->model(['classroom','timeperiod','section']);
 
-        $this->data['title'] = "課表設定";
+        $this->data['title'] = "長期申請";
 	    $dropdown=[];
 	    foreach ($this->classroom->getRoom() as $room){
 		    $dropdown['rooms'][] = [
@@ -104,7 +104,44 @@ class Admin extends CI_Controller
         $this->load->view('pages/course',$dropdown);
         $this->load->view('layouts/footer');
     }
-
+	
+	public function search_borrower()
+	{
+		$this->load->model(['borrower','application','classroom']);
+		
+		$data = [
+			'list' => $this->application->getNoAudit()
+		];
+		
+		$this->session->noaudit = $this->application->getNoAuditCount();
+		foreach ($this->classroom->getRoom() as $room){
+			$data['rooms'][] = [
+				'name' => $room->room_id,
+				'id'   => $room->room_id,
+				'value' => $room->room_id
+			];
+		}
+		$this->data['title'] = "審核列表";
+		$this->load->view('layouts/header', $this->data);
+		$this->load->view('layouts/navbar');
+		$this->load->view('pages/search_borrower',$data);
+		$this->load->view('layouts/footer');
+	}
+	
+	public function borrower_search(){
+		$this->load->model('section_of_borrower');
+		$post = $this->input->post();
+		$arr = [];
+		foreach($post as $key => $value){
+			if($value != ""){
+				$arr[$key] = $value;
+			}
+		}
+		
+		
+		$query = $this->section_of_borrower->search($arr);
+		echo json_encode($query);
+	}
 
     public function showBlacklist()
     {
@@ -146,8 +183,7 @@ class Admin extends CI_Controller
         }
     }
 
-    public function importClass()
-    {
+    public function importClass() {
         $this->load->model("Section");
         $this->load->library('excel');
         $file = $_FILES['upload'];
@@ -291,7 +327,7 @@ class Admin extends CI_Controller
 				$nextDay = date("Y-m-d",mktime(0,0,0,$arr[1],$arr[2]+7,$arr[0]));
 				if(date($end) > date($nextDay)){//next day
 					$arr[2] += 7;
-					$this->section->recheck($data["start"],$data["end"],$nextDay,$data["room_id"]);
+//					$this->section->recheck($data["start"],$data["end"],$nextDay,$data["room_id"]);
 					$temp[$count]["start"] =$data["start"];
 					$temp[$count]["end"] = $data["end"];
 					$temp[$count]["date"] = $nextDay;

@@ -5,7 +5,7 @@ function checkColor(obj,st,mode) {
 	alertify.defaults.glossary.title = "<h2 style='font-size: 2em'>租借申請借用須知</h2>";
 	alertify.defaults.glossary.ok = "確定";
 	alertify.defaults.glossary.cancel = "取消";
-
+	
 	if(obj.bgColor === "orange"){
 		$.notify({
 			icon: 'pe-7s-shield',
@@ -59,8 +59,9 @@ function sectionControl(number,start,end) {
 	return sec[number]+"<br>"+start+"~"+end;
 }
 
-function init(statue,i,j) {
+function init(statue,i,j,reason) {
+	reason = reason !== undefined?reason:"";
 	return statue === "0"?
 		"<td id='"+i+"_"+j+"' style='color: white;font-size: 0' >0</td>":
-		"<td id='"+i+"_"+j+"' style='color: orange;font-size: 0' bgcolor='orange' >2</td>";
+		"<td title='"+reason+"' id='"+i+"_"+j+"' style='color: orange;font-size: 0' bgcolor='orange' >2</td>";
 }
