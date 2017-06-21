@@ -48,12 +48,16 @@
                                 $start = "中午休息時間";
                             }else if($item->borrow_start > 5){
                                 $start = $item->borrow_start - 1;
+                            }else{
+                                $start = $item->borrow_start;
                             }
 
                             if($item->borrow_end === "5"){
                                 $end = "中午休息時間";
                             }else if($item->borrow_end > 5){
                                 $end = $item->borrow_end - 1;
+                            }else{
+                                $end = $item->borrow_end;
                             }
                             
                             echo
