@@ -44,11 +44,11 @@
 		    "</div>"
 		    ?>
 		    <div class="form-group col-xs-2 col-xs-push-3">
-			    <form action="<?=base_url('Admin/importClass');?>" method="post" accept-charset="utf-8" enctype='multipart/form-data'  >
+			    <form action="<?=base_url('Admin/importClass');?>" method="post" accept-charset="utf-8" enctype='multipart/form-data' id="upload_form" >
 				    <div class="doc-container">
 					    <div class="monkeyb-cust-file">
 						    <span>匯入課表</span>
-						    <input type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
+						    <input type="file" id="upload" name="upload" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" onchange="sub()"/>
 					    </div>
 				    </div>
 			    </form>
@@ -67,6 +67,7 @@
 	    </div>
     </div>
 <script type="text/javascript">
+	
 	String.prototype.replaceAt = function (index, chr) {
 		if (index > this.length - 1) return this;
 		return this.substr(0, index) + chr + this.substr(index + 1);
@@ -106,7 +107,9 @@
 		}
 	});
 	
-
+	function sub() {
+		document.getElementById("upload_form").submit();
+	}
 
 	function save() {
 		alertify.defaults.glossary.title = "<h2 style='font-size: 2em'>系統通知</h2>";

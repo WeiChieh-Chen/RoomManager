@@ -131,16 +131,15 @@ class Admin extends CI_Controller
 	public function borrower_search(){
 		$this->load->model('section_of_borrower');
 		$post = $this->input->post();
-		$arr = [
-			"name" => $post['sName'],
-			"student_id" => $post['sNumber'],
-			"cellphone" => $post['cellphone'],
-			"teacher" => $post['teacher'],
-			"room_id" => $post['room_id'],
-			"date" => $post['date']
-		];
-		$query = $this->section_of_borrower->search();
-
+		$arr = [];
+		foreach($post as $key => $value){
+			if($value != ""){
+				$arr[$key] = $value;
+			}
+		}
+		
+		
+		$query = $this->section_of_borrower->search($arr);
 		echo json_encode($query);
 	}
 
@@ -328,7 +327,7 @@ class Admin extends CI_Controller
 				$nextDay = date("Y-m-d",mktime(0,0,0,$arr[1],$arr[2]+7,$arr[0]));
 				if(date($end) > date($nextDay)){//next day
 					$arr[2] += 7;
-					$this->section->recheck($data["start"],$data["end"],$nextDay,$data["room_id"]);
+//					$this->section->recheck($data["start"],$data["end"],$nextDay,$data["room_id"]);
 					$temp[$count]["start"] =$data["start"];
 					$temp[$count]["end"] = $data["end"];
 					$temp[$count]["date"] = $nextDay;
