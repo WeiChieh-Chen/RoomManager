@@ -94,7 +94,8 @@
                             ["href" => base_url('Admin'), "icon" => "pe-7s-graph", "item" => "教室數據統計"],
                             ["href" => base_url('Admin/showBlacklist'), "icon" => "pe-7s-user", "item" => "黑名單列表"],
                             ["href" => base_url('Admin/Audit'), "icon" => "pe-7s-pen", "item" => "審核列表"],
-                            ["href" => base_url('Admin/course'), "icon" => "pe-7s-note2", "item" => "匯入課表"],
+	                        ["href" => base_url('Admin/search_borrower'), "icon" => "pe-7s-search", "item" => "借用申請單查詢"],
+                            ["href" => base_url('Admin/course'), "icon" => "pe-7s-note2", "item" => "長期申請"],
                             ["href" => base_url('Admin/RoomStatus'), "icon" => "pe-7s-config", "item" => "教室狀態"]
                         ];
                     else:
