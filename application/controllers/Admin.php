@@ -259,8 +259,20 @@ class Admin extends CI_Controller
     public function Audit(){
         $this->load->model(['borrower','application']);
 
+        $set = [];
+        $list = $this->application->getNoAudit();
+        foreach ($list as $item) {
+            $set[$item->borrow_date][$item->application_id] = [
+                'update' => '0',
+                'start' => $item->borrow_start,
+                'end' => $item->borrow_end,
+                'result' => ''
+            ];
+        }
+
         $data = [
-            'list' => $this->application->getNoAudit()
+            'list' => $list,
+            'data' => $set
         ];
 
         $this->session->noaudit = $this->application->getNoAuditCount();
