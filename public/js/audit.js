@@ -51,3 +51,13 @@ $(document).ready(function(){
 function timeJudge(st,en,tmpSt,tmpEn){
     return st < tmpEn || tmpSt > st && en > tmpEn || tmpSt < en ;
 }
+
+function autoAudit(){
+    Object.keys(newInfo).forEach(function(day){
+        Object.keys(newInfo[day]).forEach(function(id){
+            if(newInfo[day][id].result === ""){
+                document.getElementById(day+'-'+id+'_1').click();
+            }
+        });
+    });
+}

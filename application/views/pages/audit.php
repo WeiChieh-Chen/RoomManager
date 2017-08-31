@@ -18,6 +18,7 @@
             <div class="col-xs-1"></div>
             <div class="col-xs-10">
                 <p align="right">
+                    <button id='autoBtn' class='btn btn-lg' onclick="autoAudit();this.disabled=true">自動審核</button>
                     <button id='submitBtn' class='btn btn-lg btn-primary' onclick="formSubmit();this.disabled=true">提交</button>
                 </p>
                 <div class="content table-responsive table-full-width">
@@ -37,12 +38,6 @@
                         <?php
                         foreach($list as  $item) {
                             $code = $item->application_id;
-                            $data[$item->borrow_date][$code] = [
-                                'update' => '0',
-                                'start' => $item->borrow_start,
-                                'end' => $item->borrow_end,
-                                'result' => ''
-                            ];
 
                             if($item->borrow_start === "5"){
                                 $start = "中午休息時間";
