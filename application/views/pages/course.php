@@ -36,6 +36,9 @@
 		    "<div class='col-xs-2'>".
 		    "<bs-drop title='教室代號' bs-class='bs-default' model='room_id' :opt-arr=".json_encode($rooms)."></bs-drop>".
 		    "</div>".
+		    "<div class='col-xs-2'>".
+		    "<label>選擇課表的開始日期</label><input id='startDate'  v-model='start_date'  type='date' class='form-control' />".
+		    "</div>".
 		    "<div class='col-xs-1'>".
 		    "<button type='button' class='btn btn-block' :class=[check?'btn-primary':'btn-default'] :disabled=!check @click='search(0)'>查詢</button>".
 		    "</div>".
@@ -43,20 +46,20 @@
 		    "<button type='button' class='btn btn-block btn-success' hidden id='saveBtn' onclick='save()'>儲存課表</button>".
 		    "</div>"
 		    ?>
-		    <div class="form-group col-xs-2 col-xs-push-3">
-			    <form action="<?=base_url('Admin/importClass');?>" method="post" accept-charset="utf-8" enctype='multipart/form-data' id="upload_form" >
-				    <div class="doc-container">
-					    <div class="monkeyb-cust-file">
-						    <span>匯入課表</span>
-						    <input type="file" id="upload" name="upload" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" onchange="sub()"/>
-					    </div>
-				    </div>
-			    </form>
-		    </div>
+<!--		    <div class="form-group col-xs-2 col-xs-push-3">-->
+<!--			    <form action="--><?//=base_url('Admin/importClass');?><!--" method="post" accept-charset="utf-8" enctype='multipart/form-data' id="upload_form" >-->
+<!--				    <div class="doc-container">-->
+<!--					    <div class="monkeyb-cust-file">-->
+<!--						    <span>匯入課表</span>-->
+<!--						    <input type="file" id="upload" name="upload" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" onchange="sub()"/>-->
+<!--					    </div>-->
+<!--				    </div>-->
+<!--			    </form>-->
+<!--		    </div>-->
 	    </div>
 
 	    <div class="row">
-		    <div class="col-xs-4 ">
+		    <div class="col-xs-4 col-xs-push-2">
 			    <div id="calendar" class="container">
 				    <div class="component">
 					    <table id="roomTable" border="1">
@@ -67,29 +70,30 @@
 	    </div>
     </div>
 <script type="text/javascript">
-	
+	let start_date = '';
 	String.prototype.replaceAt = function (index, chr) {
 		if (index > this.length - 1) return this;
 		return this.substr(0, index) + chr + this.substr(index + 1);
 	};
 	new Vue({
 		el:"#table",
-		data: { room_id: "",total:0,date:"",mode:0},
+		data: { room_id: "",total:0,date:"",mode:0,start_date:""},
 		computed:{
 			check: function () {
-				return this.room_id !== "";
+				return this.room_id !== "" && this.start_date !== "";
 			}
 		},
 		methods: {
 			search(diff){
 				$("#saveBtn").attr("hidden",false);
 				room_id = this.room_id;
+				start_date = this.start_date;
 				let application = {
 					'room_id': this.room_id,
-					'start':"",
+					'start':this.start_date,
 					'end':""
 				};
-				today = new Date();
+				today = new Date(this.start_date);
 				if(today.getDay() !== 0){ //set back Monday
 					today.setDate((today.getDate() - today.getDay() + 1 + this.total));
 				}else{//set to next week Monday
@@ -98,10 +102,9 @@
 				application['start'] = today.getUTCFullYear() + format(today.getMonth()+1) + format(today.getDate());
 				today.setDate((today.getDate() + 6));//set today to Sunday
 				application['end'] = today.getUTCFullYear() + format(today.getMonth()+1) + format(today.getDate());
-				let st = application['start'];
 				let end = application['end'];
 				$.post("<?=base_url("Admin/searchRoom")?>",application,function(jsonData){
-					show_class(JSON.parse(jsonData),st,end);
+					show_class(JSON.parse(jsonData),application['start'],end);
 				});
 			}
 		}
@@ -120,14 +123,16 @@
 			"data":{}
 		};
 
-		alertify.confirm("<label>選擇該課表的結束日期</label><input id='alert_endDate'  type='date' class='form-control' />"
+		alertify.confirm(
+						"<label>選擇該課表的結束日期</label><input id='alert_endDate'  type='date' class='form-control' />"
 		,function () {
 			let endDate = document.getElementById("alert_endDate").value;
+			
 			if(endDate === ""){
 				alertify.warning("請選擇結束日期");
 				return;
 			}
-			let today = new Date();
+			let today = new Date(start_date);
 			if(today.getDay() !== 0){ //set back Monday
 				today.setDate((today.getDate() - today.getDay() + 1));
 			}else{//set to next week Monday
@@ -138,7 +143,7 @@
 				let isStart = true;
 				for(let i = 0; i <　15; i++){
 					let x = document.getElementById("roomTable").rows[2+i].cells.namedItem(i+"_"+j).innerHTML;
-					console.log(x);
+					
 					status[j-1] += x === "2" ? "0" : x;
 					
 					if(status[j-1][i] === "1" && isStart){
@@ -167,9 +172,9 @@
 				today.setDate((today.getDate() + 1));
 			}
 			postdata["endDate"] = endDate;
-			console.log(status);
+			
 			$.post("<?=base_url("Admin/update_class")?>",postdata,function(msg){
-				console.log(msg);
+
 				if(msg === "SUCCESS"){
 					$.notify({
 						icon: 'pe-7s-shield',

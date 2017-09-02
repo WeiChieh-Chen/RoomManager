@@ -14,6 +14,10 @@
         -webkit-appearance: none;
         margin: 0;
     }
+	
+	td,li {
+		cursor: pointer ;
+	}
 </style>
 <div class="content">
 	<div class="container-fluid">

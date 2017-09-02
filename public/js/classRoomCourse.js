@@ -37,7 +37,7 @@ function checkColor(obj,st,mode) {
 			}else if(mode === 1){
 				form.date = st;                                                     //date
 				document.getElementById(idArr[parseInt(id[1]) - 1]).click();        //room_id
-			}else if(mode === 2){alert(st);
+			}else if(mode === 2){
 				form.date = st;                                                     //date
 				document.getElementById(room_id).click();                           //room_id
 			}
@@ -61,7 +61,9 @@ function sectionControl(number,start,end) {
 
 function init(statue,i,j,reason) {
 	reason = reason !== undefined?reason:"";
+	reason = reason.split(',');
+	if(statue === '2')return "<td title='申請人："+reason[0]+"&#10;事由："+reason[1]+"' id='"+i+"_"+j+"' style='color: 4F5155;font-size: 0' bgcolor='4F5155' >2</td>";
 	return statue === "0"?
 		"<td id='"+i+"_"+j+"' style='color: white;font-size: 0' >0</td>":
-		"<td title='"+reason+"' id='"+i+"_"+j+"' style='color: orange;font-size: 0' bgcolor='orange' >2</td>";
+		"<td title='申請人："+reason[0]+"&#10;事由："+reason[1]+"' id='"+i+"_"+j+"' style='color: orange;font-size: 0' bgcolor='orange' >2</td>";
 }
