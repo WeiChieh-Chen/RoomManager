@@ -128,21 +128,23 @@
 
                                 return false;
                             }
-                            return Object.values(this.$data).every(function (value) {
-                                return value !== "";
-                            }) && !this.send;
+
+                            return !this.send;
+//                            return Object.values(this.$data).every(function (value) {
+//                                return value !== "";
+//                            }) && !this.send;
                         }
                     },
                     methods: {
                         apply(){
                             this.send = true;
-                            let application = {
-                                'sName': this.sName, 'sNumber': this.sNumber,
-                                'email': this.email, 'cellphone': this.cellphone,
-                                'department':this.department,'teacher': this.teacher,
-                                'events': this.events, 'room_id': this.room_id,
-                                'date':this.date,'start_sec': this.start_sec, 'end_sec': this.end_sec
-                            };
+//                            let application = {
+//                                'sName': this.sName, 'sNumber': this.sNumber,
+//                                'email': this.email, 'cellphone': this.cellphone,
+//                                'department':this.department,'teacher': this.teacher,
+//                                'events': this.events, 'room_id': this.room_id,
+//                                'date':this.date,'start_sec': this.start_sec, 'end_sec': this.end_sec
+//                            };
 
                             $.notify({
                                 icon: 'pe-7s-paper-plane',
@@ -152,10 +154,7 @@
                                 timer: 1000
                             });
 
-
-                            $.post("<?=base_url('Home/apply')?>",application,function(){
-                                location.reload();
-                            });
+                            $('form').submit();
                         }
                     }
                 });
@@ -188,70 +187,76 @@
     <!-- For application of shortcut -->
     <?php
     if(!$this->session->has_userdata('name')):
-     echo "<div class='modal fade' tabindex='-1' role='dialog' id='shortApp'>".
-        "<div class='modal-dialog' role='document'>".
-            "<div class='modal-content'>".
-                "<div class='modal-header'>".
-                    "<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>".
-                    "<h2 class='modal-title'>短期借用申請單</h2><br>".
-                    "<div class='row'>".
-                        "<div class='col-xs-12'>".
-                            "<div class='form-group'>".
-                                "<input v-model='date' id='form_date'  type='date' class='form-control' />".
+     echo
+     "<div class='modal fade' tabindex='-1' role='dialog' id='shortApp'>".
+         "<form action='".base_url('Home/apply')."' @submit.prevent='apply' method='post' >".
+            "<div class='modal-dialog' role='document'>".
+                "<div class='modal-content'>".
+                    "<div class='modal-header'>".
+                        "<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>".
+                        "<h2 class='modal-title'>短期借用申請單</h2><br>".
+                        "<div class='row'>".
+                            "<div class='col-xs-12'>".
+                                "<div class='form-group'>".
+                                    "<input type='date' id='form_date' name='date' v-model='date' class='form-control' />".
+                                "</div>".
+                            "</div>".
+                        "</div>".
+                        "<div class='row' id='dropList'>".
+                            "<div class='col-xs-3'>".
+                                "<label class='control-label'>教室代號</label>".
+                                "<input type='hidden' name='room_id' v-model='room_id'>".
+                                "<bs-drop title='選擇教室' bs-class='btn-default' model='room_id' :opt-arr=".json_encode($rooms)."></bs-drop>".
+                            "</div>".
+                            "<div class='col-xs-4'>".
+                                "<label class='control-label'>開始節次</label>".
+                                "<input type='hidden' name='start_sec' v-model='start_sec'>".
+                                "<bs-drop title='選擇開始節次' bs-class='btn-default' model='start_sec' :opt-arr=".json_encode($periods)."></bs-drop>".
+                            "</div>".
+                            "<div class='col-xs-4'>".
+                                "<label class='control-label'>結束節次</label>".
+                                "<input type='hidden' name='end_sec' v-model='end_sec'>".
+                                "<bs-drop title='選擇結束節次' bs-class='btn-default' model='end_sec' :opt-arr=".json_encode($periods)."></bs-drop>".
                             "</div>".
                         "</div>".
                     "</div>".
-                    "<div class='row' id='dropList'>".
-                        "<div class='col-xs-3'>".
-	                        "<label class='control-label'>教室代號</label>".
-                            "<bs-drop title='選擇教室' bs-class='btn-default' model='room_id' :opt-arr=".json_encode($rooms)."></bs-drop>".
+                    "<div class='modal-body'>".
+                        "<div class='row'>".
+                            "<div class='col-xs-6'>".
+                                "<text-field text='姓名' model='sName' placeholder='完整姓名(最多5個字)'></text-field>".
+                            "</div>".
+                            "<div class='col-xs-6'>".
+                                "<text-field text='學號' model='sNumber' placeholder='OOOOOOOO'></text-field>".
+                            "</div>".
                         "</div>".
-                        "<div class='col-xs-4'>".
-	                        "<label class='control-label'>開始節次</label>".
-                            "<bs-drop title='選擇開始節次' bs-class='btn-default' model='start_sec' :opt-arr=".json_encode($periods)."></bs-drop>".
+                        "<div class='row'>".
+                            "<div class='col-xs-6'>".
+                                "<text-field text='E-Mail' model='email' placeholder='請輸人常用信箱，以取得結果信件！'></text-field>".
+                            "</div>".
+                            "<div class='col-xs-6'>".
+                                "<text-field text='電話' model='cellphone' placeholder='手機號碼，找不到人才會聯絡！'></text-field>".
+                            "</div>".
                         "</div>".
-                        "<div class='col-xs-4'>".
-	                        "<label class='control-label'>結束節次</label>".
-                            "<bs-drop title='選擇結束節次' bs-class='btn-default' model='end_sec' :opt-arr=".json_encode($periods)."></bs-drop>".
+                        "<div class='row'>".
+                            "<div class='col-xs-6'>".
+                                "<text-field text='科系' model='department' preset='資訊工程系' placeholder='科系'></text-field>".
+                            "</div>".
+                            "<div class='col-xs-6'>".
+                                "<text-field text='指導老師' model='teacher' placeholder='老師姓名'></text-field>".
+                            "</div>".
                         "</div>".
-                    "</div>".
-                "</div>".
-                "<div class='modal-body'>".
-                    "<div class='row'>".
-                        "<div class='col-xs-6'>".
-                            "<text-field text='姓名' model='sName' placeholder='完整姓名(最多5個字)'></text-field>".
-                        "</div>".
-                        "<div class='col-xs-6'>".
-                            "<text-field text='學號' model='sNumber' placeholder='OOOOOOOO'></text-field>".
-                        "</div>".
-                    "</div>".
-                    "<div class='row'>".
-                        "<div class='col-xs-6'>".
-                            "<text-field text='E-Mail' model='email' placeholder='請輸人常用信箱，以取得結果信件！'></text-field>".
-                        "</div>".
-                        "<div class='col-xs-6'>".
-                            "<text-field text='電話' model='cellphone' placeholder='手機號碼，找不到人才會聯絡！'></text-field>".
-                        "</div>".
-                    "</div>".
-                    "<div class='row'>".
-                        "<div class='col-xs-6'>".
-                            "<text-field text='科系' model='department' preset='資訊工程系' placeholder='科系'></text-field>".
-                        "</div>".
-                        "<div class='col-xs-6'>".
-                            "<text-field text='指導老師' model='teacher' placeholder='老師姓名'></text-field>".
+                        "<div class='row'>".
+                            "<div class='col-xs-12'>".
+                                "<text-field text='借用事由' model='events' placeholder='簡單描述借用原因'></text-field>".
+                            "</div>".
                         "</div>".
                     "</div>".
-                    "<div class='row'>".
-                        "<div class='col-xs-12'>".
-                            "<text-field text='借用事由' model='events' placeholder='簡單描述借用原因'></text-field>".
-                        "</div>".
+                    "<div class='modal-footer'>".
+                        "<button type='submit' class='btn' :class=[right?'btn-primary':'btn-default'] :disabled=!right >送出申請單</button>".
                     "</div>".
-                "</div>".
-                "<div class='modal-footer'>".
-                    "<button type='button' class='btn' :class=[right?'btn-primary':'btn-default'] :disabled=!right @click='apply'>送出申請單</button>".
-                "</div>".
-            "</div>". //.modal-content
-        "</div>".//.modal-dialog
+                "</div>". //.modal-content
+            "</div>".//.modal-dialog
+        "</form>".
     "</div>"; //.modal
     endif;
 ?>
