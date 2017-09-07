@@ -299,12 +299,12 @@ class Admin extends CI_Controller
                 if($info['result'] === "0"){
                     $table[$id]["reason"] = $info['reason'];
                 } else {
-                    $this->section->insertData([
-                        'room_id' => $table[$id]['room_id'],
-                        'date' => $table[$id]['borrow_date'],
-                        'start' => $table[$id]['borrow_start'],
-                        'end' => $table[$id]['borrow_end']
-                    ]);
+//                    $this->section->insertData([
+//                        'room_id' => $table[$id]['room_id'],
+//                        'date' => $table[$id]['borrow_date'],
+//                        'start' => $table[$id]['borrow_start'],
+//                        'end' => $table[$id]['borrow_end']
+//                    ]);
                 }
                 $table[$id]['apply_result'] = $info['result'];
                 $data[] = $table[$id];
