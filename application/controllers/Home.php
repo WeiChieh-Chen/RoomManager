@@ -115,9 +115,15 @@ class Home extends CI_Controller {
     
     public function searchRoom() {
 	    $post = $this->input->post();
-	    $this->load->model(["section",'application','time_period']);
+	    $this->load->model(["section",'application','time_period','borrower']);
+	    $apply_data = $this->application->search_class($post['start'],$post['end'],$post['room_id']);
+	    $borrower_data = [];
+	    foreach ($apply_data as $key => $arr){
+	    	$borrower_data[$key] = $this->borrower->find($arr->student_id);
+	    }
 	    $data = [
-	        "apply_data"    =>	$this->application->search_class($post['start'],$post['end'],$post['room_id']),
+	        "apply_data"    =>	$apply_data,
+		    "borrower_data"    =>	$borrower_data,
 		    "class_data"    =>  $this->section->search_class($post['start'],$post['end'],$post['room_id']),
 		    "period"        =>  $this->time_period->getTime()
 	    ];
@@ -127,9 +133,15 @@ class Home extends CI_Controller {
 	
 	public function searchDate() {
 		$post = $this->input->post();
-		$this->load->model(["section",'application','time_period','classroom']);
+		$this->load->model(["section",'application','time_period','classroom','borrower']);
+		$apply_data = $this->application->search_date($post['start']);
+		$borrower_data = [];
+		foreach ($apply_data as $key => $arr){
+			$borrower_data[$key] = $this->borrower->find($arr->student_id);
+		}
 		$data = [
-			"apply_data"    =>	$this->application->search_date($post['start']),
+			"apply_data"    =>	$apply_data,
+			"borrower_data" =>  $borrower_data,
 			"class_data"    =>  $this->section->search_date($post['start']),
 			"period"        =>  $this->time_period->getTime(),
 			"classroom"     =>  []
@@ -144,9 +156,15 @@ class Home extends CI_Controller {
 	
 	public function searchBoth() {
 		$post = $this->input->post();
-		$this->load->model(["section",'application','time_period']);
+		$this->load->model(["section",'application','time_period','borrower']);
+		$apply_data = $this->application->search_both($post['start'],$post['room_id']);
+		$borrower_data = [];
+		foreach ($apply_data as $key => $arr){
+			$borrower_data[$key] = $this->borrower->find($arr->student_id);
+		}
 		$data = [
-			"apply_data"    =>	$this->application->search_both($post['start'],$post['room_id']),
+			"apply_data"    =>	$apply_data,
+			"borrower_data" =>  $borrower_data,
 			"class_data"    =>  $this->section->search_both($post['start'],$post['room_id']),
 			"period"        =>  $this->time_period->getTime()
 		];

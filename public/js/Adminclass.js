@@ -4,7 +4,7 @@
 let isdelegate = false;
 let table = document.getElementById("roomTable");
 function show_class(data,st,ed) {
-	start = new Date(st);
+
 	end = new Date(ed);
 
 	// initial status of day
@@ -25,7 +25,7 @@ function show_class(data,st,ed) {
 		5:{},
 		6:{},
 		7:{},
-	}
+	};
 	//set status of day from section
 	Object.values(data['class_data']).map(function (obj) {
 		now = new Date(obj.date);

@@ -21,7 +21,7 @@ Class Application extends CI_Model
         $table = $this->db->select(
             'application_id,email,room_id,borrow_date,borrow_start,borrow_end,apply_result,name'
         )->from($this->table)->join('borrower','borrower.student_id = application.student_id')->get()->result();
-
+	    $data =[];
         foreach ($table as $item){
             $data[$item->application_id] = [
                 'email' => $item->email,
@@ -41,17 +41,17 @@ Class Application extends CI_Model
     }
 
     public function search_class($start,$end,$room_id){
-	    $query = $this->db->select(["borrow_date","borrow_start","borrow_end","reason"])->where(['room_id' => $room_id,'apply_result' => 1])->where("borrow_date between '$start' AND '$end'")->get("application");
+	    $query = $this->db->select(['student_id',"borrow_date","borrow_start","borrow_end","reason",'apply_result'])->where(['room_id' => $room_id])->where("borrow_date between '$start' AND '$end'")->get("application");
 	    return $query->result();
     }
 	
 	public function search_date($start){
-		$query = $this->db->select(["borrow_date","borrow_start","borrow_end","reason",'room_id'])->where('borrow_date',$start)->where('apply_result',1)->get("application");
+		$query = $this->db->select(['student_id',"borrow_date","borrow_start","borrow_end","reason",'room_id','apply_result'])->where('borrow_date',$start)->get("application");
 		return $query->result();
 	}
 	
 	public function search_both($start,$room_id){
-		$query = $this->db->select(["borrow_date","borrow_start","borrow_end","reason",'room_id'])->where(['room_id' => $room_id,'apply_result' => 1])->where('borrow_date',$start)->get("application");
+		$query = $this->db->select(['student_id',"borrow_date","borrow_start","borrow_end","reason",'room_id','apply_result'])->where(['room_id' => $room_id])->where('borrow_date',$start)->get("application");
 		return $query->result();
 	}
 

@@ -183,60 +183,60 @@ class Admin extends CI_Controller
         }
     }
 
-    public function importClass() {
-        $this->load->model("Section");
-        $this->load->library('excel');
-        $file = $_FILES['upload'];
-        // $file = "./class.xlsx";
-        if (move_uploaded_file($file['tmp_name'], "./uploads/" . $file['name'])) {
-            $inputFileName = "./uploads/" . $file['name'];
-
-            $objPHPExcel = PHPExcel_IOFactory::load($inputFileName);
-
-            //get only the Cell Collection
-            $cell_collection = $objPHPExcel->getActiveSheet()->getCellCollection();
-
-            foreach ($cell_collection as $cell) {
-                $column = $objPHPExcel->getActiveSheet()->getCell($cell)->getColumn();
-                $row = $objPHPExcel->getActiveSheet()->getCell($cell)->getRow();
-                $data_value = $objPHPExcel->getActiveSheet()->getCell($cell)->getValue();
-
-                switch ($column) { //Change row's name to db's schema
-                    case 'A':
-                        $column = "date";
-                        break;
-                    case 'B':
-                        $column = "room_id";
-                        break;
-                    case 'C':
-                        $column = "start";
-                        break;
-                    case 'D':
-                        $column = "end";
-                        break;
-                }
-
-                //header will/should be in row 1 only. of course this can be modified to suit your need.
-                if ($row == 1) {
-                    $header[$row][$column] = $data_value;
-                } else {
-                    if ($column == "date") {
-                        $data_value = PHPExcel_Shared_Date::ExcelToPHPObject($data_value)->format('Y-m-d');
-                        // echo "<br>";
-                    }
-                    // echo $data_value." ";
-                    $arr_data[$row][$column] = $data_value;
-                }
-            }
-            $this->Section->insert_xml($arr_data);
-
-        } else {
-        
-        }
-
-        redirect(base_url("Admin/course"), 'replace');
-
-    }
+//    public function importClass() {
+//        $this->load->model("Section");
+//        $this->load->library('excel');
+//        $file = $_FILES['upload'];
+//        // $file = "./class.xlsx";
+//        if (move_uploaded_file($file['tmp_name'], "./uploads/" . $file['name'])) {
+//            $inputFileName = "./uploads/" . $file['name'];
+//
+//            $objPHPExcel = PHPExcel_IOFactory::load($inputFileName);
+//
+//            //get only the Cell Collection
+//            $cell_collection = $objPHPExcel->getActiveSheet()->getCellCollection();
+//
+//            foreach ($cell_collection as $cell) {
+//                $column = $objPHPExcel->getActiveSheet()->getCell($cell)->getColumn();
+//                $row = $objPHPExcel->getActiveSheet()->getCell($cell)->getRow();
+//                $data_value = $objPHPExcel->getActiveSheet()->getCell($cell)->getValue();
+//
+//                switch ($column) { //Change row's name to db's schema
+//                    case 'A':
+//                        $column = "date";
+//                        break;
+//                    case 'B':
+//                        $column = "room_id";
+//                        break;
+//                    case 'C':
+//                        $column = "start";
+//                        break;
+//                    case 'D':
+//                        $column = "end";
+//                        break;
+//                }
+//
+//                //header will/should be in row 1 only. of course this can be modified to suit your need.
+//                if ($row == 1) {
+//                    $header[$row][$column] = $data_value;
+//                } else {
+//                    if ($column == "date") {
+//                        $data_value = PHPExcel_Shared_Date::ExcelToPHPObject($data_value)->format('Y-m-d');
+//                        // echo "<br>";
+//                    }
+//                    // echo $data_value." ";
+//                    $arr_data[$row][$column] = $data_value;
+//                }
+//            }
+//            $this->Section->insert_xml($arr_data);
+//
+//        } else {
+//
+//        }
+//
+//        redirect(base_url("Admin/course"), 'replace');
+//
+//    }
 
     public function insertBlacklist()
     {

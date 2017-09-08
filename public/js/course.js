@@ -25,15 +25,7 @@ function show_class(data,st,ed) {
 		6:"000000000000000",
 		7:"000000000000000"
 	};
-	let reason ={
-		1:{},
-		2:{},
-		3:{},
-		4:{},
-		5:{},
-		6:{},
-		7:{},
-	}
+	let reason ={ 1:{}, 2:{}, 3:{}, 4:{}, 5:{}, 6:{}, 7:{},};
 
 	//set status of day from section
 	Object.values(data['class_data']).map(function (obj) {
@@ -41,30 +33,30 @@ function show_class(data,st,ed) {
 		day = now.getDay();
 		if(day !== 0){
 			for(let i = parseInt(obj.start)-1; i < parseInt(obj.end) ; i++){
-				week[day] = week[day].replaceAt(i,"1");
+				week[day] = week[day].replaceAt(i,"3");
 				reason[day][i] = "課程上課使用";
 			}
 		}else{
 			for(let i = parseInt(obj.start)-1; i < parseInt(obj.end) ; i++){
-				week[7] = week[7].replaceAt(i,"1");
+				week[7] = week[7].replaceAt(i,"3");
 				reason[7][i] = "課程上課使用";
 			}
 		}
 	});
 	
 	// set status of day from application
-	Object.values(data['apply_data']).map(function (obj) {
+	Object.values(data['apply_data']).map(function (obj,key) {
 		now = new Date(obj.borrow_date);
 		day = now.getDay();
 		if(day !== 0){
 			for(let i = parseInt(obj.borrow_start)-1; i < parseInt(obj.borrow_end) ; i++){
-				week[day] = week[day].replaceAt(i,"1");
-				reason[day][i] = obj.reason;
+				week[day] = week[day].replaceAt(i,obj.apply_result);
+				reason[day][i] = data['borrower_data'][key]['name']+","+obj.reason;
 			}
 		}else{
 			for(let i = parseInt(obj.borrow_start)-1; i < parseInt(obj.borrow_end) ; i++){
-				week[7] = week[7].replaceAt(i,"1");
-				reason[7][i] = obj.reason;
+				week[7] = week[7].replaceAt(i,obj.apply_result);
+				reason[7][i] = data['borrower_data'][key]['name']+","+obj.reason;
 			}
 		}
 	});
@@ -73,7 +65,8 @@ function show_class(data,st,ed) {
 	period = data["period"];
 	let list =  "<tr><th colspan='8' style='text-align: center;font-size: 16px;color: black'>"+
 		room_id+
-		"(橘色代表已借出)<br>"+st+" ~ "+ed+"</th></tr>" +
+        "(<span style='color: orange'>已借出</span> | <span style='color: #2e8ece'>申請中</span> | " +
+        "<span style='color: #4c4f52'>課程使用</span>)<br>"+st+"</th></tr>" +
 		"<tr>"+
 		"<th bgcolor='#666'>節  \\  星期</th>"+
 		set_week(st)+
@@ -114,17 +107,17 @@ function show_date(data,st) {
 	Object.values(data['class_data']).map(function (obj) {
 		if(classroom[obj.room_id] !== undefined){
 			for(let i = parseInt(obj.start)-1; i < parseInt(obj.end) ; i++){
-				classroom[obj.room_id]	= classroom[obj.room_id].replaceAt(i,"1");
+				classroom[obj.room_id]	= classroom[obj.room_id].replaceAt(i,"3");
 				reason[obj.room_id][i]	= "課程上課使用";
 			}
 		}
 	});
 
-	Object.values(data['apply_data']).map(function (obj) {
+	Object.values(data['apply_data']).map(function (obj,key) {
 		if(classroom[obj.room_id] !== undefined){
 			for(let i = parseInt(obj.borrow_start)-1; i < parseInt(obj.borrow_end) ; i++){
-				classroom[obj.room_id]	 = classroom[obj.room_id].replaceAt(i,"1");
-				reason[obj.room_id][i]	= obj.reason;
+				classroom[obj.room_id]	 = classroom[obj.room_id].replaceAt(i,obj.apply_result);
+				reason[obj.room_id][i]	= data['borrower_data'][key]['name']+","+obj.reason;
 			}
 		}
 	});
@@ -132,7 +125,10 @@ function show_date(data,st) {
 
 	period = data["period"];
 	let list =  "<tr><th colspan='"+(period.length+2)+
-		"' style='text-align: center;font-size: 16px;color: black'>資工系教室使用查詢表(橘色代表已借出)<br></th></tr>" +
+		"' style='text-align: center;font-size: 16px;color: black'>" +
+        "(<span style='color: orange'>已借出</span> | <span style='color: #2e8ece'>申請中</span> | " +
+        "<span style='color: #4c4f52'>課程使用</span>)<br>"+st+"</th></tr>" +
+		"</th></tr>" +
 		"<tr><td rowspan='"+(period.length+1)+ "'>"+(day.getMonth()+1) +"/" +day.getDate()+"<br>("+zhtwWeek(day.getDay())+")</td>" +
 		"<td bgcolor='#666'>節次 \\ 教室</td>";
 
@@ -169,23 +165,24 @@ function show_both(data,st) {
 	let reason = {};
 	Object.values(data['class_data']).map(function (obj) {
 		for(let i = parseInt(obj.start)-1; i < parseInt(obj.end) ; i++){
-			status	 = status.replaceAt(i,"1");
+			status	 = status.replaceAt(i,"3");
 			reason[i]="課程上課使用";
 		}
 	});
 
 
-	Object.values(data['apply_data']).map(function (obj) {
+	Object.values(data['apply_data']).map(function (obj,key) {
 		for(let i = parseInt(obj.borrow_start)-1; i < parseInt(obj.borrow_end) ; i++){
-			status	 = status.replaceAt(i,"1");
-			reason[i]= obj.reason;
+			status	 = status.replaceAt(i,obj.apply_result);
+			reason[i]= data['borrower_data'][key]['name']+","+obj.reason;
 		}
 	});
 
 	
 	period = data["period"];
 	let list =  "<tr><th colspan='2' style='text-align: center;font-size: 16px;color: black'>"+
-		"(橘色代表已借出)<br>"+st+"</th></tr>" +
+        "(<span style='color: orange'>已借出</span> | <span style='color: #2e8ece'>申請中</span> | " +
+        "<span style='color: #4c4f52'>課程使用</span>)<br>"+st+"</th></tr>" +
 		"<tr>"+
 		"<th bgcolor='#666' style='text-align: center'>節  \\  教室</th>"+
 		"<th  bgcolor='#2ea879' style='text-align: center'>"+room_id+"</th>"+
