@@ -1,5 +1,24 @@
 <link href="<?= base_url('public/css/component.css')?>" rel="stylesheet"/>
 <link href="<?= base_url('public/components/alertify.min.css')?>" rel="stylesheet"/>
+<style>
+    input[type="date"]:hover::-webkit-calendar-picker-indicator {
+        color: red;
+    }
+    input[type="date"]:hover:after {
+        content: "選擇日期";
+        color: #555;
+        padding-right: 5px;
+    }
+    input[type="date"]::-webkit-inner-spin-button {
+        /* display: none; <- Crashes Chrome on hover */
+        -webkit-appearance: none;
+        margin: 0;
+    }
+	
+	td,li {
+		cursor: pointer ;
+	}
+</style>
 <div class="content">
 	<div class="container-fluid">
 		<div class='row' id="table">

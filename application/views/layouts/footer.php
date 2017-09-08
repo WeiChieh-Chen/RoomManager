@@ -9,7 +9,8 @@
 <!--            </ul>-->
         </nav>
         <p class="copyright pull-right">
-            Viewport by &copy; 2016 <a href="http://www.creative-tim.com">Creative Tim</a>, made with love for a better web
+            Viewport by &copy; 2016 <a href="http://www.creative-tim.com">Creative Tim</a>, made with love for a better web<br>
+            Product by &copy; 2017 蒙偉倫、陳威傑、楊全還、呂皓瑋
         </p>
     </div>
 </footer>

@@ -17,7 +17,7 @@ Vue.component('TextField', {
     },
     template: "<div class='form-group'>" +
     "<label :for=model class='control-label' style='font-size: 1.2em'>{{text}}</label>" +
-    "<input type='text' :name=model class='form-control' :value=preset :placeholder=placeholder @input='streamBack' />" +
+    "<input type='text' :name=model class='form-control' :value=preset :placeholder=placeholder @input='streamBack' required='required'/>" +
     "</div>",
     methods: {
         streamBack: function (e) {
@@ -84,7 +84,7 @@ Vue.component('BsDrop', {
 	"<button class='btn dropdown-toggle' :class=bsClass type='button'  data-toggle='dropdown' aria-haspopup='true' aria-expanded='true'>" +
 	"{{optText}}&emsp;<span class='caret'></span>" +
 	"</button>" +
-	"<ul class='dropdown-menu' :name=model>" +
+	"<ul class='dropdown-menu'>" +
 	"<li v-for='opt in optArr' @click=changOpt(opt)><a v-if='model === \"start_sec\" ' :id=\"'start_'+opt.value\">{{opt.name}}</a>" +
     "<a v-else :id=opt.value>{{opt.name}}</a></li>"+
 	// "<li role='separator' class='divider'></li>" +

@@ -28,7 +28,7 @@
 
 // update data
 {
-    data: {
+    day: {
         application_id: {
             "update" : 0|1,
             "result": 0|1,
