@@ -5,8 +5,8 @@ function checkColor(obj,st,mode) {
 	alertify.defaults.glossary.title = "<h2 style='font-size: 2em'>租借申請借用須知</h2>";
 	alertify.defaults.glossary.ok = "確定";
 	alertify.defaults.glossary.cancel = "取消";
-	
-	if(obj.bgColor === "orange"){
+
+	if(obj.bgColor !== "white"){
 		$.notify({
 			icon: 'pe-7s-shield',
 			message: "該時段已被使用!"
@@ -28,7 +28,7 @@ function checkColor(obj,st,mode) {
 		"<span style='font-size: 1.5em'>５. 系辦保有審核及撤銷使用的權利。<br><br></span>"
 			, function () {
 			let id = obj.id.split('_');
-			console.log(mode);
+			// console.log(mode);
 			if(mode === 0){
 				st = new Date(st);
 				st.setDate((st.getDate() + parseInt(id[1]) - 1 ) );                             //set next date
@@ -62,8 +62,19 @@ function sectionControl(number,start,end) {
 function init(statue,i,j,reason) {
 	reason = reason !== undefined?reason:"";
 	reason = reason.split(',');
-	if(statue === '2')return "<td title='申請人："+reason[0]+"&#10;事由："+reason[1]+"' id='"+i+"_"+j+"' style='color: 4F5155;font-size: 0' bgcolor='4F5155' >2</td>";
-	return statue === "0"?
-		"<td id='"+i+"_"+j+"' style='color: white;font-size: 0' >0</td>":
-		"<td title='申請人："+reason[0]+"&#10;事由："+reason[1]+"' id='"+i+"_"+j+"' style='color: orange;font-size: 0' bgcolor='orange' >2</td>";
+	switch (statue){
+		case '0':
+			return "<td id='"+i+"_"+j+"' style='color: white;font-size: 0' bgcolor='white' >0</td>";
+			break;
+        case '1':
+        	return "<td title='申請人："+reason[0]+"&#10;事由："+reason[1]+"' id='"+i+"_"+j+"' style='color: orange;font-size: 0' bgcolor='orange' ref='1'>1</td>";
+            break;
+        case '2':
+            return "<td title='申請人："+reason[0]+"&#10;事由："+reason[1]+"' id='"+i+"_"+j+"' style='color: 2e8ece;font-size: 0'  bgcolor='2e8ece' >2</td>";
+            break;
+        case '3':
+            return "<td title='&#10;事由："+reason[0]+"' id='"+i+"_"+j+"' style='color: #4c4f52;font-size: 0' bgcolor='4c4f52' >3</td>";
+            break;
+
+	}
 }
