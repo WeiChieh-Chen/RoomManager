@@ -226,7 +226,7 @@
                                 "<text-field text='姓名' model='sName' placeholder='完整姓名(最多5個字)'></text-field>".
                             "</div>".
                             "<div class='col-xs-6'>".
-                                "<text-field text='學號' model='sNumber' placeholder='OOOOOOOO'></text-field>".
+                                "<text-field text='學號' model='sNumber' placeholder='40123456'></text-field>".
                             "</div>".
                         "</div>".
                         "<div class='row'>".

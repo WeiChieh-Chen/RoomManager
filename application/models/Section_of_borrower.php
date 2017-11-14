@@ -9,7 +9,7 @@ Class Section_of_borrower extends CI_Model
         $this->load->database("room_borrow");
     }
 
-    public function search($condition){
-        return $this->db->where($condition)->get($this->table)->result();
+    public function search($condition,$reason = ""){
+        return $this->db->where($condition)->like('reason',$reason)->get($this->table)->result();
     }
 }

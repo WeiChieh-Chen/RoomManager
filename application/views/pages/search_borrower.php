@@ -36,11 +36,15 @@
 					<text-field text='電話' model='cellphone' placeholder='手機號碼，找不到人才會聯絡！'></text-field>
 				</div>
 				<div class="col-xs-4">
+					<text-field text='事由' model='reason' placeholder='事由'></text-field>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-4">
 					<?=	 "<label class='control-label'>教室代號</label>".
 					"<bs-drop title='選擇教室' bs-class='btn-default' model='room_id' :opt-arr=".json_encode($rooms)."></bs-drop>";
 					?>
 				</div>
-				
 			</div>
 			<div class='col-xs-2 col-xs-push-10'>
 				<button type='button' class='btn btn-lg' :class=[!right?'btn-primary':'btn-default'] :disabled=right @click='search'>搜尋</button>
@@ -58,6 +62,7 @@
 			<th style='font-size: 1.2em'>信箱</th>
 			<th style='font-size: 1.2em'>電話</th>
 			<th style='font-size: 1.2em'>指導老師</th>
+			<th style='font-size: 1.2em'>事由</th>
 			</thead>
 			<tbody id="tableData">
 			
@@ -66,9 +71,14 @@
 	</div>
 </div>
 <script>
+	function section_change(sec) {
+		if(sec == 5)return "中午時段";
+		else if(sec > 5 ) return sec-1;
+		else return sec;
+	}
 	new Vue({
 		el: "#form_search",
-		data: {date: "",name:"",student_id:"",teacher:"",room_id:"",cellphone:""},
+		data: {date: "",name:"",student_id:"",teacher:"",room_id:"",cellphone:"",reason:""},
 		computed: {
 			right: function () {
 				return Object.values(this.$data).every(function (value) {
@@ -82,7 +92,7 @@
 				let search_data = {
 					'name': this.name, 'student_id': this.student_id,
 					'cellphone': this.cellphone,'teacher': this.teacher,
-					'room_id': this.room_id,'date':this.date
+					'room_id': this.room_id,'date':this.date,'reason':this.reason
 				};
 				$.post("<?=base_url('Admin/borrower_search')?>",search_data,function(obj){
 					obj = JSON.parse(obj);
@@ -93,11 +103,13 @@
 							"<td>"+arr['student_id'] +"</td>"+
 							"<td>"+arr['room_id'] +"</td>"+
 							"<td>"+arr['date'] +"</td>"+
-							"<td>"+arr['start'] +"</td>"+
-							"<td>"+arr['end'] +"</td>"+
+							"<td>"+section_change(arr['start']) +"</td>"+
+							"<td>"+section_change(arr['end']) +"</td>"+
 							"<td>"+arr['email'] +"</td>"+
 							"<td>"+arr['cellphone'] +"</td>"+
-							"<td>"+arr['teacher'] +"</td></tr>"
+							"<td>"+arr['teacher'] +"</td>" +
+							"<td>"+arr['reason'] +"</td>" +
+							"</tr>"
 					});
 					table.innerHTML = list;
 				});
