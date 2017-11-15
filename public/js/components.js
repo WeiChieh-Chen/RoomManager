@@ -13,11 +13,14 @@ Vue.component('TextField', {
         },
         'preset': {
             type: String
+        },
+        'regex':{
+            type: String
         }
     },
     template: "<div class='form-group'>" +
     "<label :for=model class='control-label' style='font-size: 1.2em'>{{text}}</label>" +
-    "<input type='text' :name=model class='form-control' :value=preset :placeholder=placeholder @input='streamBack' required='required'/>" +
+    "<input type='text' :name=model class='form-control' :value=preset :placeholder=placeholder @input='streamBack' :pattern='regex' :required='required'/>" +
     "</div>",
     methods: {
         streamBack: function (e) {

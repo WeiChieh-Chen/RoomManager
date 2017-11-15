@@ -25,7 +25,7 @@
 					<text-field text='姓名' model='name' placeholder='完整姓名(最多5個字)'></text-field>
 				</div>
 				<div class="col-xs-4">
-					<text-field text='學號' model='student_id' placeholder='OOOOOOOO'></text-field>
+					<text-field text='學號' model='student_id' placeholder='40123456'></text-field>
 				</div>
 			</div>
 			<div class="row">

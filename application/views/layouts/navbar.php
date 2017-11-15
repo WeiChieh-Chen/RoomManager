@@ -223,10 +223,10 @@
                     "<div class='modal-body'>".
                         "<div class='row'>".
                             "<div class='col-xs-6'>".
-                                "<text-field text='姓名' model='sName' placeholder='完整姓名(最多5個字)'></text-field>".
+                                "<text-field text='姓名' model='sName' placeholder='完整姓名(最多5個字)' regex='\w*'></text-field>".
                             "</div>".
                             "<div class='col-xs-6'>".
-                                "<text-field text='學號' model='sNumber' placeholder='40123456'></text-field>".
+                                "<text-field text='學號/員工編號' model='sNumber' placeholder='40123456'></text-field>".
                             "</div>".
                         "</div>".
                         "<div class='row'>".
