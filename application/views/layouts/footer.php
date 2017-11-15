@@ -9,8 +9,9 @@
 <!--            </ul>-->
         </nav>
         <p class="copyright pull-right">
-            Viewport by &copy; 2016 <a href="http://www.creative-tim.com">Creative Tim</a>, made with love for a better web<br>
-            Product by &copy; 2017 蒙偉倫、陳威傑、楊全還、呂皓瑋
+            Viewport by &copy; 2016 <a target="_blank" href="http://www.creative-tim.com">Creative Tim</a>, made with love for a better web<br>
+            Product by &copy; 2017 蒙偉倫、陳威傑、楊全還、呂皓偉<br>
+            Manage by &copy; 2017 <a target="_blank" href="http://maselab318.nfu.edu.tw/lab/">行動應用與軟體工程實驗室 (LAB 318)</a>
         </p>
     </div>
 </footer>

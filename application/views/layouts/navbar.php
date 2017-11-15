@@ -187,6 +187,7 @@
     <!-- For application of shortcut -->
     <?php
     if(!$this->session->has_userdata('name')):
+
      echo
      "<div class='modal fade' tabindex='-1' role='dialog' id='shortApp'>".
          "<form action='".base_url('Home/apply')."' @submit.prevent='apply' method='post' >".
@@ -223,26 +224,26 @@
                     "<div class='modal-body'>".
                         "<div class='row'>".
                             "<div class='col-xs-6'>".
-                                "<text-field text='姓名' model='sName' placeholder='完整姓名(最多5個字)'></text-field>".
+                                "<text-field text='姓名' model='sName' placeholder='完整姓名(最多5個字)' regex='[\u4e00-\u9fa5]{1,5}' title='請輸入中文1~5個字' :required='true'></text-field>".
                             "</div>".
                             "<div class='col-xs-6'>".
-                                "<text-field text='學號' model='sNumber' placeholder='OOOOOOOO'></text-field>".
-                            "</div>".
-                        "</div>".
-                        "<div class='row'>".
-                            "<div class='col-xs-6'>".
-                                "<text-field text='E-Mail' model='email' placeholder='請輸人常用信箱，以取得結果信件！'></text-field>".
-                            "</div>".
-                            "<div class='col-xs-6'>".
-                                "<text-field text='電話' model='cellphone' placeholder='手機號碼，找不到人才會聯絡！'></text-field>".
+                                "<text-field text='學號/員工編號' model='sNumber' placeholder='40123456' regex='\w+' title='只能輸入英文或數字' :required='true'></text-field>".
                             "</div>".
                         "</div>".
                         "<div class='row'>".
                             "<div class='col-xs-6'>".
-                                "<text-field text='科系' model='department' preset='資訊工程系' placeholder='科系'></text-field>".
+                                "<text-field text='E-Mail' model='email' placeholder='請輸人常用信箱，以取得結果信件！' :required='true'></text-field>".
                             "</div>".
                             "<div class='col-xs-6'>".
-                                "<text-field text='指導老師' model='teacher' placeholder='老師姓名'></text-field>".
+                                "<text-field text='電話' model='cellphone' placeholder='手機號碼，找不到人才會聯絡！' :required='true'></text-field>".
+                            "</div>".
+                        "</div>".
+                        "<div class='row'>".
+                            "<div class='col-xs-6'>".
+                                "<text-field text='科系' model='department' preset='資訊工程系' placeholder='科系' :required='true'></text-field>".
+                            "</div>".
+                            "<div class='col-xs-6'>".
+                                "<text-field text='指導老師' model='teacher' placeholder='老師姓名' :required='true'></text-field>".
                             "</div>".
                         "</div>".
                         "<div class='row'>".

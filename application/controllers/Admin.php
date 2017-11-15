@@ -132,14 +132,17 @@ class Admin extends CI_Controller
 		$this->load->model('section_of_borrower');
 		$post = $this->input->post();
 		$arr = [];
+		$reason = "";
 		foreach($post as $key => $value){
 			if($value != ""){
-				$arr[$key] = $value;
+				if($key != "reason")
+					$arr[$key] = $value;
+				else
+					$reason = $value;
 			}
 		}
 		
-		
-		$query = $this->section_of_borrower->search($arr);
+		$query = $this->section_of_borrower->search($arr,$reason);
 		echo json_encode($query);
 	}
 
