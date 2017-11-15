@@ -16,11 +16,17 @@ Vue.component('TextField', {
         },
         'regex':{
             type: String
+        },
+        'required':{
+            type: Boolean
+        },
+        'title':{
+            type: String
         }
     },
     template: "<div class='form-group'>" +
     "<label :for=model class='control-label' style='font-size: 1.2em'>{{text}}</label>" +
-    "<input type='text' :name=model class='form-control' :value=preset :placeholder=placeholder @input='streamBack' :pattern='regex' :required='required'/>" +
+    "<input type='text' :name=model class='form-control' :value=preset :placeholder=placeholder @input='streamBack' :pattern='regex' :title='title' :required='required'/>" +
     "</div>",
     methods: {
         streamBack: function (e) {
