@@ -27,8 +27,6 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 *.sublime-workspace
 *.sublime-project
 
-/application/config/
-!/application/config/email.php
 
 ci_sessions/
 
