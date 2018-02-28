@@ -10,7 +10,6 @@ class Home extends CI_Controller {
     }
 
     public function index(){
-
         if($this->session->has_userdata('name')){
             return redirect('/Admin');
         }

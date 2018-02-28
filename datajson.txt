@@ -76,3 +76,18 @@
   room_id:
   reason:
 }
+
+// 管理頁面 → 長期申請 → 課表更改
+{
+     room_id : {
+         date : {
+            {INDEX} : {
+                id:
+                room_id:
+                date:
+                start:
+                end:
+            }
+         }
+     }
+}

@@ -65,8 +65,8 @@
 <script src="<?= base_url('public/components/dataTables.semanticui.min.js')?>"></script>
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 
-<script type="text/javascript">
 
+<script type="text/javascript">
     $(document).ready(function () {
         // Very very important, it could resolve conflict of modal of bootstrap and semantic.
         $.fn.bsModal = $.fn.modal.noConflict();
