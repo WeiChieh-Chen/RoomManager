@@ -86,8 +86,10 @@ class Admin extends CI_Controller
         $this->load->view('layouts/footer');
     }
 
+    // 長期申請
     public function course()
     {
+        // 載入資料表操作模型
 	    $this->load->model(['classroom','timeperiod','section']);
 
         $this->data['title'] = "長期申請";
@@ -328,34 +330,39 @@ class Admin extends CI_Controller
 	
 	    echo json_encode($data);
     }
-	
+
+    // 儲存教室借用課表
 	public function update_class()
 	{
+	    // 取得 request 的資料
 		$post = $this->input->post();
+		// 載入 section 表
 		$this->load->model("section");
 		$temp = $post['data'];
-		$end =  $post['endDate'];
+		$end =  $post['endDate']; // 結束日期
 		$count = sizeof($post['data']);
+
 		foreach ($post['data'] as $key => $data){
+		    // 將日期分割為 [ Y, m, d ]
 			$arr = explode("-",$data['date']);
 			while(1){
 				$nextDay = date("Y-m-d",mktime(0,0,0,$arr[1],$arr[2]+7,$arr[0]));
-				if(date($end) > date($nextDay)){//next day
+				if(date($end) > date($nextDay)){//如果還沒超過結束日期
 					$arr[2] += 7;
 //					$this->section->recheck($data["start"],$data["end"],$nextDay,$data["room_id"]);
-					$temp[$count]["start"] =$data["start"];
-					$temp[$count]["end"] = $data["end"];
-					$temp[$count]["date"] = $nextDay;
-					$temp[$count]["room_id"] = $data["room_id"];
+                    $temp[$count]["room_id"] = $data["room_id"];
+                    $temp[$count]["date"] = $nextDay;
+                    $temp[$count]["start"] =$data["start"];
+                    $temp[$count]["end"] = $data["end"];
 					$count++;
 				}else{      //expire
 					break;
 				}
 			}
-
 		}
-		
-		$this->section->insert_xml($temp);
+
+		// 將統一陣列做成 xml 用的格式，插入 section 表
+        $this->section->insert_xml($temp);
 		echo "SUCCESS";
 	}
 }

@@ -6,7 +6,7 @@ let editBtn = document.getElementById("editBtn");
 let fnBtn = $(".fnBtn");
 let dataTable;
 $(document).ready(function(){
-
+    // dataTable 文字設定
     dataTable = $('#showRoom').dataTable({
         "sPaginationType": "full_numbers",
         "oLanguage": {
@@ -36,13 +36,13 @@ $(document).ready(function(){
         } else newInfo[id]['status'] = "NORMAL";
     });
 });
-
+// 教室資料列 「移除」功能處理
 function select(id){
     var domOfChild = document.getElementById(id).childNodes;
     if(domOfChild[0].innerHTML.length === 0){
         domOfChild[0].innerHTML = "<i class='red remove icon'></i>";
 
-        // If it is row just added then removed when it is clicked.
+        // 如果是一個未上傳至資料庫的新列，則移除時直接將該列刪去。
         if(newInfo[id]['status'] === "INSERT"){
             delete newInfo[id];
             $('#'+id).remove();
@@ -56,7 +56,7 @@ function select(id){
     }
 }
 
-// Show button and column of extra.
+// 切換「變更、新增、取消」按紐組
 function showExcolum(){
     localStorage.setItem("edit","true");
     // Let button and column of disabled to enable.
@@ -68,7 +68,7 @@ function showExcolum(){
     fnBtn.show();
 }
 
-// Recovering for page.
+// 靜態頁面復原
 function recover(){
     localStorage.setItem("edit","false");
     // Let button and column of disabled to enable.
@@ -80,13 +80,13 @@ function recover(){
     fnBtn.hide();
 
     Object.keys(newInfo).forEach(function(id){
-        if(newInfo[id]['status'] === "INSERT"){
+        if(newInfo[id]['status'] === "INSERT"){ // 新增狀態的列，則不存在
             delete newInfo[id];
             $('#'+id).remove();
-        }else if(newInfo[id]['status'] === "DELETE") {
+        }else if(newInfo[id]['status'] === "DELETE") { // 移除狀態的列，變為正常
             document.getElementById(id).firstChild.innerHTML = "";
             newInfo[id]["status"] = "NORMAL";
-        }else if(newInfo[id]['status'] === "UPDATE"){
+        }else if(newInfo[id]['status'] === "UPDATE"){ // 更新狀態的列，恢複原來的資料
             document.getElementById(id).childNodes[2].childNodes[1].firstChild.value = oldInfo[id]['info']['room_name'];
             changeName(id,oldInfo[id]['info']['room_name']);
         }
