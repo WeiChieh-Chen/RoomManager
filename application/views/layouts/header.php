@@ -1,9 +1,11 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
 <!--    <link rel="icon" type="image/png" href="assets/img/favicon.ico">-->
-
+    <meta name="keywords" content="教室借用系統,虎科資工教室借用系統,虎科大教室"/>
+    <meta name="description" content="關於國立虎尾科技大學資訊工程系之空教室借用一事，以網站呈現各時劃借用狀況，減少至系上辦公室詢問的目標"/>
+    <meta name="URL" content="<?= base_url() ?>">
     <title>教室借用系統</title>
 
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport'/>
